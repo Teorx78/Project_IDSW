@@ -2,131 +2,130 @@ package org.example.rectangle;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import org.example.rectangle.Figure;
+import javafx.util.Pair;
+import org.example.support.Settings;
 import org.example.support.Vector2;
 
+public class Piece extends Figure{
+    private Color COLOR = Color.RED;
+    private final double STROKE_WIDTH = 0.8;
+    private final Color STROKE_COLOR = Color.BLACK;
+    private Rectangle rectangle;
 
-public class Piece extends Figure {
+    //COSTRUTTORI
 
-	private Color COLOR = Color.RED;
-	private final double STROKE_WIDTH = 0.8;
-	private final Color STROKE_COLOR = Color.BLACK;
-	private Rectangle rectangle;
-	
-	//Costruttore
-	public Piece(Vector2 tl, int id_rect_type){
-		super(tl, id_rect_type);
-		//creazione oggetto
-		rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-		rectangle.setFill(Color.RED);
-		rectangle.setStroke(STROKE_COLOR);
-		rectangle.setStrokeWidth(STROKE_WIDTH);
-	}
+    public Piece(Vector2 tl, int id_rect_type){
+        super(tl, id_rect_type);
+        //creazione oggetto
+        rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
+        rectangle.setFill(Color.RED);
+        rectangle.setStroke(STROKE_COLOR);
+        rectangle.setStrokeWidth(STROKE_WIDTH);
+    }
 
-	public Piece(Vector2 tl, Color color, int id_rect_type){
-		super(tl, id_rect_type);
-		//creazione oggetto
-		this.COLOR = color;
-		rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-		rectangle.setFill(COLOR);
-		rectangle.setStroke(STROKE_COLOR);
-		rectangle.setStrokeWidth(STROKE_WIDTH);
-	}
-	
-	public Piece(int id_rect_type) {
-		super(id_rect_type);
-		rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-		rectangle.setFill(Color.RED);
-		rectangle.setStroke(STROKE_COLOR);
-		rectangle.setStrokeWidth(STROKE_WIDTH);
-	}
+    public Piece(Vector2 tl, Color color, int id_rect_type){
+        super(tl, id_rect_type);
+        //creazione oggetto
+        this.COLOR = color;
+        rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
+        rectangle.setFill(COLOR);
+        rectangle.setStroke(STROKE_COLOR);
+        rectangle.setStrokeWidth(STROKE_WIDTH);
+    }
 
-	public Piece(int id_rect_type, Color color) {
-		super(id_rect_type);
-		this.COLOR = color;
-		rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-		rectangle.setFill(COLOR);
-		rectangle.setStroke(STROKE_COLOR);
-		rectangle.setStrokeWidth(STROKE_WIDTH);
-	}
-	
-	public Rectangle getRectangle() {	//creazione del rettangolo
-		//rectangle.setFill(Color.RED);
-		//TODO: inserire e sistemare le opacità
-		rectangle.setOnMousePressed(e -> {
-			if(SELECTED == true) {
-				rectangle.opacityProperty().set(0.5);
-			}
-			else {
-				rectangle.opacityProperty().set(1);
-			}
-		});
-		rectangle.setOnMouseReleased(e -> {
-		  if(SELECTED == true) {			  
-			  rectangle.opacityProperty().set(0.5);
-		  }
-		  else{
-			  rectangle.opacityProperty().set(1);
-		  }
-		});
-		
-		return rectangle;
-	}
+    public Piece(int id_rect_type) {
+        super(id_rect_type);
+        rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
+        rectangle.setFill(Color.RED);
+        rectangle.setStroke(STROKE_COLOR);
+        rectangle.setStrokeWidth(STROKE_WIDTH);
+    }
 
-	public void setRectangle(Rectangle rectangle){ this.rectangle = rectangle; }
+    public Piece(int id_rect_type, Color color) {
+        super(id_rect_type);
+        this.COLOR = color;
+        rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
+        rectangle.setFill(COLOR);
+        rectangle.setStroke(STROKE_COLOR);
+        rectangle.setStrokeWidth(STROKE_WIDTH);
+    }
 
-	public Rectangle setNewCoords(Vector2 newAngle) {
-		if(SELECTED == true) {
-			//if((newAngle.getA() >= TOP_LEFT.getA() && newAngle.getA() <= BOTTOM_RIGHT.getA())
-			//	|| (newAngle.getB() >= TOP_LEFT.getB() && newAngle.getB() <= BOTTOM_RIGHT.getB())) {
+    //Setters
+    public void setRectangle(Rectangle rectangle){ this.rectangle = rectangle; }
 
-				int offsetX = TOP_LEFT.getA(), offsetY = TOP_LEFT.getB();
+    //Metodi
+    public Rectangle getRectangle() {	//creazione del rettangolo
+        //rectangle.setFill(Color.RED);
+        //TODO: inserire e sistemare le opacità
+        rectangle.setOnMousePressed(e -> {
+            if(SELECTED == true) {
+                rectangle.opacityProperty().set(0.5);
+            }
+            else {
+                rectangle.opacityProperty().set(1);
+            }
+        });
+        rectangle.setOnMouseReleased(e -> {
+            if(SELECTED == true) {
+                rectangle.opacityProperty().set(0.5);
+            }
+            else{
+                rectangle.opacityProperty().set(1);
+            }
+        });
 
-				System.out.println(rectangle.getX() + " " + rectangle.getY());
+        return rectangle;
+    }
 
-				if(newAngle.getA() > BOTTOM_RIGHT.getA()) {
-					TOP_LEFT.addA(WIDTH);
-					BOTTOM_RIGHT.addA(WIDTH);
-					offsetX = BOTTOM_RIGHT.getA();
-				}
-				if(newAngle.getA() < TOP_LEFT.getA()) {
-					TOP_LEFT.subA(WIDTH);
-					BOTTOM_RIGHT.subA(WIDTH);
-					offsetX = TOP_LEFT.getA();
-				}
-				if(newAngle.getB() > BOTTOM_RIGHT.getB()) {
-					TOP_LEFT.addB(HEIGHT);
-					BOTTOM_RIGHT.addB(HEIGHT);
-					offsetY = BOTTOM_RIGHT.getB();
-				}
-				if(newAngle.getB() < TOP_LEFT.getB()) {
-					TOP_LEFT.subB(HEIGHT);
-					BOTTOM_RIGHT.subB(HEIGHT);
-					offsetY = TOP_LEFT.getB();
-				}
+    public Rectangle setNewCoords(Boolean movement, boolean direction) {
+        //movement = true -> orizzontale, movement = false -> verticale
+        //direction = true -> alto / destra, direction = false -> basso / sinistra
+        Settings s = new Settings();
+        if(SELECTED) {
+            if(movement){   //ORIZZONTALE -> y costante
+                int nWidth = (s.getElement(ID_RECTANGLE).getA() == s.getMaxPieceWidth()) ? WIDTH / 2 : WIDTH;
+                if(direction){
+                    //destra
+                    TOP_LEFT.addA(nWidth);
+                    BOTTOM_RIGHT.addA(nWidth);
+                }
+                else {
+                    //sinistra
+                    TOP_LEFT.subA(nWidth);
+                    BOTTOM_RIGHT.subA(nWidth);
+                }
+                rectangle.setX(TOP_LEFT.getA());
+            }
+            else{ //VERTICALE -> x costante
+                int nHeight = (s.getElement(ID_RECTANGLE).getB() == s.getMaxPieceHeight()) ? HEIGHT / 2 : HEIGHT;
+                if(direction){
+                    //alto
+                    TOP_LEFT.addB(nHeight);
+                    BOTTOM_RIGHT.addB(nHeight);
+                }
+                else {
+                    //basso
+                    TOP_LEFT.subB(nHeight);
+                    BOTTOM_RIGHT.subB(nHeight);
+                }
+                rectangle.setY(TOP_LEFT.getB());
+            }
+        }
+        else {
+            System.out.println("> ** Pezzo disattivato ** ");
+        }
 
-				System.out.println(offsetX + " " + offsetY);
+        return rectangle;
+    }
 
-				rectangle.setX(offsetX);
-				rectangle.setY(offsetY);
-			}
-			else {
-				System.out.println("> ** Pezzo disattivato** ");
-			}
-
-		//}
-		return rectangle;
-	}
-
-	public void refresh() {
-		//refresh delle texture
-		if(SELECTED == true) {
-			rectangle.opacityProperty().set(0.5);
-		}
-		else {
-			rectangle.opacityProperty().set(1);
-		}
-	}
-	
+    public void refresh() {
+        //refresh delle texture
+        if(SELECTED) {
+            rectangle.opacityProperty().set(0.5);
+        }
+        else {
+            rectangle.opacityProperty().set(1);
+        }
+    }
 
 }

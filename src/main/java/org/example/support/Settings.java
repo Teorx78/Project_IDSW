@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import org.example.support.Vector2;
 public class Settings {
 
+	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale
+	private static final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 750;
+	private static final int VERTICAL_BOUNDS = 75, HORIZONTAL_BOUNDS = 75;
+	private static Vector2 fieldBounds, START_COORDINATES;
 	//PEZZI
-	private static int MAX_PIECE_WIDTH = 100, MAX_PIECE_HEIGHT = 100;
+	private static int MAX_PIECE_WIDTH = WINDOW_WIDTH / 4, MAX_PIECE_HEIGHT = WINDOW_WIDTH / 4;
 	private static Vector2 rect_1x1 = new Vector2(MAX_PIECE_WIDTH / 2, MAX_PIECE_HEIGHT / 2);
 	private static Vector2 rect_1x2 = new Vector2(MAX_PIECE_WIDTH / 2, MAX_PIECE_HEIGHT);
 	private static Vector2 rect_2x1 = new Vector2(MAX_PIECE_WIDTH, MAX_PIECE_HEIGHT / 2);
 	private static Vector2 rect_2x2 = new Vector2(MAX_PIECE_WIDTH, MAX_PIECE_HEIGHT);
 	private static ArrayList<Vector2> rectCollection = new ArrayList<>();
-	
-	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale
-	private static final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 750;
-	private static final int VERTICAL_BOUNDS = 75, HORIZONTAL_BOUNDS = 75;
-	private static Vector2 fieldBounds, START_COORDINATES;
-	
+
+
+	//TODO: sistemare le dimensioni dei rettangoli devono essere 1/4 della larghezza della finestra a meno dei bounds
+
 	public Settings(){
 		//dimensioni campo
 		fieldBounds = new Vector2(VERTICAL_BOUNDS, HORIZONTAL_BOUNDS);
@@ -43,4 +45,6 @@ public class Settings {
 	public Vector2 getStartCoordinates() {
 		return START_COORDINATES;
 	}
-}	
+	public int getMaxPieceWidth(){ return MAX_PIECE_WIDTH; }
+	public int getMaxPieceHeight(){ return MAX_PIECE_HEIGHT; }
+}
