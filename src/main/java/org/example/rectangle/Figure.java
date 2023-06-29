@@ -88,7 +88,7 @@ public class Figure {
         Settings s = new Settings();
         Vector2 TL = new Vector2(TOP_LEFT), BR = new Vector2(BOTTOM_RIGHT);
 
-        System.out.println("> ** Coordinate Attuali: TL" + TL + " || BR: " + BR + " ** ");
+        //System.out.println("> ** Coordinate Attuali | TL: " + TL + " || BR: " + BR + " ** ");
         if(movement){   //ORIZZONTALE -> y costante
             int nWidth = (s.getElement(ID_RECTANGLE).getA() == s.getMaxPieceWidth()) ? WIDTH / 2 : WIDTH;
             if(direction){
@@ -117,7 +117,7 @@ public class Figure {
         }
         //System.out.println("> ** Nuove coordinate: TL: " + TL + " || BR: " + BR + " ** ");
 
-        return new Pair<>(TL, BR);
+        return new Pair<>(TL, BR); //Pair<TOP_LEFT, BOTTOM_RIGHT>
     }
 
     @Override

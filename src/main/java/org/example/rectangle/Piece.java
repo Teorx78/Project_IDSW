@@ -58,7 +58,7 @@ public class Piece extends Figure{
         //rectangle.setFill(Color.RED);
         //TODO: inserire e sistemare le opacità
         rectangle.setOnMousePressed(e -> {
-            if(SELECTED == true) {
+            if(SELECTED) {
                 rectangle.opacityProperty().set(0.5);
             }
             else {
@@ -66,7 +66,7 @@ public class Piece extends Figure{
             }
         });
         rectangle.setOnMouseReleased(e -> {
-            if(SELECTED == true) {
+            if(SELECTED) {
                 rectangle.opacityProperty().set(0.5);
             }
             else{

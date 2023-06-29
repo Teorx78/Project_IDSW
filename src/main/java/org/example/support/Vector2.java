@@ -13,10 +13,10 @@ public class Vector2 {
 	}
 
 	//metodi di suppporto
-	private boolean isBetweenClosed(int i){
+	public boolean isBetweenClosed(int i) {
 		return (this.a <= i && i <= this.b);
 	}
-	private boolean isBetween(int i){
+	public boolean isBetween(int i) {
 		return (this.a < i && i < this.b);
 	}
 
@@ -49,19 +49,21 @@ public class Vector2 {
 	public void subB(int sub) {
 		b -= sub;
 	}
-	public boolean isBetween(Vector2 coords) {
-		//controllo se l'intervallo coords va ad intersecarsi con l'intervallo ]a, b[
-		if(isBetween(coords.a) && isBetween(coords.b)) return true;
-		return false;
+	public boolean isEqual(Vector2 v2){
+		return (this.a == v2.getA() && this.b == v2.getB());
 	}
-	public boolean isBetweenClosed(Vector2 coords) {
-		//controllo se l'intervallo coords va ad intersecarsi con l'intervallo [a, b]
-		if(isBetweenClosed(coords.a) && isBetweenClosed(coords.b)) return true;
+	public boolean isBetween(Vector2 v2){
+		//contronto con l'intevallo della classe
+		if(this.a < v2.a && v2.a < this.b) return true;		//a < v2.a < b
+		if(this.a < v2.b && v2.b < this.b) return true;		//a < v2.b < b
+		//confronto inverso
+		if(v2.a < this.a && this.a < v2.b) return true;		//v2.a < a < v2.b
+		if(v2.a < this.b && this.b < v2.b) return true;		//v2.a < b < v2.b
+
 		return false;
+
 	}
-//	public String toString() {
-//		return "A: " + a + ", B: " + b;
-//	}
+
 	@Override
 	public String toString() {
 		return a + ", " + b;
