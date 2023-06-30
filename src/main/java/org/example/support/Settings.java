@@ -43,6 +43,8 @@ public class Settings {
 	public Vector2 getStartCoordinates() { return START_COORDINATES; }
 	public int getMaxPieceWidth(){ return MIN_PIECE_WIDTH * 2; }
 	public int getMaxPieceHeight(){ return MIN_PIECE_HEIGHT * 2; }
+	public int getMinPieceWidth(){ return MIN_PIECE_WIDTH; }
+	public int getMinPieceHeight(){return MIN_PIECE_HEIGHT; }
 	public int getMinHorizontalBounds(){ return MIN_HORIZONTAL_BOUNDS; }
 	public int getMinVerticalBounds(){ return MIN_VERTICAL_BOUNDS; }
 	public int getMaxVerticalBounds(){ return (WINDOW_HEIGHT - MIN_VERTICAL_BOUNDS); }

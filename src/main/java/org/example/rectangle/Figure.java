@@ -59,20 +59,12 @@ public class Figure {
     public int getHeight() { return HEIGHT; }
 
     public boolean getSelected() { return SELECTED; }
-
+    public int getIdRectangle(){ return ID_RECTANGLE; }
 
     //Setters
-    public boolean changeSelected() {
-        SELECTED = !SELECTED;
-        //System.out.println(SELECTED);
-        return SELECTED;
-    }
-    public void setTL(Vector2 v) {
-        TOP_LEFT = v;
-    }
-    public void setBR(Vector2 v) {
-        BOTTOM_RIGHT = v;
-    }
+    public void changeSelected() { SELECTED = !SELECTED; }
+    public void setTL(Vector2 v) { TOP_LEFT = v; }
+    public void setBR(Vector2 v) { BOTTOM_RIGHT = v; }
 
     //Metodi
     public boolean checkCoords(Vector2 coords) {

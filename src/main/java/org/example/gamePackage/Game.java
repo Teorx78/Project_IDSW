@@ -17,14 +17,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Game {
-    private static ArrayList<Piece> mapPieces = new ArrayList<>();		//<Figure>
+    private static final ArrayList<Piece> mapPieces = new ArrayList<>();		//<Figure>
     private final Stage stage;
     private Scene scene;
     private int id_selected_piece = -1;
     private boolean selectedPiece = false;
     private int moves_counter = 0;
-    private Label counterLabel = new Label("MOSSE: " + moves_counter);
-
+    private final Label counterLabel = new Label("MOSSE: " + moves_counter);
 
     public Game(Stage stage) {
         this.stage = stage;
@@ -208,6 +207,7 @@ public class Game {
                                 if (checkNewCoords(false, false)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(false, false);
                                     increaseCounter();
+                                    if(checkWin()) System.out.println("VITTORIA!");
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -217,6 +217,7 @@ public class Game {
                                 if (checkNewCoords(true, false)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(true, false);
                                     increaseCounter();
+                                    if(checkWin()) System.out.println("VITTORIA!");
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -226,6 +227,7 @@ public class Game {
                                 if (checkNewCoords(false, true)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(false, true);
                                     increaseCounter();
+                                    if(checkWin()) System.out.println("VITTORIA!");
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -235,12 +237,14 @@ public class Game {
                                 if (checkNewCoords(true, true)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(true, true);
                                     increaseCounter();
+                                    if(checkWin()) System.out.println("VITTORIA!");
                                 } else {
                                     System.out.println("invalido");
                                 }
                             }
                         default -> System.out.println("> ** Tasto non valido **");
                     }
+
                 }
                 System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             });
@@ -295,5 +299,24 @@ public class Game {
         return false;
     }
 
+    public boolean checkWin(){
+        Settings s = new Settings();
+        Piece rect_2x2 = null;
+
+        for (Piece mapPiece : mapPieces) {
+            if (mapPiece.getIdRectangle() == 3) rect_2x2 = mapPiece;
+        }
+
+        Vector2 start = s.getStartCoordinates();
+        Vector2 winBottomLeft = new Vector2(start.getA() + s.getMinPieceWidth(), s.getMaxVerticalBounds() - s.getMinVerticalBounds() / 2);
+        Vector2 winBottomRight = new Vector2(start.getA() + s.getMinPieceWidth() * 3, s.getMaxVerticalBounds() - s.getMinVerticalBounds() / 2);
+
+        System.out.println(winBottomLeft);
+        System.out.println(winBottomRight);
+
+        assert rect_2x2 != null;
+
+        return winBottomLeft.isEqual(rect_2x2.getBottomLeft()) && winBottomRight.isEqual(rect_2x2.getBottomRight());
+    }
 
 }
