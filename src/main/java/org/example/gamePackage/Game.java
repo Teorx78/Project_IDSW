@@ -3,18 +3,18 @@ package org.example.gamePackage;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.example.rectangle.Piece;
 import org.example.support.Settings;
 import org.example.support.Vector2;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class Game {
     private static ArrayList<Piece> mapPieces = new ArrayList<>();		//<Figure>
@@ -22,14 +22,19 @@ public class Game {
     private Scene scene;
     private int id_selected_piece = -1;
     private boolean selectedPiece = false;
-    private Label counterLabel;
-
     private int moves_counter = 0;
+    private Label counterLabel = new Label("MOSSE: " + moves_counter);
+
 
     public Game(Stage stage) {
         this.stage = stage;
-        this.counterLabel = new Label("Mosse: " + moves_counter);
+        //GENERAZIONE ALTRI COMPONENTI
+        counterLabel.setFont(new Font("Times New Roman", Settings.LABEL_SIZE));
 
+        counterLabel.setLayoutX((double) ((Settings.WINDOW_WIDTH / 2 - Settings.LABEL_SIZE) ));
+        counterLabel.setLayoutY((double) Settings.MIN_VERTICAL_BOUNDS / 2);
+
+        //GENERAZIONE DEI PEZZI
         mapPieces.add(new Piece(3));
         //1x2
         mapPieces.add(new Piece( new Vector2(
@@ -51,6 +56,12 @@ public class Game {
                 0));
 
     }
+
+    private void increaseCounter() {
+        moves_counter++;
+        counterLabel.setText("MOSSE: " + moves_counter);
+    }
+
     private int getRectangleId(Vector2 coords) {
         for (int i = 0; i < mapPieces.size(); i++) {
             Piece p = mapPieces.get(i);
@@ -75,7 +86,6 @@ public class Game {
         if(new_bottom_left.isEqual(mapPieces.get(i).getBottomLeft())) return true;
 
         //CHECK CON IL CENTRO DEI PEZZI
-
         //intervalli pezzo check
         int x1 = mapPieces.get(i).getTopLeft().getA(), x2 = mapPieces.get(i).getBottomRight().getA();
         int y1 = mapPieces.get(i).getTopLeft().getB(), y2 = mapPieces.get(i).getBottomRight().getB();
@@ -157,7 +167,6 @@ public class Game {
         return true;
     }
 
-
     public void setScene(Scene scene){ this.scene = scene; }
 
     public void printCoordsPieces() {
@@ -177,11 +186,13 @@ public class Game {
 
     public Group getGroup() {
         Group group = new Group();
+        //ALTRI COMPONENTI
+        group.getChildren().add(counterLabel);
 
+        //PEZZI DEL GIOCO
         for (Piece piece : mapPieces) {
             group.getChildren().add(piece.getRectangle());
         }
-
         return group;
     }
 
@@ -196,6 +207,7 @@ public class Game {
                                 // Muovi verso l'alto
                                 if (checkNewCoords(false, false)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(false, false);
+                                    increaseCounter();
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -204,6 +216,7 @@ public class Game {
                                 // Muovi verso sinistra
                                 if (checkNewCoords(true, false)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(true, false);
+                                    increaseCounter();
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -212,6 +225,7 @@ public class Game {
                                 // Muovi verso il basso
                                 if (checkNewCoords(false, true)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(false, true);
+                                    increaseCounter();
                                 } else {
                                     System.out.println("invalido");
                                 }
@@ -220,6 +234,7 @@ public class Game {
                                 // Muovi verso destra
                                 if (checkNewCoords(true, true)) {
                                     mapPieces.get(id_selected_piece).setNewCoords(true, true);
+                                    increaseCounter();
                                 } else {
                                     System.out.println("invalido");
                                 }

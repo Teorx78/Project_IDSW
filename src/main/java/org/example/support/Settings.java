@@ -2,21 +2,21 @@ package org.example.support;
 
 import java.awt.*;
 import java.util.ArrayList;
-import org.example.support.Vector2;
+
 public class Settings {
 	/* ************** IMPOSTAZIONI GENERALI ************** */
-	private final int LABEL_SIZE = 60;
-	private final Color LABEL_COLOR = Color.BLACK;
+	public static final int LABEL_SIZE = 22;
+	public static final Color LABEL_COLOR = Color.BLACK;
+	public static final String TEXTURE_PATH = "file:texture/briks_texture.png";
 
 
 	/* ************** IMPOSTAZIONI DEL GIOCO ************** */
 	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale
 	public static final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 750;
-	private static final int MIN_VERTICAL_BOUNDS = 100, MIN_HORIZONTAL_BOUNDS = 100;
-
+	public static final int MIN_VERTICAL_BOUNDS = 100, MIN_HORIZONTAL_BOUNDS = 100;
 	private static Vector2 fieldBounds, START_COORDINATES;
-	//PEZZI
 
+	//PEZZI
 	private static final int MIN_PIECE_WIDTH = (WINDOW_WIDTH - MIN_HORIZONTAL_BOUNDS * 2) / 4, MIN_PIECE_HEIGHT = MIN_PIECE_WIDTH;
 	private static final Vector2 rect_1x1 = new Vector2(MIN_PIECE_WIDTH, MIN_PIECE_WIDTH);
 	private static final Vector2 rect_1x2 = new Vector2(MIN_PIECE_WIDTH, MIN_PIECE_WIDTH * 2);

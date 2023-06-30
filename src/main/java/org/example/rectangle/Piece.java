@@ -1,6 +1,8 @@
 package org.example.rectangle;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import org.example.support.Settings;
@@ -18,7 +20,8 @@ public class Piece extends Figure{
         super(tl, id_rect_type);
         //creazione oggetto
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-        rectangle.setFill(Color.RED);
+        //rectangle.setFill(Color.RED);
+        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -28,7 +31,8 @@ public class Piece extends Figure{
         //creazione oggetto
         this.COLOR = color;
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-        rectangle.setFill(COLOR);
+        //rectangle.setFill(COLOR);
+        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -36,7 +40,8 @@ public class Piece extends Figure{
     public Piece(int id_rect_type) {
         super(id_rect_type);
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-        rectangle.setFill(Color.RED);
+        //rectangle.setFill(Color.RED);
+        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -45,7 +50,8 @@ public class Piece extends Figure{
         super(id_rect_type);
         this.COLOR = color;
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
-        rectangle.setFill(COLOR);
+        //rectangle.setFill(COLOR);
+        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
