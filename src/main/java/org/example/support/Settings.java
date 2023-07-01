@@ -7,7 +7,7 @@ public class Settings {
 	/* ************** IMPOSTAZIONI GENERALI ************** */
 	public static final int LABEL_SIZE = 22;
 	public static final Color LABEL_COLOR = Color.BLACK;
-	public static final String TEXTURE_PATH = "file:resources/texture/briks_texture.png";
+	public static final String TEXTURE_PATH = "file:resources/texture/block_texture.png";
 
 
 	/* ************** IMPOSTAZIONI DEL GIOCO ************** */
