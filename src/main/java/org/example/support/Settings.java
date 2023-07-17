@@ -7,8 +7,7 @@ public class Settings {
 	/* ************** IMPOSTAZIONI GENERALI ************** */
 	public static final int LABEL_SIZE = 22;
 	public static final Color LABEL_COLOR = Color.BLACK;
-	public static final String TEXTURE_PATH = "file:resources/texture/block_texture.png";
-
+	public static final String CURSOR_IMAGE = "file:resources/img/cursor.png";
 
 	/* ************** IMPOSTAZIONI DEL GIOCO ************** */
 	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale
@@ -24,6 +23,7 @@ public class Settings {
 	private static final Vector2 rect_2x2 = new Vector2(MIN_PIECE_WIDTH * 2, MIN_PIECE_WIDTH * 2);
 	private static final ArrayList<Vector2> rectCollection = new ArrayList<>();
 
+	/* COSTRUTTORE */
 	public Settings(){
 		/* GIOCO */
 		//dimensioni campo
@@ -49,4 +49,22 @@ public class Settings {
 	public int getMinVerticalBounds(){ return MIN_VERTICAL_BOUNDS; }
 	public int getMaxVerticalBounds(){ return (WINDOW_HEIGHT - MIN_VERTICAL_BOUNDS); }
 	public int getMaxHorizontalBounds(){ return (WINDOW_WIDTH - MIN_HORIZONTAL_BOUNDS);}
+	public String getTexturePath(int id){
+		String TEXTURE_PATH = "file:resources/texture/block_texture";
+		switch (id) {
+			case 0 -> {
+				return TEXTURE_PATH + "_1x1.png";
+			}
+			case 1 -> {
+				return TEXTURE_PATH + "_1x2.png";
+			}
+			case 2 -> {
+				return TEXTURE_PATH + "_2x1.png";
+			}
+			case 3 -> {
+				return TEXTURE_PATH + "_2x2.png";
+			}
+		}
+		return null;
+	}
 }

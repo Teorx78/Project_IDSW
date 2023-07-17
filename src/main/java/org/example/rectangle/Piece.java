@@ -21,7 +21,7 @@ public class Piece extends Figure{
         //creazione oggetto
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
         //rectangle.setFill(Color.RED);
-        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
+        rectangle.setFill(new ImagePattern(new Image(new Settings().getTexturePath(id_rect_type))));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -32,7 +32,7 @@ public class Piece extends Figure{
         this.COLOR = color;
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
         //rectangle.setFill(COLOR);
-        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
+        rectangle.setFill(new ImagePattern(new Image(new Settings().getTexturePath(id_rect_type))));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -41,7 +41,7 @@ public class Piece extends Figure{
         super(id_rect_type);
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
         //rectangle.setFill(Color.RED);
-        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
+        rectangle.setFill(new ImagePattern(new Image(new Settings().getTexturePath(id_rect_type))));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
@@ -51,7 +51,7 @@ public class Piece extends Figure{
         this.COLOR = color;
         rectangle = new Rectangle(TOP_LEFT.getA(), TOP_LEFT.getB(), WIDTH, HEIGHT);
         //rectangle.setFill(COLOR);
-        rectangle.setFill(new ImagePattern(new Image(Settings.TEXTURE_PATH)));
+        rectangle.setFill(new ImagePattern(new Image(new Settings().getTexturePath(id_rect_type))));
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
