@@ -1,0 +1,43 @@
+import game.Board;
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import support.Settings;
+
+import java.util.Objects;
+
+public class Main extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) {
+        Board root = new Board("test", stage);
+
+        Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
+
+        BackgroundImage backgroundImage = new BackgroundImage(sfondo,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+
+        HBox h = new HBox(root.createBoard());
+        h.setAlignment(Pos.BASELINE_LEFT);
+
+        h.setBackground(new Background(backgroundImage));
+
+        Scene scene = new Scene(h, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
+        scene.getStylesheets().add(Settings.CSS_BUTTON_FILE);
+        root.setScene(scene);
+
+        root.startGame();
+
+        stage.setTitle("KLOTSKI");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+}
