@@ -25,7 +25,6 @@ public class Game {
     protected static Button undoButton = null;
 
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
-    //TODO: cronologia delle mosse
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
     protected DuplicateMap chronology = new DuplicateMap();
 

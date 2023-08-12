@@ -1,6 +1,7 @@
 import game.Board;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -16,6 +17,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+
+
         Board root = new Board("test", stage);
 
         Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
@@ -37,6 +40,10 @@ public class Main extends Application {
 
         stage.setTitle("KLOTSKI");
         stage.setScene(scene);
+
+        Image image = new Image(Settings.CURSOR_IMAGE);
+        stage.getScene().setCursor(new ImageCursor(image, image.getWidth() / 2.7, image.getHeight() / 2.7));
+
         stage.setResizable(false);
         stage.show();
     }
