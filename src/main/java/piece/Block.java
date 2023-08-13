@@ -24,7 +24,13 @@ public class Block {
         this.xTopLeft = block.xTopLeft + deltaX;
         this.yTopLeft = block.yTopLeft + deltaY;
     }
+    /* SETTERS */
+    public void setTopLeft(Vector2 coords){
+        this.xTopLeft = coords.getX();
+        this.yTopLeft = coords.getY();
+    }
 
+    /* GETTERS */
     public Vector2 getTopLeft(){ return new Vector2(xTopLeft, yTopLeft); }
     public Vector2 getTopRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft); }
     public Vector2 getBottomLeft(){ return new Vector2(xTopLeft, yTopLeft + prototype.height); }
@@ -33,6 +39,7 @@ public class Block {
     public int getId(){ return id; }
     public BlockPrototype getPrototype() { return prototype; }
 
+    /* METODI */
     public void changeSelected(){ isSelected = !isSelected; }
     public boolean checkMovement(MovementDirections movementDirection, ArrayList<BlockGFX> blocks){
         int prototypeWidth = this.prototype.blockType.equals(BlockType.BLOCK_1X1)

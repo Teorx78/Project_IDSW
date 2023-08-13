@@ -23,6 +23,14 @@ public class BlockGFX extends Block{
         rectangle.setStroke(STROKE_COLOR);
         rectangle.setStrokeWidth(STROKE_WIDTH);
     }
+
+    @Override
+    public void setTopLeft(Vector2 coords) {
+        super.setTopLeft(coords);
+        rectangle.setX(coords.getX());
+        rectangle.setY(coords.getY());
+    }
+
     public Rectangle getRectangle(){
         rectangle.setOnMousePressed(e -> {
             //cambi di stato

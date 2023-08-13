@@ -1,7 +1,7 @@
 .button{
     -fx-background-repeat: no-repeat;
     -fx-background-color: none;
-    -fx-background-size: 85%;
+    -fx-background-size: 100%;
 
     -fx-border: none;
     -fx-border-radius: 30;
@@ -11,17 +11,23 @@
     -fx-max-height: 70;
     -fx-min-width: 70;
     -fx-min-height: 70;
+
+    -fx-background-position: bottom;
 }
 .button:hover{
-    -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.6) , 1.5, 0.0 , 0 , 1 );
+    -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.3) , 0.5, 0.0 , 0 , 1 );
 }
 
 #undoButton{
     /* SET DELLO SFONDO */
-    -fx-background-image: url(../img/undo.png);
-    -fx-rotate: 270;
+    -fx-background-image: url(../img/undo_button.png);
+    -fx-rotate: 315;
 }
 #nbmButton{
     /* SET DELLO SFONDO */
     -fx-background-image: url(../img/next_best_move.png);
+}
+#resetButton{
+    /* SET DELLO SFONDO */
+    -fx-background-image: url(../img/reset.png);
 }

@@ -5,14 +5,13 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import json.JsonReader;
+import json.JsonConfigurationReader;
 import piece.BlockGFX;
 import piece.BlockPrototype;
 import piece.BlockType;
+import support.DuplicateMap;
 import support.Settings;
 import javafx.scene.control.Button;
-
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Board extends Game{
@@ -26,7 +25,7 @@ public class Board extends Game{
         this.height = Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS * 2);
         //TODO: mettere la texture al campo di gioco -> sottoclasse per la grafica (?)
         //lettura json
-        JsonReader jsonReader = new JsonReader(configuration);
+        JsonConfigurationReader jsonReader = new JsonConfigurationReader(configuration);
         //setup e salvataggio pezzi nel campo
         int k = 0;
         for(int i = 0; i < jsonReader.getConfigSize(); i++){
@@ -46,7 +45,9 @@ public class Board extends Game{
         //Group group = new Group();
         Pane group = new Pane();
 
-        group.getChildren().addAll(getUndoButton(), getNBMButton());
+        group.getChildren().addAll(getUndoButton(),
+                            getNBMButton(),
+                            getResetButton());
 
         for (BlockGFX block : blocks) {
             group.getChildren().add(block.getRectangle());
@@ -56,18 +57,20 @@ public class Board extends Game{
     }
 
     public Button getUndoButton() {
-        undoButton = new Button(null);
+//        undoButton = new Button(null);
         //STILE
         undoButton.setId("undoButton");
         undoButton.getStyleClass().add("button");
         undoButton.setDisable(true);
         //posizionamento del bottone
-        undoButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 10) / 100);
+        undoButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
         undoButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
             //System.out.println("BOTTONE SELEZIONATO");
             chronology = new Undo().undoMove(chronology);
+            resetButton.setDisable(chronology.size() <= 0);
+            undoButton.setDisable(chronology.size() <= 0);
         };
         undoButton.setOnAction(event);
 
@@ -75,7 +78,7 @@ public class Board extends Game{
     }
 
     public Button getNBMButton() {
-        nbmButton = new Button(null);
+//        nbmButton = new Button(null);
         //STILE
         nbmButton.setId("nbmButton");
         nbmButton.getStyleClass().add("button");
@@ -91,6 +94,29 @@ public class Board extends Game{
 
         return nbmButton;
     }
+    public Button getResetButton() {
+//        resetButton = new Button(null);
+        //STILE
+        resetButton.setId("resetButton");
+        resetButton.getStyleClass().add("button");
+        resetButton.setDisable(true);
+        //posizionamento del bottone
+        resetButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 45) / 100);
+        resetButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
+        //EVENTO
+        EventHandler<ActionEvent> event = e -> {
+//            System.out.println("RESET SELEZIONATO");
+            Reset.resetBoard(blocks);
+            chronology = new DuplicateMap();
+            resetButton.setDisable(true);
+            undoButton.setDisable(true);
+        };
+        resetButton.setOnAction(event);
+
+        return resetButton;
+    }
+
+
 
 
 }
