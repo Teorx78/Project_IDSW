@@ -22,7 +22,7 @@ public class Game {
     private final String config;
     private final Stage stage;
     private static Scene scene;
-    protected static Button undoButton = null;
+    protected static Button undoButton = null, nbmButton = null;
 
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();

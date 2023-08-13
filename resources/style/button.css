@@ -1,20 +1,27 @@
 .button{
-    /* SET DELLO SFONDO */
-    -fx-background-image: url(../img/undo_arrow.png);
-    -fx-background-size: 95%;
     -fx-background-repeat: no-repeat;
     -fx-background-color: none;
-    -fx-border-radius: 30;
+    -fx-background-size: 85%;
 
     -fx-border: none;
-    /*-fx-padding: 0;*/
+    -fx-border-radius: 30;
+    -fx-padding: 0;
 
     -fx-max-width: 70;
     -fx-max-height: 70;
     -fx-min-width: 70;
     -fx-min-height: 70;
-
 }
 .button:hover{
     -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.6) , 1.5, 0.0 , 0 , 1 );
+}
+
+#undoButton{
+    /* SET DELLO SFONDO */
+    -fx-background-image: url(../img/undo.png);
+    -fx-rotate: 270;
+}
+#nbmButton{
+    /* SET DELLO SFONDO */
+    -fx-background-image: url(../img/next_best_move.png);
 }

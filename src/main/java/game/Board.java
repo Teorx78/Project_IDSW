@@ -11,6 +11,8 @@ import piece.BlockPrototype;
 import piece.BlockType;
 import support.Settings;
 import javafx.scene.control.Button;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Board extends Game{
@@ -44,7 +46,7 @@ public class Board extends Game{
         //Group group = new Group();
         Pane group = new Pane();
 
-        group.getChildren().add(getUndoButton());
+        group.getChildren().addAll(getUndoButton(), getNBMButton());
 
         for (BlockGFX block : blocks) {
             group.getChildren().add(block.getRectangle());
@@ -56,6 +58,7 @@ public class Board extends Game{
     public Button getUndoButton() {
         undoButton = new Button(null);
         //STILE
+        undoButton.setId("undoButton");
         undoButton.getStyleClass().add("button");
         undoButton.setDisable(true);
         //posizionamento del bottone
@@ -69,6 +72,24 @@ public class Board extends Game{
         undoButton.setOnAction(event);
 
         return undoButton;
+    }
+
+    public Button getNBMButton() {
+        nbmButton = new Button(null);
+        //STILE
+        nbmButton.setId("nbmButton");
+        nbmButton.getStyleClass().add("button");
+//        nbmButton.setDisable(true);
+        //posizionamento del bottone
+        nbmButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 75) / 100);
+        nbmButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
+        //EVENTO
+        EventHandler<ActionEvent> event = e -> {
+            System.out.println("NBM SELEZIONATO");
+        };
+        nbmButton.setOnAction(event);
+
+        return nbmButton;
     }
 
 
