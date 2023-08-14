@@ -53,9 +53,9 @@ public class Undo{
 
             chronology.remove(chronology.size() - 1);
 
-            if(chronology.size() <= 0) Game.getUndoButtonComponent().setDisable(true);
+//            if(chronology.size() <= 0) Game.getUndoButtonComponent().setDisable(true);
         }
-        else Game.getUndoButtonComponent().setDisable(true);
+//        else Game.getUndoButtonComponent().setDisable(true);
 
         return chronology;
     }

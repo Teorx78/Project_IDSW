@@ -14,11 +14,13 @@ public class Settings {
 	public static final String JSON_PATH = "resources/json/configuration.json";		//"file:" non è necessario
 	public static final String BACKGROUND_IMAGE_PATH = "file:resources/img/sfondo.gif";
 	public static final String CSS_BUTTON_FILE = "file:resources/style/button.css";
+	public static final String CSS_LABEL_FILE = "file:resources/style/label.css";
 
 	/* ************** IMPOSTAZIONI GENERALI ************** */
 	public static final int LABEL_SIZE = 22;
 	public static final Color LABEL_COLOR = Color.BLACK;
 	public static final double LOWER_HEIGHT_LINE = (double) (Settings.WINDOW_HEIGHT * 85) / 100;
+	public static final double HIGHER_HEIGHT_LINE = (double) (Settings.WINDOW_HEIGHT * 5) / 100;
 
 	/* ************** IMPOSTAZIONI DEL GIOCO ************** */
 	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale

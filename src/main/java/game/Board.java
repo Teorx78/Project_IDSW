@@ -2,6 +2,7 @@ package game;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -40,22 +41,27 @@ public class Board extends Game{
             }
         }
     }
-
     public Pane createBoard(){
         //Group group = new Group();
         Pane group = new Pane();
 
         group.getChildren().addAll(getUndoButton(),
                             getNBMButton(),
-                            getResetButton());
+                            getResetButton(),
+                            getCounterLabel());
 
         for (BlockGFX block : blocks) {
             group.getChildren().add(block.getRectangle());
         }
-
         return group;
     }
-
+    public Label getCounterLabel(){
+        movesLabel.setText("MOSSE: " + moves);
+        movesLabel.setTranslateX((double) (Settings.WINDOW_WIDTH * 70) / 100);
+        movesLabel.setTranslateY(Settings.HIGHER_HEIGHT_LINE);
+        movesLabel.getStyleClass().add("label");
+        return movesLabel;
+    }
     public Button getUndoButton() {
 //        undoButton = new Button(null);
         //STILE
@@ -71,12 +77,13 @@ public class Board extends Game{
             chronology = new Undo().undoMove(chronology);
             resetButton.setDisable(chronology.size() <= 0);
             undoButton.setDisable(chronology.size() <= 0);
+            moves++;
+            movesLabel.setText("MOSSE: " + moves);
         };
         undoButton.setOnAction(event);
 
         return undoButton;
     }
-
     public Button getNBMButton() {
 //        nbmButton = new Button(null);
         //STILE
@@ -89,6 +96,8 @@ public class Board extends Game{
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
             System.out.println("NBM SELEZIONATO");
+            moves++;
+            movesLabel.setText("MOSSE: " + moves);
         };
         nbmButton.setOnAction(event);
 
@@ -110,13 +119,11 @@ public class Board extends Game{
             chronology = new DuplicateMap();
             resetButton.setDisable(true);
             undoButton.setDisable(true);
+            moves = 0;
+            movesLabel.setText("MOSSE: " + moves);
         };
         resetButton.setOnAction(event);
-
         return resetButton;
     }
-
-
-
 
 }

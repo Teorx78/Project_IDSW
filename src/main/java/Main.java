@@ -33,7 +33,8 @@ public class Main extends Application {
         h.setBackground(new Background(backgroundImage));
 
         Scene scene = new Scene(h, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
-        scene.getStylesheets().add(Settings.CSS_BUTTON_FILE);
+        scene.getStylesheets().addAll(Settings.CSS_BUTTON_FILE, Settings.CSS_LABEL_FILE);
+
         root.setScene(scene);
 
         root.startGame();

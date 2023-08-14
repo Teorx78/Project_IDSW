@@ -1,12 +1,8 @@
 package game;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import piece.BlockGFX;
@@ -23,6 +19,8 @@ public class Game {
     private final Stage stage;
     private static Scene scene;
     protected static Button undoButton = new Button(null), nbmButton = new Button(null), resetButton = new Button(null);
+    protected int moves = 0;
+    protected Label movesLabel = new Label(null);
 
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
@@ -85,6 +83,8 @@ public class Game {
                     System.out.println("***** \n" + chronology + "\n*****");
                     undoButton.setDisable(chronology.size() <= 0);
                     resetButton.setDisable(chronology.size() <= 0);
+                    moves++;
+                    movesLabel.setText("MOSSE: " + moves);
                 }
 
                 //check vittoria
