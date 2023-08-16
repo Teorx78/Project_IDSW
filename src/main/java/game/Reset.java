@@ -22,25 +22,27 @@ public class Reset {
                 BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
 
         //reset delle varie grafiche
-        if(Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
-        Settings.activeBlock.refresh();
-        Settings.activeBlock = null;
-        Settings.activeID = -1;
-        //reset delle posizioni dei blocchi
+        if(Settings.activeBlock != null) {
+            if (Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
+            Settings.activeBlock.refresh();
+            Settings.activeBlock = null;
+            Settings.activeID = -1;
+        }
+            //reset delle posizioni dei blocchi
 //        if(checkCollections(blocks)){
-        for (BlockType type : blockType){
-            ArrayList<Pair<Integer, Integer>> tempArr = JsonConfigurationReader.getStartAnglePiece(type);
-            int i = 0;
-            for (BlockGFX block : blocks){
-                if(block.getPrototype().blockType.equals(type)){
-                    int x = tempArr.get(i).getKey() * Settings.MIN_HORIZONTAL_BOUNDS;
-                    int y = tempArr.get(i).getValue() * Settings.MIN_HORIZONTAL_BOUNDS;
-                    block.setTopLeft(new Vector2(x,y));
-                    i++;
+            for (BlockType type : blockType) {
+                ArrayList<Pair<Integer, Integer>> tempArr = JsonConfigurationReader.getStartAnglePiece(type);
+                int i = 0;
+                for (BlockGFX block : blocks) {
+                    if (block.getPrototype().blockType.equals(type)) {
+                        int x = tempArr.get(i).getKey() * Settings.MIN_HORIZONTAL_BOUNDS;
+                        int y = tempArr.get(i).getValue() * Settings.MIN_HORIZONTAL_BOUNDS;
+                        block.setTopLeft(new Vector2(x, y));
+                        i++;
+                    }
                 }
             }
-        }
-//        }
+
     }
 
 //    private static boolean checkCollections(ArrayList<BlockGFX> blocks){

@@ -21,6 +21,7 @@ public class Game {
     protected static Button undoButton = new Button(null), nbmButton = new Button(null), resetButton = new Button(null);
     protected int moves = 0;
     protected Label movesLabel = new Label(null);
+    protected static int MOVES_COUNTER = 0;
 
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
@@ -91,6 +92,7 @@ public class Game {
                     //test best next move
 //                    new NextBestMove(blocks).solve();
                 }
+
 
                 //check vittoria
                 if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600)) && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))){

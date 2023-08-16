@@ -15,6 +15,7 @@ public class NextBestMove {
     private static int POSITION;
     private static char[][] currentMatrix;
     private JsonSolutionReader jsr;
+    private Pair<Vector2, Vector2> from_to = null;      //before, after
     public NextBestMove(JsonSolutionReader jsr, ArrayList<BlockGFX> blocks){
         POSITION = -1;
         String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
@@ -69,7 +70,6 @@ public class NextBestMove {
                 return current;
             isDifferent = true;
         }
-
         return null;
     }
     private char[][] translateMatrix(String matrixString) {
@@ -110,38 +110,73 @@ public class NextBestMove {
         }
         return emptyCells;
     }
+    private Vector2 getBeforeCoords(MovementDirections movementDirection, Vector2 after){
+        switch (movementDirection){
+            case UP -> {
+                return new Vector2(after.getX(), after.getY()-1);
+            }
+            case DOWN -> {
+                return new Vector2(after.getX(), after.getY()+1);
+            }
+            case RIGHT -> {
+                return new Vector2(after.getX()+1, after.getY());
+            }
+            case LEFT -> {
+                return new Vector2(after.getX()-1, after.getY());
+            }
+        }
+        return null;
+    }
     public Pair<Integer, MovementDirections> getNextMove(int move){
         ArrayList<Vector2> currentEmpty = findEmptySpaces(currentMatrix);
         //String nextPos = "" + (POSITION+1);
         String nextPos = "" + (move);
-        char[][] nextMatrix = translateMatrix(jsr.getElement(nextPos));
-        ArrayList<Vector2> nextEmpty = findEmptySpaces(nextMatrix);
-        //trovare quale spazio è cambiato
-        Vector2 changedEmpty = new Vector2(-1,-1);
-        changedEmpty = getChangedEmpty(currentEmpty, nextEmpty);
-        //nella posizione dello spazio cambiato è presente l'id che si è mosso -> ricavo id
-        char movedChar = nextMatrix[changedEmpty.getY()][changedEmpty.getX()];
-
-        //avendo l'id trovo in che posizione era rispetto allo spazio vuoto di prima e ricavo la direzione del movimento
-        MovementDirections movementDirection = null;
-        try{
-            if(currentMatrix[changedEmpty.getY()-1][changedEmpty.getX()] == movedChar) movementDirection = MovementDirections.DOWN;
-        }catch (ArrayIndexOutOfBoundsException ignored){}
-        try {
-            if(currentMatrix[changedEmpty.getY()+1][changedEmpty.getX()] == movedChar) movementDirection = MovementDirections.UP;
-        }catch (ArrayIndexOutOfBoundsException ignored){}
-        try {
-            if(currentMatrix[changedEmpty.getY()][changedEmpty.getX()-1] == movedChar) movementDirection = MovementDirections.RIGHT;
-        }catch (ArrayIndexOutOfBoundsException ignored){}
-        try {
-            if(currentMatrix[changedEmpty.getY()][changedEmpty.getX()+1] == movedChar) movementDirection = MovementDirections.LEFT;
-        }catch (ArrayIndexOutOfBoundsException ignored){}
-        currentMatrix = nextMatrix;
-        //POSITION += 1;
-        System.out.println("...............");
-        return new Pair<>(getIdFromLetter(movedChar), movementDirection);
+        String element = jsr.getElement(nextPos);
+        if(element != null) {
+            char[][] nextMatrix = translateMatrix(element);
+            ArrayList<Vector2> nextEmpty = findEmptySpaces(nextMatrix);
+            //trovare quale spazio è cambiato
+            Vector2 changedEmpty = getChangedEmpty(currentEmpty, nextEmpty);        //è anche la posizione in cui si è mosso il blocco (TO
+            // nella posizione dello spazio cambiato è presente l'id che si è mosso -> ricavo id
+            char movedChar = nextMatrix[changedEmpty.getY()][changedEmpty.getX()];
+            // avendo l'id trovo in che posizione era rispetto allo spazio vuoto
+            // di prima e ricavo la direzione del movimento
+            MovementDirections movementDirection = null;
+            try {
+                if (currentMatrix[changedEmpty.getY() - 1][changedEmpty.getX()] == movedChar) {
+                    movementDirection = MovementDirections.DOWN;
+                    from_to = new Pair<>(changedEmpty, getBeforeCoords(MovementDirections.DOWN, changedEmpty));
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            try {
+                if (currentMatrix[changedEmpty.getY() + 1][changedEmpty.getX()] == movedChar) {
+                    movementDirection = MovementDirections.UP;
+                    from_to = new Pair<>(changedEmpty, getBeforeCoords(MovementDirections.UP, changedEmpty));
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            try {
+                if (currentMatrix[changedEmpty.getY()][changedEmpty.getX() - 1] == movedChar) {
+                    movementDirection = MovementDirections.RIGHT;
+                    from_to = new Pair<>(changedEmpty, getBeforeCoords(MovementDirections.RIGHT, changedEmpty));
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            try {
+                if (currentMatrix[changedEmpty.getY()][changedEmpty.getX() + 1] == movedChar) {
+                    movementDirection = MovementDirections.LEFT;
+                    from_to = new Pair<>(changedEmpty, getBeforeCoords(MovementDirections.LEFT, changedEmpty));
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            currentMatrix = nextMatrix;
+            //POSITION += 1;
+            System.out.println("...............");
+            return new Pair<>(getIdFromLetter(movedChar), movementDirection);
+        }
+        return null;
     }
 
+    public Pair<Vector2, Vector2> getSavedMove(){
+        return from_to;
+    }
 
     //todo: rimuovere
     NextBestMove(ArrayList<BlockGFX> initialGrid){

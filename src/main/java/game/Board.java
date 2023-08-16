@@ -84,6 +84,7 @@ public class Board extends Game{
             resetButton.setDisable(chronology.size() <= 0);
             undoButton.setDisable(chronology.size() <= 0);
             moves++;
+            MOVES_COUNTER--;
             movesLabel.setText("MOSSE: " + moves);
         };
         undoButton.setOnAction(event);
@@ -104,14 +105,15 @@ public class Board extends Game{
             //todo: lettura delle soluzioni quando viene scelta una configurazione
             JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
             NextBestMove nbm = new NextBestMove(jsr, blocks);
-            Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(moves);
-            blocks.get(nextMove.getKey()).move(nextMove.getValue());
-            // next best move restituisce id e mossa fatta,
-            // da li basta prendere l'id in blocks e fare la mossa rispettiva
-            // ATTENZIONE! azzera active block e active id in Settings
+            Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
+            if(nextMove != null) {
+                blocks.get(nextMove.getKey()).move(nextMove.getValue());
+                // next best move restituisce id e mossa fatta,
+                // da li basta prendere l'id in blocks e fare la mossa rispettiva
+                // ATTENZIONE! azzera active block e active id in Settings
 
 
-            //System.out.println("NBM SELEZIONATO");
+                //System.out.println("NBM SELEZIONATO");
 //            NextBestMove nbm = new NextBestMove(blocks);
 //                System.out.println("PROSSIMA MOSSA: " + nbm.solve());
 //            Pair<Integer, MovementDirections> nextMove = null;
@@ -135,8 +137,17 @@ public class Board extends Game{
 //            chronology.put(blockMove, new Pair<>(before, after));
 //
 //            blocks.get(nextMove.getKey()).move(nextMove.getValue());
-            moves++;
-            movesLabel.setText("MOSSE: " + moves);
+                moves++;
+                MOVES_COUNTER++;
+                movesLabel.setText("MOSSE: " + moves);
+
+                chronology.put(blocks.get(nextMove.getKey()), nbm.getSavedMove());
+                undoButton.setDisable(chronology.size() <= 0);
+                resetButton.setDisable(chronology.size() <= 0);
+            }
+            else{
+                nbmButton.setDisable(true);
+            }
         };
         nbmButton.setOnAction(event);
         return nbmButton;
@@ -158,6 +169,7 @@ public class Board extends Game{
             resetButton.setDisable(true);
             undoButton.setDisable(true);
             moves = 0;
+            MOVES_COUNTER = 0;
             movesLabel.setText("MOSSE: " + moves);
         };
         resetButton.setOnAction(event);
