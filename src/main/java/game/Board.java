@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import json.JsonConfigurationReader;
+import json.JsonSolutionReader;
 import piece.BlockGFX;
 import piece.BlockPrototype;
 import piece.BlockType;
@@ -43,6 +44,7 @@ public class Board extends Game{
                 k++;
             }
         }
+        new JsonSolutionReader(configuration);
 //        NextBestMove nbm = new NextBestMove(blocks);
     }
     public Pane createBoard(){
@@ -99,8 +101,11 @@ public class Board extends Game{
         nbmButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
+            //todo: lettura delle soluzioni quando viene scelta una configurazione
+            JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
+           // new NextBestMove(jsr, blocks);
             //System.out.println("NBM SELEZIONATO");
-            NextBestMove nbm = new NextBestMove(blocks);
+//            NextBestMove nbm = new NextBestMove(blocks);
                 //System.out.println("PROSSIMA MOSSA: " + nbm.solve());
 //            Pair<Integer, MovementDirections> nextMove = null;
 //            if(chronology.size() > 0) {
@@ -127,7 +132,6 @@ public class Board extends Game{
             movesLabel.setText("MOSSE: " + moves);
         };
         nbmButton.setOnAction(event);
-
         return nbmButton;
     }
     public Button getResetButton() {

@@ -12,13 +12,13 @@ import support.Settings;
 
 public class JsonConfigurationReader {
     protected static Map config;
+    private static String configuration;
     public JsonConfigurationReader(String configuration) {
+        this.configuration = configuration;
         try{
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_PATH));
             JSONObject jo = (JSONObject) obj;
             config = ((Map)jo.get(configuration));
-//            System.out.println(config);
-//            System.out.println(config.size());      //4
         }
         catch (IOException | ParseException ex){
             ex.printStackTrace();
@@ -47,5 +47,6 @@ public class JsonConfigurationReader {
 
     public int getConfigSize(){ return config.size(); }
     public static Map getConfiguration() { return config; }
+    public static String getConfigurazionName(){ return configuration; }
 
 }

@@ -88,7 +88,7 @@ public class Game {
                     System.out.print("\"" + (moves -1) + "\": \"");
                     new NextBestMove(blocks);
                     System.out.println("\",");
-//                    //test best next move
+                    //test best next move
 //                    new NextBestMove(blocks).solve();
                 }
 

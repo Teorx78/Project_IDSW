@@ -12,6 +12,7 @@ public class Settings {
 	/* ************** FILE ************** */
 	public static final String CURSOR_IMAGE = "file:resources/img/cursor.png";
 	public static final String JSON_PATH = "resources/json/configuration.json";		//"file:" non è necessario
+	public static final String JSON_SOLUTION_PATH = "resources/json/solutions.json";		//"file:" non è necessario
 	public static final String BACKGROUND_IMAGE_PATH = "file:resources/img/sfondo.gif";
 	public static final String CSS_BUTTON_FILE = "file:resources/style/button.css";
 	public static final String CSS_LABEL_FILE = "file:resources/style/label.css";
