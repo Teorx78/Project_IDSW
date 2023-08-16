@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class DuplicateMap {
     private final ArrayList<BlockGFX> keys;
-    private final ArrayList<Pair<Vector2, Vector2>> values;
+    private final ArrayList<Pair<Vector2, Vector2>> values;     //<before, after>
     private int size = 0;
     public DuplicateMap(){
         keys = new ArrayList<>();
@@ -53,4 +53,11 @@ public class DuplicateMap {
         return new Pair<>(keys.get(index), values.get(index));
     }
     public int size(){ return size; }
+    public MovementDirections getMovementDirection(int index){
+        Pair<Vector2, Vector2> value = values.get(index);
+        if(value.getKey().getX() < value.getValue().getX()) return MovementDirections.RIGHT;
+        if(value.getKey().getX() > value.getValue().getX()) return MovementDirections.LEFT;
+        if(value.getKey().getY() > value.getValue().getY()) return MovementDirections.DOWN;
+        return MovementDirections.UP;
+    }
 }

@@ -60,7 +60,7 @@ public class BlockGFX extends Block{
                 rectangle.opacityProperty().set(1);
             }
 
-            if(Settings.activeID > -1) System.out.println("active block: " + Settings.activeBlock.toString());
+            //if(Settings.activeID > -1) System.out.println("active block: " + Settings.activeBlock.toString());
 
         });
         rectangle.setOnMouseReleased(e -> {
@@ -111,7 +111,7 @@ public class BlockGFX extends Block{
 
         Vector2 beforeMove = new Vector2(xTopLeft, yTopLeft);   //variabile prima del movimento
 
-        System.out.println(this);
+        //System.out.println(this);
 
         //System.out.println("{ moveW: " + movementWidth + ", moveH: " + movementHeight + "}");
 

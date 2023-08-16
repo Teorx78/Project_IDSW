@@ -40,7 +40,7 @@ public class Game {
             if(getSelectedBlock() > -1) {
                 boolean _switch = false;
                 Pair<Vector2, Vector2> savedMove = null;
-                System.out.println(event.getCode());
+                //System.out.println(event.getCode());
                 switch (event.getCode()) {
                     case W, UP -> {
                         //check posizione post movimento
@@ -80,17 +80,24 @@ public class Game {
                     //dopo movimento aggiornamento delle varie collezioni tra cui quella della cronologia delle mosse
                     //inserimento della mossa fatta nel caso in cui avesse successo
                     chronology.put(Settings.activeBlock, savedMove);
-                    System.out.println("***** \n" + chronology + "\n*****");
+                    //System.out.println("***** \n" + chronology + "\n*****");
                     undoButton.setDisable(chronology.size() <= 0);
                     resetButton.setDisable(chronology.size() <= 0);
                     moves++;
                     movesLabel.setText("MOSSE: " + moves);
+                    System.out.print("\"" + (moves -1) + "\": [ \"");
+                    new NextBestMove(blocks);
+                    System.out.println("\" ],");
+//                    //test best next move
+//                    new NextBestMove(blocks).solve();
                 }
 
                 //check vittoria
-                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600)) && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600)))
+                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600)) && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))){
                     //TODO: inserire un menu di vittoria
                     System.out.println("********* VITTORIA! *********");
+                    nbmButton.setDisable(true);
+                }
             } else System.out.println("> Seleziona un pezzo!");
         });
     }

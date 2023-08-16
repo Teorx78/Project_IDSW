@@ -11,8 +11,11 @@ import piece.BlockGFX;
 import piece.BlockPrototype;
 import piece.BlockType;
 import support.DuplicateMap;
+import support.MovementDirections;
 import support.Settings;
 import javafx.scene.control.Button;
+import support.Vector2;
+
 import java.util.ArrayList;
 
 public class Board extends Game{
@@ -36,10 +39,11 @@ public class Board extends Game{
                 int x = integerIntegerPair.getKey() * Settings.MIN_HORIZONTAL_BOUNDS;
                 int y = integerIntegerPair.getValue() * Settings.MIN_HORIZONTAL_BOUNDS;
                 blocks.add(new BlockGFX(blockPrototype, x, y, k));
-                System.out.println(blocks.get(k).toString());
+                //System.out.println(blocks.get(k).toString());
                 k++;
             }
         }
+//        NextBestMove nbm = new NextBestMove(blocks);
     }
     public Pane createBoard(){
         //Group group = new Group();
@@ -95,7 +99,30 @@ public class Board extends Game{
         nbmButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
-            System.out.println("NBM SELEZIONATO");
+            //System.out.println("NBM SELEZIONATO");
+            NextBestMove nbm = new NextBestMove(blocks);
+                //System.out.println("PROSSIMA MOSSA: " + nbm.solve());
+//            Pair<Integer, MovementDirections> nextMove = null;
+//            if(chronology.size() > 0) {
+//                nextMove = nbm.solve(new Pair<>(chronology.get(chronology.size() - 1).getKey().getId(), chronology.getMovementDirection(chronology.size() - 1)));
+//            }
+//            else{
+//                nextMove = nbm.solve(new Pair<>(null, null));
+//            }
+//            BlockGFX blockMove = blocks.get(nextMove.getKey());
+//            Vector2 before = new Vector2(blocks.get(nextMove.getKey()).getTopLeft().getX(), blocks.get(nextMove.getKey()).getTopLeft().getY());
+//            int offsetX = 0, offsetY = 0;
+//            switch (nextMove.getValue()){
+//                case UP -> offsetY--;
+//                case DOWN -> offsetY++;
+//                case LEFT -> offsetX--;
+//                case RIGHT -> offsetX++;
+//            }
+//            Vector2 after = new Vector2(blocks.get(nextMove.getKey()).getTopLeft().getX() + offsetX,
+//                    blocks.get(nextMove.getKey()).getTopLeft().getY() + offsetY);
+//            chronology.put(blockMove, new Pair<>(before, after));
+//
+//            blocks.get(nextMove.getKey()).move(nextMove.getValue());
             moves++;
             movesLabel.setText("MOSSE: " + moves);
         };

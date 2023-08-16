@@ -19,7 +19,7 @@ public class Main extends Application {
     public void start(Stage stage) {
 
 
-        Board root = new Board("test", stage);
+        Board root = new Board("conf1", stage);
 
         Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
 

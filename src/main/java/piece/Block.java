@@ -101,7 +101,7 @@ public class Block {
     private boolean checkBounds(Block deltaBlock){
         //TODO: sistemare questo metodo, il problema sta nel considerare l'angolo giusto. Quando va in alto deve fare il check in alto, quando in basso in basso etc.
         // quindi per alto e sinistra uso l'angolo in alto a sinista mentre per basso e destra usare l'angolo in basso a sinitra
-        System.out.println("delta block: " + deltaBlock.toString());
+//        System.out.println("delta block: " + deltaBlock.toString());
         if(deltaBlock.getTopLeft().getX() < Settings.MIN_HORIZONTAL_BOUNDS) return false;               //SINISTRA
         if(deltaBlock.getBottomRight().getX() > (Settings.WINDOW_WIDTH - Settings.MIN_HORIZONTAL_BOUNDS)) return false;     //DESTRA
         if(deltaBlock.getTopLeft().getY() < Settings.MIN_VERTICAL_BOUNDS) return false;                 //SOPRA
