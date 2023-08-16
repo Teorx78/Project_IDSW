@@ -85,9 +85,9 @@ public class Game {
                     resetButton.setDisable(chronology.size() <= 0);
                     moves++;
                     movesLabel.setText("MOSSE: " + moves);
-                    System.out.print("\"" + (moves -1) + "\": [ \"");
+                    System.out.print("\"" + (moves -1) + "\": \"");
                     new NextBestMove(blocks);
-                    System.out.println("\" ],");
+                    System.out.println("\",");
 //                    //test best next move
 //                    new NextBestMove(blocks).solve();
                 }
