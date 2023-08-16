@@ -103,10 +103,15 @@ public class Board extends Game{
         EventHandler<ActionEvent> event = e -> {
             //todo: lettura delle soluzioni quando viene scelta una configurazione
             JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
-           // new NextBestMove(jsr, blocks);
+            new NextBestMove(jsr, blocks);
+            // next best move restituisce id e mossa fatta,
+            // da li basta prendere l'id in blocks e fare la mossa rispettiva
+            // ATTENZIONE! azzera active block e active id in Settings
+
+
             //System.out.println("NBM SELEZIONATO");
 //            NextBestMove nbm = new NextBestMove(blocks);
-                //System.out.println("PROSSIMA MOSSA: " + nbm.solve());
+//                System.out.println("PROSSIMA MOSSA: " + nbm.solve());
 //            Pair<Integer, MovementDirections> nextMove = null;
 //            if(chronology.size() > 0) {
 //                nextMove = nbm.solve(new Pair<>(chronology.get(chronology.size() - 1).getKey().getId(), chronology.getMovementDirection(chronology.size() - 1)));
