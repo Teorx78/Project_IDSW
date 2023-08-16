@@ -103,7 +103,9 @@ public class Board extends Game{
         EventHandler<ActionEvent> event = e -> {
             //todo: lettura delle soluzioni quando viene scelta una configurazione
             JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
-            new NextBestMove(jsr, blocks);
+            NextBestMove nbm = new NextBestMove(jsr, blocks);
+            Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(moves);
+            blocks.get(nextMove.getKey()).move(nextMove.getValue());
             // next best move restituisce id e mossa fatta,
             // da li basta prendere l'id in blocks e fare la mossa rispettiva
             // ATTENZIONE! azzera active block e active id in Settings
