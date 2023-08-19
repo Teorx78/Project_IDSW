@@ -107,37 +107,9 @@ public class Board extends Game{
             JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
             NextBestMove nbm = new NextBestMove(jsr, blocks);
             Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
-            if(nextMove != null) {
+            if(nextMove.getValue() != null) {
                 blocks.get(nextMove.getKey()).move(nextMove.getValue());
-                // next best move restituisce id e mossa fatta,
-                // da li basta prendere l'id in blocks e fare la mossa rispettiva
-                // ATTENZIONE! azzera active block e active id in Settings
 
-
-                //System.out.println("NBM SELEZIONATO");
-//            NextBestMove nbm = new NextBestMove(blocks);
-//                System.out.println("PROSSIMA MOSSA: " + nbm.solve());
-//            Pair<Integer, MovementDirections> nextMove = null;
-//            if(chronology.size() > 0) {
-//                nextMove = nbm.solve(new Pair<>(chronology.get(chronology.size() - 1).getKey().getId(), chronology.getMovementDirection(chronology.size() - 1)));
-//            }
-//            else{
-//                nextMove = nbm.solve(new Pair<>(null, null));
-//            }
-//            BlockGFX blockMove = blocks.get(nextMove.getKey());
-//            Vector2 before = new Vector2(blocks.get(nextMove.getKey()).getTopLeft().getX(), blocks.get(nextMove.getKey()).getTopLeft().getY());
-//            int offsetX = 0, offsetY = 0;
-//            switch (nextMove.getValue()){
-//                case UP -> offsetY--;
-//                case DOWN -> offsetY++;
-//                case LEFT -> offsetX--;
-//                case RIGHT -> offsetX++;
-//            }
-//            Vector2 after = new Vector2(blocks.get(nextMove.getKey()).getTopLeft().getX() + offsetX,
-//                    blocks.get(nextMove.getKey()).getTopLeft().getY() + offsetY);
-//            chronology.put(blockMove, new Pair<>(before, after));
-//
-//            blocks.get(nextMove.getKey()).move(nextMove.getValue());
                 moves++;
                 MOVES_COUNTER++;
                 movesLabel.setText("MOSSE: " + moves);
@@ -169,6 +141,7 @@ public class Board extends Game{
             chronology = new DuplicateMap();
             resetButton.setDisable(true);
             undoButton.setDisable(true);
+            nbmButton.setDisable(false);
             moves = 0;
             MOVES_COUNTER = 0;
             movesLabel.setText("MOSSE: " + moves);
