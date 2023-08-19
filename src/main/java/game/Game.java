@@ -16,9 +16,11 @@ import java.util.*;
 
 public class Game {
     private final String config;
-    private final Stage stage;
     private static Scene scene;
-    protected static Button undoButton = new Button(null), nbmButton = new Button(null), resetButton = new Button(null);
+    protected static Button undoButton = new Button(null),
+            nbmButton = new Button(null),
+            resetButton = new Button(null),
+            pauseButton = new Button(null);
     protected int moves = 0;
     protected Label movesLabel = new Label(null);
     protected static int MOVES_COUNTER = 0;
@@ -27,9 +29,8 @@ public class Game {
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
     protected DuplicateMap chronology = new DuplicateMap();
 
-    public Game(String configuration, Stage stage){
+    public Game(String configuration){
         this.config = configuration;
-        this.stage = stage;
     }
 
     public void setScene(Scene scene) { Game.scene = scene; }

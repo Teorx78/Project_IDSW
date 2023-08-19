@@ -20,20 +20,19 @@ import support.Vector2;
 import java.util.ArrayList;
 
 public class Board extends Game{
-    private final int width, height;
-    private final BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2, BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
+//    private final int width, height;
 
-    public Board(String configuration, Stage stage){
-        super(configuration, stage);
+    public Board(String configuration){
+        super(configuration);
         //setup del campo
-        this.width = Settings.WINDOW_WIDTH - (Settings.MIN_HORIZONTAL_BOUNDS * 2);
-        this.height = Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS * 2);
-        //TODO: mettere la texture al campo di gioco -> sottoclasse per la grafica (?)
+//        this.width = Settings.WINDOW_WIDTH - (Settings.MIN_HORIZONTAL_BOUNDS * 2);
+//        this.height = Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS * 2);
         //lettura json
         JsonConfigurationReader jsonReader = new JsonConfigurationReader(configuration);
         //setup e salvataggio pezzi nel campo
         int k = 0;
         for(int i = 0; i < jsonReader.getConfigSize(); i++){
+            BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2, BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
             ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i]);
             for (Pair<Integer, Integer> integerIntegerPair : arrayList) {
                 BlockPrototype blockPrototype = new BlockPrototype(blockType[i]);
@@ -54,7 +53,9 @@ public class Board extends Game{
         group.getChildren().addAll(getUndoButton(),
                             getNBMButton(),
                             getResetButton(),
+                            getPauseButton(),
                             getCounterLabel());
+
 
         for (BlockGFX block : blocks) {
             group.getChildren().add(block.getRectangle());
@@ -72,7 +73,7 @@ public class Board extends Game{
 //        undoButton = new Button(null);
         //STILE
         undoButton.setId("undoButton");
-        undoButton.getStyleClass().add("button");
+        undoButton.getStyleClass().add("gameButton");
         undoButton.setDisable(true);
         //posizionamento del bottone
         undoButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
@@ -95,7 +96,7 @@ public class Board extends Game{
 //        nbmButton = new Button(null);
         //STILE
         nbmButton.setId("nbmButton");
-        nbmButton.getStyleClass().add("button");
+        nbmButton.getStyleClass().add("gameButton");
 //        nbmButton.setDisable(true);
         //posizionamento del bottone
         nbmButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 75) / 100);
@@ -156,7 +157,7 @@ public class Board extends Game{
 //        resetButton = new Button(null);
         //STILE
         resetButton.setId("resetButton");
-        resetButton.getStyleClass().add("button");
+        resetButton.getStyleClass().add("gameButton");
         resetButton.setDisable(true);
         //posizionamento del bottone
         resetButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 45) / 100);
@@ -174,6 +175,20 @@ public class Board extends Game{
         };
         resetButton.setOnAction(event);
         return resetButton;
+    }
+    public Button getPauseButton(){
+        //STILE
+        pauseButton.setId("pauseButton");
+        pauseButton.getStyleClass().add("gameButton");
+        //posizionamento del bottone
+        pauseButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
+        pauseButton.setTranslateY(Settings.HIGHER_HEIGHT_LINE);
+        //EVENTO
+        EventHandler<ActionEvent> event = e -> {
+            System.out.println("PAUSE");
+        };
+        pauseButton.setOnAction(event);
+        return pauseButton;
     }
 
 }

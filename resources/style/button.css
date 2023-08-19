@@ -1,4 +1,4 @@
-.button{
+.gameButton{
     -fx-background-repeat: no-repeat;
     -fx-background-color: none;
     -fx-background-size: 100%;
@@ -14,10 +14,9 @@
 
     -fx-background-position: bottom;
 }
-.button:hover{
+.gameButton:hover{
     -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.3) , 0.5, 0.0 , 0 , 1 );
 }
-
 #undoButton{
     /* SET DELLO SFONDO */
     -fx-background-image: url(../img/undo_button.png);
@@ -30,4 +29,12 @@
 #resetButton{
     /* SET DELLO SFONDO */
     -fx-background-image: url(../img/reset.png);
+}
+#pauseButton{
+    /* SET DELLO SFONDO */
+    -fx-background-image: url(../img/pause-3.png);
+    -fx-max-width: 42;
+    -fx-max-height: 42;
+    -fx-min-width: 42;
+    -fx-min-height: 42;
 }

@@ -8,8 +8,6 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import support.Settings;
 
-import java.util.Objects;
-
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -17,9 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-
-
-        Board root = new Board("conf1", stage);
+        Board root = new Board("conf1");
 
         Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
 
