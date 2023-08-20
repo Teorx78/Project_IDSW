@@ -4,7 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import json.JsonConfigurationReader;
 import json.JsonSolutionReader;
@@ -15,13 +16,10 @@ import support.DuplicateMap;
 import support.MovementDirections;
 import support.Settings;
 import javafx.scene.control.Button;
-import support.Vector2;
-
 import java.util.ArrayList;
 
 public class Board extends Game{
 //    private final int width, height;
-
     public Board(String configuration){
         super(configuration);
         //setup del campo
@@ -54,7 +52,8 @@ public class Board extends Game{
                             getNBMButton(),
                             getResetButton(),
                             getPauseButton(),
-                            getCounterLabel());
+                            getCounterLabel(),
+                            getBackground());
 
 
         for (BlockGFX block : blocks) {
@@ -163,5 +162,13 @@ public class Board extends Game{
         pauseButton.setOnAction(event);
         return pauseButton;
     }
-
+    public Rectangle getBackground(){
+        Rectangle bg = new Rectangle(Settings.MIN_HORIZONTAL_BOUNDS,
+                Settings.MIN_VERTICAL_BOUNDS,
+                Settings.WINDOW_WIDTH - (Settings.MIN_HORIZONTAL_BOUNDS*2),
+                Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS*2.5));
+        bg.setFill(Paint.valueOf("black"));
+        bg.opacityProperty().set(0.3);
+        return bg;
+    }
 }

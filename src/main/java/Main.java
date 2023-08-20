@@ -15,7 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        Board root = new Board("conf1");
+        Board root = new Board("conf2");
 
         Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
 

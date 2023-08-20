@@ -14,7 +14,7 @@ public class JsonConfigurationReader {
     protected static Map config;
     private static String configuration;
     public JsonConfigurationReader(String configuration) {
-        this.configuration = configuration;
+        JsonConfigurationReader.configuration = configuration;
         try{
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_PATH));
             JSONObject jo = (JSONObject) obj;
