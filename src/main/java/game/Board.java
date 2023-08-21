@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import json.JsonConfigurationReader;
 import json.JsonSolutionReader;
@@ -44,10 +46,10 @@ public class Board extends Game{
         new JsonSolutionReader(configuration);
 //        NextBestMove nbm = new NextBestMove(blocks);
     }
-    public Pane createBoard(){
+    public Pane createBoard(BackgroundImage backgroundGif) {
         //Group group = new Group();
         Pane group = new Pane();
-
+        group.setBackground(new Background(backgroundGif));
         group.getChildren().addAll(getUndoButton(),
                             getNBMButton(),
                             getResetButton(),
@@ -134,18 +136,7 @@ public class Board extends Game{
         resetButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 45) / 100);
         resetButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
-        EventHandler<ActionEvent> event = e -> {
-//            System.out.println("RESET SELEZIONATO");
-            Reset.resetBoard(blocks);
-            chronology = new DuplicateMap();
-            resetButton.setDisable(true);
-            undoButton.setDisable(true);
-            nbmButton.setDisable(false);
-            moves = 0;
-            MOVES_COUNTER = 0;
-            movesLabel.setText("MOSSE: " + moves);
-        };
-        resetButton.setOnAction(event);
+        resetButton.setOnAction(getResetEvent(null));
         return resetButton;
     }
     public Button getPauseButton(){
@@ -156,11 +147,17 @@ public class Board extends Game{
         pauseButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
         pauseButton.setTranslateY(Settings.HIGHER_HEIGHT_LINE);
         //EVENTO
+        pauseButton.setCancelButton(true);
+        return pauseButton;
+    }
+    public void usePauseButton(StackPane root, BorderPane menuP, Button resume){
         EventHandler<ActionEvent> event = e -> {
+            pauseButton.setCancelButton(false);
+            resume.setCancelButton(true);
+            root.getChildren().add(menuP);
             System.out.println("PAUSE");
         };
         pauseButton.setOnAction(event);
-        return pauseButton;
     }
     public Rectangle getBackground(){
         Rectangle bg = new Rectangle(Settings.MIN_HORIZONTAL_BOUNDS,
