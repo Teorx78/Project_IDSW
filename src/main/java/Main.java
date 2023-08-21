@@ -1,10 +1,29 @@
 import game.Board;
-import javafx.application.Application;
+
 import javafx.geometry.Pos;
 import javafx.scene.ImageCursor;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
+
+
 import javafx.scene.layout.*;
+
+import menuPackage.WinMenu;
+import support.Settings;
+
+import java.io.File;
+//import java.io.FileNotFoundException;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+
+import javafx.scene.image.Image;
+
+//import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
+
+//import javafx.application.Platform;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import menuPackage.*;
 import support.Settings;
@@ -18,6 +37,12 @@ import javafx.scene.ImageCursor;
 import javafx.scene.layout.*;
 
 import support.Settings;
+
+import menuPackage.MainMenu;
+import menuPackage.PauseMenu;
+import java.util.Objects;
+
+
 
 import java.io.File;
 //import java.io.FileNotFoundException;
@@ -118,25 +143,3 @@ public class Main extends Application {
         stage.show();
     }
 }
-/*
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-            MainMenu menuprincipale = new MainMenu(primaryStage, root, mediaPlayer, backgroundGif);
-            BorderPane menuf =menuprincipale.getMenu();
-            root.getChildren().add(menuf);
-            //WinMenu menuw=new WinMenu(primaryStage, root, mediaPlayer, backgroundGif);
-            //root.getChildren().add(menuw);
-        }
-
-        //bisogna collegare lo slider del main menu con quello di pausa o si lascia stare
-
-        Scene scene = new Scene(root, 550, 700);
-        primaryStage.setTitle("KLOTSKI");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-    }
-
-
-}*/

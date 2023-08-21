@@ -27,7 +27,6 @@ import javafx.event.EventHandler;
 
 import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
-import json.JsonSave;
 import support.DuplicateMap;
 import support.Settings;
 public class PauseMenu extends Menu
@@ -41,6 +40,7 @@ public class PauseMenu extends Menu
 		ImageView pauseTitle = new ImageView(newImage);
 
 		VBox menuV = new VBox(5);
+		//menuV.getChildren().addAll(pauseTitle, getResume(),getRestart(),getLoad(),getSave(),getMainMenu());
 		menuV.getChildren().addAll(pauseTitle, getResume(),getSave(),getMainMenu());
 		menuV.setAlignment(Pos.BASELINE_CENTER);
 
@@ -52,20 +52,7 @@ public class PauseMenu extends Menu
 		menu.setBottom(menuH);
 		//menu.setMaxSize(550, 700);
 	}
-	public void useSave 	 (Board game){
-		EventHandler<ActionEvent> event = e  -> {
-			try {
-				JsonSave.setConfig(game.getConfiguration());
-				JsonSave.writeSave(game.getBlocks());
-              System.out.println("saving");
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-			System.out.println("saved");
-		};
-		save.setOnAction(event);
-	}
-	public void useResume 	 (Button pauseButton){
+	public void useResume (Button pauseButton){
 		EventHandler<ActionEvent> event = e -> {
 			int n =root.getChildren().size();
 			if(root.getChildren().get(n-1)==menu)
@@ -94,6 +81,29 @@ public class PauseMenu extends Menu
 		save.setId("Save");
 		save.setText("Save");
 		create_button(save, 180, 75);
+		EventHandler<ActionEvent> event = e -> {
+//String saveFilePath = Settings.LAST_GAME;
+			/*String coordinates = "resources/prova.json";
+
+			try (FileReader reader = new FileReader(coordinates);
+				 PrintWriter writer = new PrintWriter(Settings.LAST_GAME)) {
+				Scanner in = new Scanner(reader);
+				while (in.hasNextLine())			//copia un file json
+				{
+					String line=in.nextLine();
+					writer.println(line);
+
+				}
+				in.close();
+
+
+				System.out.println("Saved");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
+			System.out.println("saving");
+		};
+		save.setOnAction(event);
 		return save;
 	}
 	public Button getMainMenu() {
@@ -101,14 +111,49 @@ public class PauseMenu extends Menu
 		mainMenu.setText("Main Menu");
 		create_button(mainMenu, 180, 75);
 		EventHandler<ActionEvent> event = e -> {
-			int n = root.getChildren().size()-1;
-			root.getChildren().remove(n);
-			root.getChildren().remove(n-1);
-			//root.getChildren().remove(n-2, n+1);
+			root.getChildren().remove(root.getChildren().size()-1);
+			root.getChildren().remove(root.getChildren().size()-1);
 			System.out.println("back to main menu");
 		};
 		mainMenu.setOnAction(event);
 		return mainMenu;
 	}
 
+	/*public PauseMenu(StackPane gameRoot, Button pauseButton, HBox gameInBackground, MediaPlayer mediaPlayer) throws FileNotFoundException
+	{
+
+		Save.setOnAction    (	new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				//String saveFilePath = Settings.LAST_GAME;
+				String coordinates = "resources/prova.json";
+
+				try (FileReader reader = new FileReader(coordinates);
+					 PrintWriter writer = new PrintWriter(Settings.LAST_GAME)) {
+					Scanner in = new Scanner(reader);
+					while (in.hasNextLine())			//copia un file json
+					{
+						String line=in.nextLine();
+						writer.println(line);
+
+					}
+					in.close();
+
+
+					System.out.println("Saved");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		});
+		MainMenu.setOnAction(	new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				gameRoot.getChildren().remove(menu);
+				gameRoot.getChildren().remove(gameInBackground);
+			}
+		});
+
+	}*/
 }
