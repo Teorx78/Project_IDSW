@@ -10,24 +10,13 @@ import org.json.simple.parser.*;
 import piece.BlockType;
 import support.Settings;
 
-public class JsonConfigurationReader {
-    protected static Map config;
+public class JsonConfigurationReader implements JsonInterface{
+    private static Map config;
     private static String configuration;
     public JsonConfigurationReader(String configuration) {
         JsonConfigurationReader.configuration = configuration;
-        try{
-            Object obj = new JSONParser().parse(new FileReader(Settings.JSON_PATH));
-            JSONObject jo = (JSONObject) obj;
-            config = ((Map)jo.get(configuration));
-        }
-        catch (IOException | ParseException ex){
-            ex.printStackTrace();
-        }
     }
-    public JsonConfigurationReader(Map config){
-        JsonConfigurationReader.config = config;
-    }
-    public static ArrayList<Pair<Integer, Integer>> getStartAnglePiece(BlockType blockType){
+    public ArrayList<Pair<Integer, Integer>> getStartAnglePiece(BlockType blockType, String configName){
         ArrayList angles = (ArrayList) config.get(new Settings().getBlockSizeString(blockType));
         ArrayList<Pair<Integer, Integer>> splitAngles = new ArrayList<>();
         for (Object o : angles) {
@@ -43,7 +32,34 @@ public class JsonConfigurationReader {
         return splitAngles;
     }
     public int getConfigSize(){ return config.size(); }
-    public static Map getConfiguration() { return config; }
-    public static String getConfigurazionName(){ return configuration; }
+
+    @Override
+    public void readJson() {
+        try{
+            Object obj = new JSONParser().parse(new FileReader(Settings.JSON_PATH));
+            JSONObject jo = (JSONObject) obj;
+            JsonConfigurationReader.config = ((Map)jo.get(configuration));
+        }
+        catch (IOException | ParseException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+//    public static Map getConfiguration() { return config; }
+    @Override
+    public String getConfiguration() {
+        return configuration;
+    }
+    @Override
+    public Map<Object, Object> getConfigurationMap() {
+        return config;
+    }
+
+//    public static String getConfigurazionName(){ return configuration; }
     public static void setConfigurationName(){}
 }

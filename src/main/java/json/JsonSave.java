@@ -20,7 +20,6 @@ public class JsonSave {
     private static Map<String, Object> savesMap = new HashMap<>();
     private static int lastSave;
     private static String config;
-
     private static void readAllSaves() {
         try {
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_SAVES_PATH));
@@ -45,7 +44,7 @@ public class JsonSave {
         readAllSaves();
         JSONObject jsonObject = new JSONObject(), allJsonObj = new JSONObject();
         if(savesMap != null) allJsonObj = new JSONObject(savesMap);
-        jsonObject.put("configuration", JsonConfigurationReader.getConfigurazionName());
+        jsonObject.put("configuration", new JsonConfigurationReader(config).getConfiguration());
         //for (BlockGFX block : blocks) jsonObject.put(block.getId(), block.getSaveString());
         for (BlockGFX block : blocks) {
             JSONArray jsonArray = new JSONArray();
@@ -63,7 +62,7 @@ public class JsonSave {
         String save = "save" + saveNumber;
         Map<String, Object> allSaveMap = (Map<String, Object>) savesMap.get(save);
         Map<Integer, Pair<Vector2, BlockType>> finalMap = new HashMap<>();
-        config = (String) savesMap.get("configuration");
+        config = (String) allSaveMap.get("configuration");
         savesMap.remove("configuration");
         allSaveMap.remove("configuration");
         for (int i = 0; i < allSaveMap.size(); i++) {

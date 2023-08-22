@@ -32,11 +32,12 @@ public class Board extends Game{
 //        this.height = Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS * 2);
         //lettura json
         JsonConfigurationReader jsonReader = new JsonConfigurationReader(configuration);
+        jsonReader.readJson();
         //setup e salvataggio pezzi nel campo
         int k = 0;
         for(int i = 0; i < jsonReader.getConfigSize(); i++){
             BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2, BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
-            ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i]);
+            ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i], configuration);
             for (Pair<Integer, Integer> integerIntegerPair : arrayList) {
                 BlockPrototype blockPrototype = new BlockPrototype(blockType[i]);
                 int x = integerIntegerPair.getKey() * Settings.MIN_BOUNDS;
@@ -46,13 +47,14 @@ public class Board extends Game{
                 k++;
             }
         }
-        new JsonSolutionReader(configuration);
+        new JsonSolutionReader(configuration).readJson();
 //        NextBestMove nbm = new NextBestMove(blocks);
     }
     public Board(int saveNumber){
         super(JsonSave.getConfig(saveNumber));
         JsonSave.getSave(saveNumber);
         Map<Integer, Pair<Vector2, BlockType>> save = JsonSave.getSave(saveNumber);
+        config = JsonSave.getConfig(saveNumber);
         int k = 0;
         for (var entry : save.entrySet()) {
             BlockPrototype blockPrototype = new BlockPrototype(entry.getValue().getValue());
@@ -61,7 +63,7 @@ public class Board extends Game{
             blocks.add(new BlockGFX(blockPrototype, x, y, k));
             k++;
         }
-        new JsonConfigurationReader(JsonSave.getConfig(saveNumber));
+        new JsonConfigurationReader(JsonSave.getConfig(saveNumber)).readJson();
         loadFromSave = true;
     }
     public Pane createBoard(){
@@ -126,7 +128,8 @@ public class Board extends Game{
                     && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600)))
                 nbmButton.setDisable(true);
             else{
-                JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
+                JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
+                jsr.readJson();
                 NextBestMove nbm = new NextBestMove(jsr, blocks);
                 Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
                 if(nextMove.getValue() != null) {
@@ -160,7 +163,7 @@ public class Board extends Game{
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
 //            System.out.println("RESET SELEZIONATO");
-            Reset.resetBoard(blocks);
+            Reset.resetBoard(blocks, config);
             chronology = new DuplicateMap();
             resetButton.setDisable(true);
             undoButton.setDisable(true);

@@ -16,8 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         //inizio partita normalmente partendo da una configurazione
-        Board root = new Board("conf2");
-//        Board root = new Board(1);
+//        Board root = new Board("conf2");
+        Board root = new Board(1);
         Image sfondo = new Image(Settings.BACKGROUND_IMAGE_PATH);
 
         BackgroundImage backgroundImage = new BackgroundImage(sfondo,

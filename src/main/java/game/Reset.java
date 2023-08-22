@@ -11,13 +11,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Reset {
-    private static Map config;
-
-    Reset(){
-        config = JsonConfigurationReader.getConfiguration();
-    }
-
-    public static void resetBoard(ArrayList<BlockGFX> blocks){
+    public static void resetBoard(ArrayList<BlockGFX> blocks, String configuration){
         BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2,
                 BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
 
@@ -30,7 +24,9 @@ public class Reset {
         }
         //reset delle posizioni dei blocchi
         for (BlockType type : blockType) {
-            ArrayList<Pair<Integer, Integer>> tempArr = JsonConfigurationReader.getStartAnglePiece(type);
+            JsonConfigurationReader jcr = new JsonConfigurationReader(configuration);
+            jcr.readJson();
+            ArrayList<Pair<Integer, Integer>> tempArr = jcr.getStartAnglePiece(type, configuration);
             int i = 0;
             for (BlockGFX block : blocks) {
                 if (block.getPrototype().blockType.equals(type)) {

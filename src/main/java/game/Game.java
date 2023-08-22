@@ -16,7 +16,7 @@ import support.Vector2;
 import java.util.*;
 
 public class Game {
-    private final String config;
+    protected static String config;
     private static Scene scene;
     protected static Button undoButton = new Button(null),
             nbmButton = new Button(null),
@@ -26,17 +26,14 @@ public class Game {
     protected Label movesLabel = new Label(null);
     protected static int MOVES_COUNTER = 0;
     protected static boolean loadFromSave = false;
-
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
-    //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
     protected DuplicateMap chronology = new DuplicateMap();
 
     public Game(String configuration){
-        this.config = configuration;
+        config = configuration;
     }
     public void setScene(Scene scene) { Game.scene = scene; }
     public String getConfiguration(){ return config; }
-    public static Button getUndoButtonComponent(){ return undoButton; }
     public void startGame(){
         scene.setOnKeyPressed(event -> {
             if(getSelectedBlock() > -1) {
