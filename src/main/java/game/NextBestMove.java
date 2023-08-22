@@ -25,8 +25,8 @@ public class NextBestMove {
             Arrays.fill(chars, '0');
         }
         for(BlockGFX block : blocks){
-            int x = block.getTopLeft().getX() / Settings.MIN_HORIZONTAL_BOUNDS - 1;
-            int y = block.getTopLeft().getY() / Settings.MIN_HORIZONTAL_BOUNDS - 1;
+            int x = block.getTopLeft().getX() / Settings.MIN_BOUNDS - 1;
+            int y = block.getTopLeft().getY() / Settings.MIN_BOUNDS - 1;
             switch (block.getPrototype().blockType){
                 case BLOCK_1X1 -> currentMatrix[y][x] = alphabet.charAt(block.getId());
                 case BLOCK_1X2 -> {
@@ -173,11 +173,9 @@ public class NextBestMove {
         }
         return null;
     }
-
     public Pair<Vector2, Vector2> getSavedMove(){
         return from_to;
     }
-
     //todo: rimuovere
     NextBestMove(ArrayList<BlockGFX> initialGrid){
         char[][] initialBoard = new char[5][4];          //0 (zero) equivale agli spazi vuoti
@@ -185,8 +183,8 @@ public class NextBestMove {
             Arrays.fill(chars, '0');
         }
         for (BlockGFX block : initialGrid){
-            int x = (block.getTopLeft().getX() / Settings.MIN_HORIZONTAL_BOUNDS) - 1;
-            int y = (block.getTopLeft().getY() / Settings.MIN_VERTICAL_BOUNDS) - 1;
+            int x = (block.getTopLeft().getX() / Settings.MIN_BOUNDS) - 1;
+            int y = (block.getTopLeft().getY() / Settings.MIN_BOUNDS) - 1;
 //            System.out.println("[" + x + ", " + y + "]");
             switch (block.getPrototype().blockType){
                 case BLOCK_1X1 -> {
@@ -225,11 +223,4 @@ public class NextBestMove {
         }
 //        System.out.println("***************");
     }
-
-
-
 }
-
-/*
-
-* */

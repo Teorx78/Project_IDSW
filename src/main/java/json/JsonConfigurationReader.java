@@ -24,11 +24,9 @@ public class JsonConfigurationReader {
             ex.printStackTrace();
         }
     }
-
     public JsonConfigurationReader(Map config){
         JsonConfigurationReader.config = config;
     }
-
     public static ArrayList<Pair<Integer, Integer>> getStartAnglePiece(BlockType blockType){
         ArrayList angles = (ArrayList) config.get(new Settings().getBlockSizeString(blockType));
         ArrayList<Pair<Integer, Integer>> splitAngles = new ArrayList<>();
@@ -44,9 +42,8 @@ public class JsonConfigurationReader {
         //System.out.println(splitAngles);
         return splitAngles;
     }
-
     public int getConfigSize(){ return config.size(); }
     public static Map getConfiguration() { return config; }
     public static String getConfigurazionName(){ return configuration; }
-
+    public static void setConfigurationName(){}
 }

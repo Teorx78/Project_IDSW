@@ -43,9 +43,9 @@ public class Undo{
             Settings.activeBlock = chronology.getKey(chronology.size() - 1);
             Settings.activeID = chronology.getKey(chronology.size() - 1).getId();
 
+            if(Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
             Settings.activeBlock.move(movementDirection);
 
-            if(Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
             Settings.activeBlock.refresh();
 
             Settings.activeBlock = null;

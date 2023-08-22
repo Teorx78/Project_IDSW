@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import json.JsonSave;
 import piece.BlockGFX;
 import piece.BlockType;
 import support.DuplicateMap;
@@ -24,6 +25,7 @@ public class Game {
     protected int moves = 0;
     protected Label movesLabel = new Label(null);
     protected static int MOVES_COUNTER = 0;
+    protected static boolean loadFromSave = false;
 
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
     //protected LinkedHashMap<BlockGFX, Pair<Vector2, Vector2>> chronology = new LinkedHashMap<>();
@@ -32,11 +34,9 @@ public class Game {
     public Game(String configuration){
         this.config = configuration;
     }
-
     public void setScene(Scene scene) { Game.scene = scene; }
     public String getConfiguration(){ return config; }
     public static Button getUndoButtonComponent(){ return undoButton; }
-
     public void startGame(){
         scene.setOnKeyPressed(event -> {
             if(getSelectedBlock() > -1) {
@@ -74,6 +74,15 @@ public class Game {
                             _switch = true;
                         }
                     }
+                    case T ->{
+                        try {
+                            JsonSave.writeSave(blocks);
+//                            System.out.println(JsonSave.getSave(1));
+//                            System.out.println(JsonSave.readSaves());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                     default -> //throw new IllegalStateException("Unexpected value: " + event.getCode());
                             System.out.println("***** UTILIZZA UN TASTO CORRETTO! (WASD | FRECCIE DIREZIONALI) *****");
                 }
@@ -90,10 +99,7 @@ public class Game {
                     System.out.print("\"" + (moves -1) + "\": \"");
                     new NextBestMove(blocks);
                     System.out.println("\",");
-                    //test best next move
-//                    new NextBestMove(blocks).solve();
                 }
-
 
                 //check vittoria
                 if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600)) && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))){
@@ -110,7 +116,7 @@ public class Game {
         }
         return -1;
     }
-    private BlockGFX get2x2block(){
+    protected BlockGFX get2x2block(){
         for (BlockGFX block : blocks) {
             if(block.getPrototype().blockType.equals(BlockType.BLOCK_2X2)) return block;
         }

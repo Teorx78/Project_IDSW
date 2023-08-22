@@ -28,20 +28,19 @@ public class Reset {
             Settings.activeBlock = null;
             Settings.activeID = -1;
         }
-            //reset delle posizioni dei blocchi
-//        if(checkCollections(blocks)){
-            for (BlockType type : blockType) {
-                ArrayList<Pair<Integer, Integer>> tempArr = JsonConfigurationReader.getStartAnglePiece(type);
-                int i = 0;
-                for (BlockGFX block : blocks) {
-                    if (block.getPrototype().blockType.equals(type)) {
-                        int x = tempArr.get(i).getKey() * Settings.MIN_HORIZONTAL_BOUNDS;
-                        int y = tempArr.get(i).getValue() * Settings.MIN_HORIZONTAL_BOUNDS;
-                        block.setTopLeft(new Vector2(x, y));
-                        i++;
-                    }
+        //reset delle posizioni dei blocchi
+        for (BlockType type : blockType) {
+            ArrayList<Pair<Integer, Integer>> tempArr = JsonConfigurationReader.getStartAnglePiece(type);
+            int i = 0;
+            for (BlockGFX block : blocks) {
+                if (block.getPrototype().blockType.equals(type)) {
+                    int x = tempArr.get(i).getKey() * Settings.MIN_BOUNDS;
+                    int y = tempArr.get(i).getValue() * Settings.MIN_BOUNDS;
+                    block.setTopLeft(new Vector2(x, y));
+                    i++;
                 }
             }
+        }
 
     }
 

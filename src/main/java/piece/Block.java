@@ -29,7 +29,6 @@ public class Block {
         this.xTopLeft = coords.getX();
         this.yTopLeft = coords.getY();
     }
-
     /* GETTERS */
     public Vector2 getTopLeft(){ return new Vector2(xTopLeft, yTopLeft); }
     public Vector2 getTopRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft); }
@@ -41,6 +40,9 @@ public class Block {
 
     /* METODI */
     public void changeSelected(){ isSelected = !isSelected; }
+    public String getSaveString(){
+        return (xTopLeft / Settings.MIN_BOUNDS + "," + yTopLeft / Settings.MIN_BOUNDS);
+    }
     public boolean checkMovement(MovementDirections movementDirection, ArrayList<BlockGFX> blocks){
         int prototypeWidth = this.prototype.blockType.equals(BlockType.BLOCK_1X1)
                 || this.prototype.blockType.equals(BlockType.BLOCK_1X2)
@@ -80,7 +82,6 @@ public class Block {
         }
         return false;
     }
-
     private boolean checkOverlap(ArrayList<BlockGFX> blocks, Block deltaBlock){
         for (BlockGFX block : blocks) {
             if (block.getId() != this.id) {
@@ -90,24 +91,21 @@ public class Block {
         }
         return true;
     }
-
     public boolean isOverlapping(Block deltaBlock){
         if(deltaBlock.getTopLeft().isEqual(this.getTopLeft())) return true;
         if(deltaBlock.getTopRight().isEqual(this.getTopRight())) return true;
         if(deltaBlock.getBottomLeft().isEqual(this.getBottomLeft())) return true;
         return deltaBlock.getBottomRight().isEqual(this.getBottomRight());
     }
-
     private boolean checkBounds(Block deltaBlock){
         //TODO: sistemare questo metodo, il problema sta nel considerare l'angolo giusto. Quando va in alto deve fare il check in alto, quando in basso in basso etc.
         // quindi per alto e sinistra uso l'angolo in alto a sinista mentre per basso e destra usare l'angolo in basso a sinitra
 //        System.out.println("delta block: " + deltaBlock.toString());
-        if(deltaBlock.getTopLeft().getX() < Settings.MIN_HORIZONTAL_BOUNDS) return false;               //SINISTRA
-        if(deltaBlock.getBottomRight().getX() > (Settings.WINDOW_WIDTH - Settings.MIN_HORIZONTAL_BOUNDS)) return false;     //DESTRA
-        if(deltaBlock.getTopLeft().getY() < Settings.MIN_VERTICAL_BOUNDS) return false;                 //SOPRA
-        return deltaBlock.getBottomRight().getY() < (Settings.WINDOW_HEIGHT - Settings.MIN_VERTICAL_BOUNDS);        //SOTTO
+        if(deltaBlock.getTopLeft().getX() < Settings.MIN_BOUNDS) return false;               //SINISTRA
+        if(deltaBlock.getBottomRight().getX() > (Settings.WINDOW_WIDTH - Settings.MIN_BOUNDS)) return false;     //DESTRA
+        if(deltaBlock.getTopLeft().getY() < Settings.MIN_BOUNDS) return false;                 //SOPRA
+        return deltaBlock.getBottomRight().getY() < (Settings.WINDOW_HEIGHT - Settings.MIN_BOUNDS);        //SOTTO
     }
-
     private boolean checkRanges(ArrayList<BlockGFX> blocks, Block deltaBlock){
         Vector2 xDeltaRange = new Vector2(deltaBlock.xTopLeft, deltaBlock.getBottomRight().getX());
         Vector2 yDeltaRange = new Vector2(deltaBlock.yTopLeft, deltaBlock.getBottomRight().getY());
@@ -121,7 +119,6 @@ public class Block {
         }
         return true;
     }
-
     @Override
     public String toString() {
         return "Block{ " +

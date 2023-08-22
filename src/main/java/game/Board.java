@@ -8,6 +8,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import json.JsonConfigurationReader;
+import json.JsonSave;
 import json.JsonSolutionReader;
 import piece.BlockGFX;
 import piece.BlockPrototype;
@@ -16,7 +17,11 @@ import support.DuplicateMap;
 import support.MovementDirections;
 import support.Settings;
 import javafx.scene.control.Button;
+import support.Vector2;
+
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 public class Board extends Game{
 //    private final int width, height;
@@ -34,8 +39,8 @@ public class Board extends Game{
             ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i]);
             for (Pair<Integer, Integer> integerIntegerPair : arrayList) {
                 BlockPrototype blockPrototype = new BlockPrototype(blockType[i]);
-                int x = integerIntegerPair.getKey() * Settings.MIN_HORIZONTAL_BOUNDS;
-                int y = integerIntegerPair.getValue() * Settings.MIN_HORIZONTAL_BOUNDS;
+                int x = integerIntegerPair.getKey() * Settings.MIN_BOUNDS;
+                int y = integerIntegerPair.getValue() * Settings.MIN_BOUNDS;
                 blocks.add(new BlockGFX(blockPrototype, x, y, k));
                 //System.out.println(blocks.get(k).toString());
                 k++;
@@ -43,6 +48,21 @@ public class Board extends Game{
         }
         new JsonSolutionReader(configuration);
 //        NextBestMove nbm = new NextBestMove(blocks);
+    }
+    public Board(int saveNumber){
+        super(JsonSave.getConfig(saveNumber));
+        JsonSave.getSave(saveNumber);
+        Map<Integer, Pair<Vector2, BlockType>> save = JsonSave.getSave(saveNumber);
+        int k = 0;
+        for (var entry : save.entrySet()) {
+            BlockPrototype blockPrototype = new BlockPrototype(entry.getValue().getValue());
+            int x = entry.getValue().getKey().getX() * Settings.MIN_BOUNDS;
+            int y = entry.getValue().getKey().getY() * Settings.MIN_BOUNDS;
+            blocks.add(new BlockGFX(blockPrototype, x, y, k));
+            k++;
+        }
+        new JsonConfigurationReader(JsonSave.getConfig(saveNumber));
+        loadFromSave = true;
     }
     public Pane createBoard(){
         //Group group = new Group();
@@ -73,7 +93,7 @@ public class Board extends Game{
         //STILE
         undoButton.setId("undoButton");
         undoButton.getStyleClass().add("gameButton");
-        undoButton.setDisable(true);
+        undoButton.setDisable(!loadFromSave);
         //posizionamento del bottone
         undoButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
         undoButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
@@ -96,29 +116,33 @@ public class Board extends Game{
         //STILE
         nbmButton.setId("nbmButton");
         nbmButton.getStyleClass().add("gameButton");
-//        nbmButton.setDisable(true);
+        nbmButton.setDisable(loadFromSave);
         //posizionamento del bottone
         nbmButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 75) / 100);
         nbmButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
-            //todo: lettura delle soluzioni quando viene scelta una configurazione
-            JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
-            NextBestMove nbm = new NextBestMove(jsr, blocks);
-            Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
-            if(nextMove.getValue() != null) {
-                blocks.get(nextMove.getKey()).move(nextMove.getValue());
-
-                moves++;
-                MOVES_COUNTER++;
-                movesLabel.setText("MOSSE: " + moves);
-
-                chronology.put(blocks.get(nextMove.getKey()), nbm.getSavedMove());
-                undoButton.setDisable(chronology.size() <= 0);
-                resetButton.setDisable(chronology.size() <= 0);
-            }
-            else{
+            if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
+                    && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600)))
                 nbmButton.setDisable(true);
+            else{
+                JsonSolutionReader jsr = new JsonSolutionReader(JsonConfigurationReader.getConfigurazionName());
+                NextBestMove nbm = new NextBestMove(jsr, blocks);
+                Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
+                if(nextMove.getValue() != null) {
+                        blocks.get(nextMove.getKey()).move(nextMove.getValue());
+
+                        moves++;
+                        MOVES_COUNTER++;
+                        movesLabel.setText("MOSSE: " + moves);
+
+                        chronology.put(blocks.get(nextMove.getKey()), nbm.getSavedMove());
+                        undoButton.setDisable(chronology.size() <= 0);
+                        resetButton.setDisable(chronology.size() <= 0);
+                }
+                else{
+                    nbmButton.setDisable(true);
+                }
             }
         };
         nbmButton.setOnAction(event);
@@ -129,7 +153,7 @@ public class Board extends Game{
         //STILE
         resetButton.setId("resetButton");
         resetButton.getStyleClass().add("gameButton");
-        resetButton.setDisable(true);
+        resetButton.setDisable(!loadFromSave);
         //posizionamento del bottone
         resetButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 45) / 100);
         resetButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
@@ -163,10 +187,10 @@ public class Board extends Game{
         return pauseButton;
     }
     public Rectangle getBackground(){
-        Rectangle bg = new Rectangle(Settings.MIN_HORIZONTAL_BOUNDS,
-                Settings.MIN_VERTICAL_BOUNDS,
-                Settings.WINDOW_WIDTH - (Settings.MIN_HORIZONTAL_BOUNDS*2),
-                Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS*2.5));
+        Rectangle bg = new Rectangle(Settings.MIN_BOUNDS,
+                Settings.MIN_BOUNDS,
+                Settings.WINDOW_WIDTH - (Settings.MIN_BOUNDS*2),
+                Settings.WINDOW_HEIGHT - (Settings.MIN_BOUNDS*2.5));
         bg.setFill(Paint.valueOf("black"));
         bg.opacityProperty().set(0.3);
         return bg;
