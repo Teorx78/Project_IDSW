@@ -75,6 +75,11 @@ public class JsonSave {
         return finalMap;
     }
 
+    public static int getNumberSave() {
+        readAllSaves();
+        return savesMap.size();
+    }
+
 //    public static Map<Vector2, BlockType> getSave(int saveNumber){
 //        readAllSaves();
 //        String save = "save" + saveNumber;
