@@ -19,19 +19,17 @@ public class JsonSave {
     private static Map<String, Object> savesMap = new HashMap<>();
     private static int lastSave=-1;
     private static String config;
-    private static void readAllSaves() {
+    private static void readAllSaves() {        //metodo che legge tutti i salvataggi dal json
         try {
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_SAVES_PATH));
             JSONObject jo = (JSONObject) obj;
             savesMap = (Map<String, Object>) jo;
-//            System.out.println(savesMap);
             Set<String> keySet = savesMap.keySet();
             Object[] arrKeys = keySet.toArray();
-//            for(Object o: arrKeys) System.out.println(o.toString());
             getLastSave(arrKeys);
         }catch (IOException | ParseException | ClassCastException ignored){}
     }
-    private static void getLastSave(Object[] keys){
+    private static void getLastSave(Object[] keys){     //metodo che trova il numero dell'ultimo salvataggio
         lastSave = 0;
         for(Object key : keys){
             String s = (String) key;
@@ -39,7 +37,7 @@ public class JsonSave {
             if(temp > lastSave) lastSave = temp;
         }
     }
-    public static void writeSave(ArrayList<BlockGFX> blocks) throws Exception{
+    public static void writeSave(ArrayList<BlockGFX> blocks) throws Exception{          //metodo per la scrittura su json dei blocchi passati (crea un nuovo salvataggio)
         readAllSaves();
         JSONObject jsonObject = new JSONObject(), allJsonObj = new JSONObject();
         if(savesMap != null) allJsonObj = new JSONObject(savesMap);
@@ -56,7 +54,7 @@ public class JsonSave {
 
         Files.write(Paths.get(Settings.JSON_SAVES_PATH), allJsonObj.toJSONString().getBytes());
     }
-    public static Map<Integer, Pair<Vector2, BlockType>> getSave(int saveNumber){
+    public static Map<Integer, Pair<Vector2, BlockType>> getSave(int saveNumber){       //metodo che ritorna un determinato salvataggio dato il suo numero
         readAllSaves();
         String save = "save" + saveNumber;
         Map<String, Object> allSaveMap = (Map<String, Object>) savesMap.get(save);
@@ -72,15 +70,15 @@ public class JsonSave {
         }
         return finalMap;
     }
-    public static int getNumberSave() {
+    public static int getNumberSave() {     //restituisce il totale dei salvataggi
         readAllSaves();
         return savesMap.size();
     }
-    public static String getConfig(int saveNumber){
+    public static String getConfig(int saveNumber){     //restituisce il nome della configurazione
         getSave(saveNumber);
         return config;
     }
-    public static void setConfig(String config){ JsonSave.config = config; }
+    public static void setConfig(String config){ JsonSave.config = config; }        //setta la configurazione
 }
 
 

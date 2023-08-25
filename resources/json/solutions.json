@@ -1,5 +1,6 @@
 {
   "conf1" : {
+    "-1" : "ELLF,ELLF,GIIH,GABH,C00D",
     "0": "ELLF,ELLF,GIIH,G0BH,CA0D",
     "1": "ELLF,ELLF,GIIH,G0BH,CAD0",
     "2": "ELLF,ELLF,GII0,G0BH,CADH",
@@ -120,6 +121,7 @@
     "117": "EGFH,EGFH,ABII,0LLC,0LLD"
   },
   "conf2" : {
+    "-1": "0LL0,ELLF,EGHF,AGHB,IICD",
     "0": "0LLF,ELLF,EGH0,AGHB,IICD",
     "1": "0LLF,ELLF,EGHB,AGH0,IICD",
     "2": "0LLF,ELLF,EGHB,AGHD,IIC0",
@@ -223,6 +225,7 @@
     "100": "GEHF,GEHF,IICA,DLL0,BLL0"
   },
   "conf3" : {
+    "-1": "ELLF,ELLF,AIIB,GCDH,G00H",
     "0": "ELLF,ELLF,AIIB,G0DH,GC0H",
     "1": "ELLF,ELLF,AIIB,G0DH,G0CH",
     "2": "ELLF,ELLF,AIIB,0GDH,0GCH",
@@ -327,6 +330,7 @@
     "101": "FEHG,FEHG,IIDB,CLL0,ALL0"
   },
   "conf4" : {
+    "-1": "ELLG,ELLG,ABCD,FIIH,F00H",
     "0": "ELLG,ELLG,ABCD,F00H,FIIH",
     "1": "ELLG,ELLG,A0CD,FB0H,FIIH",
     "2": "ELLG,ELLG,0ACD,FB0H,FIIH",
@@ -414,6 +418,7 @@
     "84": "FEGH,FEGH,CAII,0LLB,0LLD"
   },
   "conf5" : {
+    "-1": "ALLB,ELLG,EIIG,FCDH,F00H",
     "0": "ALLB,ELLG,EIIG,F0DH,FC0H",
     "1": "ALLB,ELLG,EIIG,F00H,FCDH",
     "2": "ALLB,ELLG,E00G,FIIH,FCDH",
@@ -510,6 +515,7 @@
     "93": "FEHG,FEHG,BDII,0LLC,0LLA"
   },
   "conf6" : {
+    "-1": "ELLA,ELLB,FIIH,FG0H,CG0D",
     "0": "ELLA,ELLB,FIIH,F0GH,C0GD",
     "1": "ELLA,ELLB,FIIH,F0GH,0CGD",
     "2": "ELLA,ELLB,FIIH,FCGH,00GD",

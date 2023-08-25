@@ -24,7 +24,7 @@ public class Reset {
         for (BlockType type : blockType) {
             JsonConfigurationReader jcr = new JsonConfigurationReader(configuration);
             jcr.readJson();
-            ArrayList<Pair<Integer, Integer>> tempArr = jcr.getStartAnglePiece(type, configuration);
+            ArrayList<Pair<Integer, Integer>> tempArr = jcr.getStartAnglePiece(type);
             int i = 0;
             for (BlockGFX block : blocks) {
                 if (block.getPrototype().blockType.equals(type)) {

@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class Board extends Game{
     private Pane group =null;
-    public Board(String configuration){
+    public Board(String configuration){         //Costruttore che prende in input la configurazione, serve per creare una board da zero
         super(configuration);
         if(blocks != null) blocks = new ArrayList<>();
         //lettura json
@@ -33,9 +33,9 @@ public class Board extends Game{
         jsonReader.readJson();
         //setup e salvataggio pezzi nel campo
         int k = 0;
-        for(int i = 0; i < jsonReader.getConfigSize(); i++){
+        for(int i = 0; i < jsonReader.size(); i++){
             BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2, BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
-            ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i], configuration);
+            ArrayList<Pair<Integer, Integer>> arrayList = jsonReader.getStartAnglePiece(blockType[i]);
             for (Pair<Integer, Integer> integerIntegerPair : arrayList) {
                 BlockPrototype blockPrototype = new BlockPrototype(blockType[i]);
                 int x = integerIntegerPair.getKey() * Settings.MIN_BOUNDS;
@@ -46,7 +46,7 @@ public class Board extends Game{
         }
         new JsonSolutionReader(configuration).readJson();
     }
-    public Board(int saveNumber){
+    public Board(int saveNumber){           //Costruttore che prende in input il numero del salvataggio, serve per creare una board a partire da un salvataggio
         super(JsonSave.getConfig(saveNumber));
         if(blocks != null) blocks = new ArrayList<>();
         JsonSave.getSave(saveNumber);
@@ -64,7 +64,7 @@ public class Board extends Game{
         loadFromSave = true;
     }
 
-    public Pane createBoard(StackPane root,BackgroundImage backgroundGif) {
+    public Pane createBoard(StackPane root,BackgroundImage backgroundGif) {     //metodo per la restituzione di un Pane contenente tutti i componenti della Board
         if(group!=null)
             resetBoard(group);
         group = new Pane();
@@ -80,7 +80,7 @@ public class Board extends Game{
         }
         return group;
     }
-    public void usePauseButton(StackPane root, BorderPane menuP, Button resume){
+    public void usePauseButton(StackPane root, BorderPane menuP, Button resume){        //metodo per settare l'event del bottone di pausa
         EventHandler<ActionEvent> event = e -> {
             pauseButton.setCancelButton(false);
             resume.setCancelButton(true);
@@ -89,15 +89,15 @@ public class Board extends Game{
         };
         pauseButton.setOnAction(event);
     }
-    public Label getCounterLabel(){
+    public Label getCounterLabel(){     //metodo per avere la label del contatore delle mosse
         movesLabel.setText("MOSSE: " + moves);
         movesLabel.setTranslateX((double) (Settings.WINDOW_WIDTH * 70) / 100);
         movesLabel.setTranslateY(Settings.HIGHER_HEIGHT_LINE);
         movesLabel.getStyleClass().add("label");
         return movesLabel;
     }
-    public Button getUndoButton() {
-        //STILE
+    public Button getUndoButton() {     //metodo per avere il pulsante per tornare indietro nelle mosse
+
         undoButton.setId("undoButton");
         undoButton.getStyleClass().add("gameButton");
         undoButton.setDisable(!loadFromSave);
@@ -124,8 +124,7 @@ public class Board extends Game{
 
         return undoButton;
     }
-    public Button getNBMButton(StackPane root) {
-        //STILE
+    public Button getNBMButton(StackPane root) {        //metodo per avere il pulsante per la next best move
         nbmButton.setId("nbmButton");
         nbmButton.getStyleClass().add("gameButton");
         nbmButton.setDisable(loadFromSave);
@@ -141,6 +140,22 @@ public class Board extends Game{
                 Settings.activeBlock = null;
                 Settings.activeID = -1;
             }
+            JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
+            jsr.readJson();
+            NextBestMove nbm = new NextBestMove(jsr, blocks);
+            Pair<Integer, MovementDirections> nextMove = nbm.nextMove();
+            if(nextMove != null && nextMove.getValue() != null) {
+                    blocks.get(nextMove.getKey()).move(nextMove.getValue());
+
+                    moves++;
+                    MOVES_COUNTER++;
+                    movesLabel.setText("MOSSE: " + moves);
+
+                    chronology.put(blocks.get(nextMove.getKey()), nbm.getSavedMove());
+                    undoButton.setDisable(chronology.size() <= 0);
+                    resetButton.setDisable(chronology.size() <= 0);
+            }
+            //check della vittoria
             if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
                     && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))) {
                 nbmButton.setDisable(true);
@@ -148,33 +163,11 @@ public class Board extends Game{
                 WinMenu menuW = new WinMenu  (root);
                 root.getChildren().add(menuW.getMenu());
             }
-
-            else{
-                JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
-                jsr.readJson();
-                NextBestMove nbm = new NextBestMove(jsr, blocks);
-                Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
-                if(nextMove != null && nextMove.getValue() != null) {
-                        blocks.get(nextMove.getKey()).move(nextMove.getValue());
-
-                        moves++;
-                        MOVES_COUNTER++;
-                        movesLabel.setText("MOSSE: " + moves);
-
-                        chronology.put(blocks.get(nextMove.getKey()), nbm.getSavedMove());
-                        undoButton.setDisable(chronology.size() <= 0);
-                        resetButton.setDisable(chronology.size() <= 0);
-                }
-                else{
-                    nbmButton.setDisable(true);
-                }
-            }
         };
         nbmButton.setOnAction(event);
         return nbmButton;
     }
-    public Button getResetButton() {
-        //STILE
+    public Button getResetButton() {            //metodo per la restituzione del bottone di reset della board
         resetButton.setId("resetButton");
         resetButton.getStyleClass().add("gameButton");
         resetButton.setDisable(!loadFromSave);
@@ -195,8 +188,7 @@ public class Board extends Game{
         resetButton.setOnAction(event);
         return resetButton;
     }
-    public Button getPauseButton(){
-        //STILE
+    public Button getPauseButton(){         //metodo per la restituzione del pulsante di pausa in-game
         pauseButton.setId("pauseButton");
         pauseButton.getStyleClass().add("gameButton");
         //posizionamento del bottone
@@ -206,7 +198,7 @@ public class Board extends Game{
         //EVENTO
         return pauseButton;
     }
-    public Rectangle getBackground(){
+    public Rectangle getBackground(){           //metodo per la restituzione dello sfondo della board
         Rectangle bg = new Rectangle(Settings.MIN_BOUNDS,
                 Settings.MIN_BOUNDS,
                 Settings.WINDOW_WIDTH - (Settings.MIN_BOUNDS*2),
@@ -215,5 +207,5 @@ public class Board extends Game{
         bg.opacityProperty().set(0.3);
         return bg;
     }
-    public void resetBoard(Pane group){ group.getChildren().removeAll(); }
+    public void resetBoard(Pane group){ group.getChildren().removeAll(); }      //metodo per il reset della board
 }

@@ -23,9 +23,7 @@ public class JsonSolutionReader implements JsonInterface{
         try{
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_SOLUTION_PATH));
             JSONObject jo = (JSONObject) obj;
-            //System.out.println(jo);
             solution = ((Map) jo.get(configuration));
-//            System.out.println(config.size());      //4
         }
         catch (IOException | ParseException ex){
             ex.printStackTrace();

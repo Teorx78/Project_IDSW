@@ -6,7 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import json.JsonConfigurationReader;
 import json.JsonSave;
+import json.JsonSolutionReader;
 import menuPackage.WinMenu;
 import piece.BlockGFX;
 import piece.BlockType;
@@ -34,41 +36,36 @@ public class Game {
 
     public Game(String configuration){
         config = configuration;
-    }
-    public void setScene(Scene scene) { Game.scene = scene; }
-    public String getConfiguration(){ return config; }
-    public void startGame(StackPane root){
+    }       //costruttore della classe
+    public void setScene(Scene scene) { Game.scene = scene; }       //set della scena
+    public String getConfiguration(){ return config; }      //ritorna la configurazione scelta
+    public void startGame(StackPane root){      //metodo per iniziare il gioco, questo metodo gestisce gli eventuali input da tastiera, casi particolari post movimento e il caso in cui si vinca
         scene.setOnKeyPressed(event -> {
             if(getSelectedBlock() > -1 && !win) {
                 boolean _switch = false;
                 Pair<Vector2, Vector2> savedMove = null;
-                //System.out.println(event.getCode());
                 switch (event.getCode()) {
                     case W, UP -> {
                         //check posizione post movimento
                         //se possibile muovere pezzo
-                        //System.out.println("UP: " + blocks.get(getSelectedBlock()).checkMovement(MovementDirections.UP, blocks));
                         if(blocks.get(getSelectedBlock()).checkMovement(MovementDirections.UP, blocks)){
                             savedMove = Settings.activeBlock.move(MovementDirections.UP);
                             _switch = true;
                         }
                     }
                     case A, LEFT -> {
-                        //System.out.println("LEFT: " + blocks.get(getSelectedBlock()).checkMovement(MovementDirections.LEFT, blocks));
                         if(blocks.get(getSelectedBlock()).checkMovement(MovementDirections.LEFT, blocks)){
                             savedMove = Settings.activeBlock.move(MovementDirections.LEFT);
                             _switch = true;
                         }
                     }
                     case S, DOWN -> {
-                        //System.out.println("DOWN: " + blocks.get(getSelectedBlock()).checkMovement(MovementDirections.DOWN, blocks));
                         if(blocks.get(getSelectedBlock()).checkMovement(MovementDirections.DOWN, blocks)){
                             savedMove = Settings.activeBlock.move(MovementDirections.DOWN);
                             _switch = true;
                         }
                     }
                     case D, RIGHT -> {
-                        //System.out.println("RIGHT: " + blocks.get(getSelectedBlock()).checkMovement(MovementDirections.RIGHT, blocks));
                         if(blocks.get(getSelectedBlock()).checkMovement(MovementDirections.RIGHT, blocks)){
                             savedMove = Settings.activeBlock.move(MovementDirections.RIGHT);
                             _switch = true;
@@ -77,29 +74,28 @@ public class Game {
                     case T ->{
                         try {
                             JsonSave.writeSave(blocks);
-//                            System.out.println(JsonSave.getSave(1));
-//                            System.out.println(JsonSave.readSaves());
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
                     }
-                    default -> //throw new IllegalStateException("Unexpected value: " + event.getCode());
-                            System.out.println("***** UTILIZZA UN TASTO CORRETTO! (WASD | FRECCIE DIREZIONALI) *****");
+                    default -> System.out.println("***** UTILIZZA UN TASTO CORRETTO! (WASD | FRECCIE DIREZIONALI) *****");
                 }
 
                 if(_switch){
                     //dopo movimento aggiornamento delle varie collezioni tra cui quella della cronologia delle mosse
                     //inserimento della mossa fatta nel caso in cui avesse successo
                     chronology.put(Settings.activeBlock, savedMove);
-                    //System.out.println("***** \n" + chronology + "\n*****");
                     undoButton.setDisable(chronology.size() <= 0);
                     resetButton.setDisable(chronology.size() <= 0);
                     moves++;
                     movesLabel.setText("MOSSE: " + moves);
-                    System.out.print("\"" + (moves -1) + "\": \"");
-                    new NextBestMove(blocks);
-                    System.out.println("\",");
-                    win = true;
+                    //next best move
+                    JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
+                    jsr.readJson();
+                    NextBestMove nbm = new NextBestMove(jsr, blocks);
+                    Pair<Integer, MovementDirections> nextMove = nbm.nextMove();
+                    if(nextMove != null && nextMove.getValue() != null) nbmButton.setDisable(false);
+                    else nbmButton.setDisable(true);
                 }
 
                 //check vittoria
@@ -114,16 +110,16 @@ public class Game {
             } else System.out.println("> Seleziona un pezzo!");
         });
     }
-    public  ArrayList<BlockGFX> getBlocks(){
+    public  ArrayList<BlockGFX> getBlocks(){        //metodo per ricevere l'array dei blocchi
         return blocks;
     }
-    private int getSelectedBlock(){
+    private int getSelectedBlock(){     //metodo che ricava quale blocco è selezionato attualmente
         for(int i = 0; i < blocks.size(); i++){
             if(blocks.get(i).getSelected()) return i;
         }
         return -1;
     }
-    protected BlockGFX get2x2block(){
+    protected BlockGFX get2x2block(){       //metodo per ricavare il blocco 2x2
         for (BlockGFX block : blocks) {
             if(block.getPrototype().blockType.equals(BlockType.BLOCK_2X2)) return block;
         }

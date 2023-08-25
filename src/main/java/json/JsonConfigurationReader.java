@@ -13,10 +13,8 @@ import support.Settings;
 public class JsonConfigurationReader implements JsonInterface{
     private static Map config;
     private static String configuration;
-    public JsonConfigurationReader(String configuration) {
-        JsonConfigurationReader.configuration = configuration;
-    }
-    public ArrayList<Pair<Integer, Integer>> getStartAnglePiece(BlockType blockType, String configName){
+    public JsonConfigurationReader(String configuration) { JsonConfigurationReader.configuration = configuration; }     //costruttore della classe
+    public ArrayList<Pair<Integer, Integer>> getStartAnglePiece(BlockType blockType){       //metodo che calcola gli angoli iniziali dei blocchi di un certo tipo
         ArrayList angles = (ArrayList) config.get(new Settings().getBlockSizeString(blockType));
         ArrayList<Pair<Integer, Integer>> splitAngles = new ArrayList<>();
         for (Object o : angles) {
@@ -28,13 +26,10 @@ public class JsonConfigurationReader implements JsonInterface{
                 nex.printStackTrace();
             }
         }
-        //System.out.println(splitAngles);
         return splitAngles;
     }
-    public int getConfigSize(){ return config.size(); }
-
     @Override
-    public void readJson() {
+    public void readJson() {        //metodo che legge il json indicato nelle settings in JSON_PATH
         try{
             Object obj = new JSONParser().parse(new FileReader(Settings.JSON_PATH));
             JSONObject jo = (JSONObject) obj;
@@ -44,22 +39,10 @@ public class JsonConfigurationReader implements JsonInterface{
             ex.printStackTrace();
         }
     }
-
     @Override
-    public int size() {
-        return 0;
-    }
-
-//    public static Map getConfiguration() { return config; }
+    public int size() { return config.size(); }     //ritorna la dimensione di config
     @Override
-    public String getConfiguration() {
-        return configuration;
-    }
+    public String getConfiguration() { return configuration; }      //ritorna il nome della configurazione
     @Override
-    public Map<Object, Object> getConfigurationMap() {
-        return config;
-    }
-
-//    public static String getConfigurazionName(){ return configuration; }
-    public static void setConfigurationName(){}
+    public Map<Object, Object> getConfigurationMap() { return config; } //ritorna la mappa della configurazione
 }

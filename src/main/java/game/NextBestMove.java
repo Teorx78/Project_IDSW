@@ -10,17 +10,19 @@ import support.Vector2;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 public class NextBestMove {
-    private static int POSITION;
-    private static char[][] currentMatrix;
-    private JsonSolutionReader jsr;
+    private char[][] currentMatrix, nextMatrix;
+    private String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
+    private final JsonSolutionReader jsr;
     private Pair<Vector2, Vector2> from_to = null;      //before, after
-    public NextBestMove(JsonSolutionReader jsr, ArrayList<BlockGFX> blocks){
-        POSITION = -1;
-        String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
-        this.jsr = jsr;
+    NextBestMove(JsonSolutionReader jsr, ArrayList<BlockGFX> blocks){   //costruttore della classe che traduce direttamente la lista di blocchi in matrice di char
         currentMatrix = new char[5][4];
+        nextMatrix = new char[5][4];
+        this.jsr = jsr;
+
         for (char[] chars : currentMatrix) {
             Arrays.fill(chars, '0');
         }
@@ -45,22 +47,12 @@ public class NextBestMove {
                 }
             }
         }
-        for (char[] row: currentMatrix) {
-            for (char id : row)
-                System.out.print(id);
-            System.out.println();
-        }
-        //translateMatrix(jsr.getElement("0"));
     }
-    private int getIdFromLetter(char c){
-        String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
-        return alphabet.indexOf(c);
-    }
-    private char getLetterFromId(int id){
-        String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
-        return alphabet.charAt(id);
-    }
-    private Vector2 getChangedEmpty(ArrayList<Vector2> currentEmpty, ArrayList<Vector2> nextEmpty){
+    /* METODI DI SUPPORTO  */
+    private int getIdFromLetter(char c){ return alphabet.indexOf(c); } //traduce da lettera ad int
+    public Pair<Vector2, Vector2> getSavedMove(){ return from_to; }     //ritorna un Pair delle coordinate pre e post movimento
+    /* METODI PER LA MOSSA SEGUENTE */
+    private Vector2 getChangedEmpty(ArrayList<Vector2> currentEmpty, ArrayList<Vector2> nextEmpty){     //metodo per trovare quale spazio vuoto è cambiato
         boolean isDifferent = true;
         for (Vector2 current: currentEmpty) {
             for (Vector2 next : nextEmpty){
@@ -72,7 +64,7 @@ public class NextBestMove {
         }
         return null;
     }
-    private char[][] translateMatrix(String matrixString) {
+    private char[][] translateMatrix(String matrixString) {     //metodo che traduce la stringa letta nel json in matrice
         char[][] newMatrix = new char[5][4];
         try {
             String[] arrString = matrixString.split(",");
@@ -80,7 +72,6 @@ public class NextBestMove {
 
             for (String str : arrString) {
                 String[] _str = str.split("");
-                System.out.println(Arrays.toString(_str));
                 for (int i = 0; i < _str.length; i++) {
                     String s = _str[i];
                     newMatrix[pos][i] = s.charAt(0);
@@ -90,14 +81,9 @@ public class NextBestMove {
         } catch (NumberFormatException nex) {
             nex.printStackTrace();
         }
-        /*for (char[] row : newMatrix) {
-            for (char id : row)
-                System.out.print(id);
-            System.out.println();
-        }*/
         return newMatrix;
     }
-    private ArrayList<Vector2> findEmptySpaces(char[][]matrix){
+    private ArrayList<Vector2> findEmptySpaces(char[][]matrix){         //metodo che trova lo spazio vuoto che è cambiato
         ArrayList<Vector2> emptyCells = new ArrayList<>();
         int x, y = 0;
         for (char[] row: matrix){
@@ -110,7 +96,7 @@ public class NextBestMove {
         }
         return emptyCells;
     }
-    private Vector2 getBeforeCoords(MovementDirections movementDirection, Vector2 after){
+    private Vector2 getBeforeCoords(MovementDirections movementDirection, Vector2 after){       //trova le coordiate prima del movimento
         switch (movementDirection){
             case UP -> {
                 return new Vector2(after.getX(), after.getY()-1);
@@ -127,21 +113,47 @@ public class NextBestMove {
         }
         return null;
     }
-    public Pair<Integer, MovementDirections> getNextMove(int move){
-        ArrayList<Vector2> currentEmpty = findEmptySpaces(currentMatrix);
-        //String nextPos = "" + (POSITION+1);
-        String nextPos = "" + (move);
-        String element = jsr.getElement(nextPos);
-        if(element != null) {
-            char[][] nextMatrix = translateMatrix(element);
-            ArrayList<Vector2> nextEmpty = findEmptySpaces(nextMatrix);
-            //trovare quale spazio è cambiato
-            Vector2 changedEmpty = getChangedEmpty(currentEmpty, nextEmpty);        //è anche la posizione in cui si è mosso il blocco (TO
-            // nella posizione dello spazio cambiato è presente l'id che si è mosso -> ricavo id
-            char movedChar = nextMatrix[changedEmpty.getY()][changedEmpty.getX()];
-            // avendo l'id trovo in che posizione era rispetto allo spazio vuoto
-            // di prima e ricavo la direzione del movimento
-            MovementDirections movementDirection = null;
+    /* METODI PER LA RICERCA DELLA GRIGLIA CORRISPONDENTE  */
+    private void findMatrix(){          //trova la matrice corrispondende alla posizione dei blocchi attuali e setta anche la matrice seguente
+        Map<Object, Object> objSolutions = jsr.getConfigurationMap();
+        boolean step = false;
+
+        for (var entry : objSolutions.entrySet()) {
+            String tempStr = (String) entry.getValue();
+            char[][] tempMatrix = translateMatrix(tempStr);
+            //scorro la matrice letta e quella attuale e cerco una modifica
+            for(int i = 0; i < currentMatrix.length; i++){
+                for (int j = 0; j < currentMatrix[i].length; j++){
+                    if(currentMatrix[i][j] != tempMatrix[i][j]){
+                        step = true;
+                        break;
+                    }
+                }
+                if(step) { //se ho trovato una differenza
+                    break;
+                }
+            }
+            if(step) step = false;
+            else{   //se non ho trovato differenze
+                Set<Object> keySet = objSolutions.keySet();
+                for (Object s : keySet) {
+                    if(objSolutions.get(s).equals(tempStr)) {
+                        nextMatrix = translateMatrix((String) objSolutions.get((Integer.parseInt(((String)s))+1)+""));
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    /* METODO PER LA RESTITUZIONE DELLA PROSSIMA MOSSA */
+    public Pair<Integer, MovementDirections> nextMove(){        //metodo che restituisce l'id e la direzione del movimento migliore
+        findMatrix();       //trova la matrice attuale e la seguente
+        Vector2 changedEmpty = getChangedEmpty(findEmptySpaces(currentMatrix), findEmptySpaces(nextMatrix));
+        MovementDirections movementDirection = null;
+        char movedChar;
+        if(changedEmpty != null){
+            movedChar = nextMatrix[changedEmpty.getY()][changedEmpty.getX()];
             try {
                 if (currentMatrix[changedEmpty.getY() - 1][changedEmpty.getX()] == movedChar) {
                     movementDirection = MovementDirections.DOWN;
@@ -166,61 +178,9 @@ public class NextBestMove {
                     from_to = new Pair<>(changedEmpty, getBeforeCoords(MovementDirections.LEFT, changedEmpty));
                 }
             } catch (ArrayIndexOutOfBoundsException ignored) {}
-            currentMatrix = nextMatrix;
-            //POSITION += 1;
-            System.out.println("...............");
             return new Pair<>(getIdFromLetter(movedChar), movementDirection);
         }
         return null;
     }
-    public Pair<Vector2, Vector2> getSavedMove(){
-        return from_to;
-    }
-    //todo: rimuovere
-    NextBestMove(ArrayList<BlockGFX> initialGrid){
-        char[][] initialBoard = new char[5][4];          //0 (zero) equivale agli spazi vuoti
-        for (char[] chars : initialBoard) {
-            Arrays.fill(chars, '0');
-        }
-        for (BlockGFX block : initialGrid){
-            int x = (block.getTopLeft().getX() / Settings.MIN_BOUNDS) - 1;
-            int y = (block.getTopLeft().getY() / Settings.MIN_BOUNDS) - 1;
-//            System.out.println("[" + x + ", " + y + "]");
-            switch (block.getPrototype().blockType){
-                case BLOCK_1X1 -> {
-                    // #
-                    initialBoard[y][x] = getLetterFromId(block.getId());
-                }
-                case BLOCK_1X2 -> {
-                    // #
-                    // #
-                    initialBoard[y][x] = getLetterFromId(block.getId());
-                    initialBoard[y + 1][x] = getLetterFromId(block.getId());
-                }
-                case BLOCK_2X1 -> {
-                    // ##
-                    initialBoard[y][x] = getLetterFromId(block.getId());
-                    initialBoard[y][x + 1] = getLetterFromId(block.getId());
-                }
-                case BLOCK_2X2 -> {
-                    // ##
-                    // ##
-                    initialBoard[y][x] = getLetterFromId(block.getId());
-                    initialBoard[y + 1][x] = getLetterFromId(block.getId());
-                    initialBoard[y][x + 1] = getLetterFromId(block.getId());
-                    initialBoard[y + 1][x + 1] = getLetterFromId(block.getId());
-                }
-            }
-        }
-//        System.out.println("*** MATRIX ***");
-        int cont = 0;
-        for (char[] ints : initialBoard) {
-            for (char anInt : ints) {
-                System.out.print(anInt);
-            }
-            if(cont < initialBoard.length-1) System.out.print(",");
-            cont++;
-        }
-//        System.out.println("***************");
-    }
+
 }
