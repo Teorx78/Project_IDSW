@@ -1,23 +1,21 @@
 package menuPackage;
 
-import game.Board;
-import game.Reset;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+//layout
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+//immagini
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.media.MediaPlayer;
-import support.DuplicateMap;
 import support.Settings;
+//timer
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 
 public class WinMenu extends Menu {
-    public WinMenu(StackPane root)// throws FileNotFoundException
+    public WinMenu(StackPane root)      //crea una schermata di vittoria che rimane a schermo per 5 secondi prima ri riportare l'utente al menu principale
     {
         super(root);
         Image newImage = new Image(Settings.TITLE_WIN_IMAGE_PATH, 550, 250, true, true);
@@ -35,14 +33,6 @@ public class WinMenu extends Menu {
             int n = root.getChildren().size();
             root.getChildren().remove(n-2, n);
             System.out.println("back to main menu");
-            /*Reset.resetBoard(blocks, config);
-            chronology = new DuplicateMap();
-            resetButton.setDisable(true);
-            undoButton.setDisable(true);
-            nbmButton.setDisable(false);
-            moves = 0;
-            MOVES_COUNTER = 0;
-            movesLabel.setText("MOSSE: " + moves);*/
         });
         pause.play();
     }

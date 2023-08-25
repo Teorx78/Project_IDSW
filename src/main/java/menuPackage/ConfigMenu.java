@@ -4,25 +4,19 @@ import game.Board;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import support.Settings;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class ConfigMenu extends Menu {
-    protected static Button[] C = new Button[6];
+    private static final Button[] C = new Button[6];
     private static String configuration = "";
-
-
-    public ConfigMenu(StackPane root) {
+    public ConfigMenu(StackPane root)                                                                   //crea l'elenco di configurazioni possibili
+    {
         super(root);
-        //for(int n=0; n<=6;n++)
+
         for (int n = 0; n < 6; n++) {
             C[n] = new Button();
             createConfigButton(n);
@@ -35,26 +29,22 @@ public class ConfigMenu extends Menu {
         VBox menu2 = new VBox(15);
         menu2.getChildren().addAll(C[3], C[4], C[5]);
         BorderPane.setMargin(menu2, new Insets(10, 30, 10, 10));//up right down left
-
         menu.setLeft(menu1);
         menu.setRight(menu2);
         menu.setMaxSize(400, 500);
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
     }
-
-    private void createConfigButton(int n) {
+    private void createConfigButton(int n)                                                              //crea un pulsante con l'immagine della configurazione corrispondente
+    {
         int confNumber = n + 1;
         String ConfPath = Settings.CONFIGURATIONS_PATH + confNumber + ".png";
         Image ConfigIcon = new Image(ConfPath, 180, 150, true, true);
         ImageView confImageView = new ImageView(ConfigIcon);
         C[n].setGraphic(confImageView);
         C[n].setStyle("-fx-background-color: transparent;");
-
-
     }
-
-
-    public void useConfigButton(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene, int n) {
+    public void useConfigButton(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene, int n)     //fa partire una partita in base alla configurazione relativa al pulsante
+    {
         int confNumbers = n+1;
         EventHandler<ActionEvent> event = e -> {
             configuration = "conf" + confNumbers;

@@ -1,46 +1,34 @@
 package menuPackage;
 
 import game.Board;
-import game.Reset;
-import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-//import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
-
-//resources
-import java.io.*;
-import java.util.Scanner;
-
-//immagini e colore
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-//pulsanti
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-//altro
-
 import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
-import support.DuplicateMap;
+import json.JsonSave;
 import support.Settings;
+
 public class PauseMenu extends Menu
 {
-	protected static Button resume   = new Button(null),
-							save     = new Button(null),
-							mainMenu = new Button(null);
-	public PauseMenu(StackPane root, MediaPlayer song){
+	private static final Button resume   = new Button(null),
+								save     = new Button(null),
+								mainMenu = new Button(null);
+
+	public PauseMenu(StackPane root, MediaPlayer song)	//costruisce il menu da visualizzare quando viene messo il gioco in pausa
+	{
 		super(root);
 		Image newImage =new Image(Settings.TITLE_PAUSE_IMAGE_PATH, 360, 150, true, true);
 		ImageView pauseTitle = new ImageView(newImage);
 
-		VBox menuV = new VBox(5);
-		//menuV.getChildren().addAll(pauseTitle, getResume(),getRestart(),getLoad(),getSave(),getMainMenu());
+		VBox menuV = new VBox(30);
 		menuV.getChildren().addAll(pauseTitle, getResume(),getSave(),getMainMenu());
 		menuV.setAlignment(Pos.BASELINE_CENTER);
 
@@ -52,7 +40,22 @@ public class PauseMenu extends Menu
 		menu.setBottom(menuH);
 		//menu.setMaxSize(550, 700);
 	}
-	public void useResume (Button pauseButton){
+	public void useSave (Board game)					//salva su un file json la configurazione iniziale e la posizione corrente dei blocchi
+	{
+		EventHandler<ActionEvent> event = e  -> {
+			try {
+				JsonSave.setConfig(game.getConfiguration());
+				JsonSave.writeSave(game.getBlocks());
+              System.out.println("saving");
+			} catch (Exception ex) {
+				throw new RuntimeException(ex);
+			}
+			System.out.println("saved");
+		};
+		save.setOnAction(event);
+	}
+	public void useResume (Button pauseButton)			//chiude il menu di pausa  e disabilita ESC come pulsante rapido per Resume e lo imposta per PauseButton
+	{
 		EventHandler<ActionEvent> event = e -> {
 			int n =root.getChildren().size();
 			if(root.getChildren().get(n-1)==menu)
@@ -70,90 +73,35 @@ public class PauseMenu extends Menu
 		};
 		resume.setOnAction(event);
 	}
-	public Button getResume	 () {
+	public Button getResume ()							//restituisce il pulsante per tornare al gioco
+	{
 		resume.setId("Resume");
 		resume.setText("Resume");
 		create_button(resume, 180, 75);
 		//
 		return resume;
 	}
-	public Button getSave	 () {
+	private Button getSave ()							//restituisce il pulsante per eseguire il salvataggio
+	{
 		save.setId("Save");
 		save.setText("Save");
 		create_button(save, 180, 75);
-		EventHandler<ActionEvent> event = e -> {
-//String saveFilePath = Settings.LAST_GAME;
-			/*String coordinates = "resources/prova.json";
-
-			try (FileReader reader = new FileReader(coordinates);
-				 PrintWriter writer = new PrintWriter(Settings.LAST_GAME)) {
-				Scanner in = new Scanner(reader);
-				while (in.hasNextLine())			//copia un file json
-				{
-					String line=in.nextLine();
-					writer.println(line);
-
-				}
-				in.close();
-
-
-				System.out.println("Saved");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
-			System.out.println("saving");
-		};
-		save.setOnAction(event);
 		return save;
 	}
-	public Button getMainMenu() {
+	private Button getMainMenu ()						//restituisce il pulsante per tornare al menu principale funzionante
+	{
 		mainMenu.setId("Main Menu");
 		mainMenu.setText("Main Menu");
 		create_button(mainMenu, 180, 75);
 		EventHandler<ActionEvent> event = e -> {
-			root.getChildren().remove(root.getChildren().size()-1);
-			root.getChildren().remove(root.getChildren().size()-1);
+			int n = root.getChildren().size()-1;
+			root.getChildren().remove(n);
+			root.getChildren().remove(n-1);
+			//root.getChildren().remove(n-2, n+1);
 			System.out.println("back to main menu");
 		};
 		mainMenu.setOnAction(event);
 		return mainMenu;
 	}
 
-	/*public PauseMenu(StackPane gameRoot, Button pauseButton, HBox gameInBackground, MediaPlayer mediaPlayer) throws FileNotFoundException
-	{
-
-		Save.setOnAction    (	new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				//String saveFilePath = Settings.LAST_GAME;
-				String coordinates = "resources/prova.json";
-
-				try (FileReader reader = new FileReader(coordinates);
-					 PrintWriter writer = new PrintWriter(Settings.LAST_GAME)) {
-					Scanner in = new Scanner(reader);
-					while (in.hasNextLine())			//copia un file json
-					{
-						String line=in.nextLine();
-						writer.println(line);
-
-					}
-					in.close();
-
-
-					System.out.println("Saved");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		});
-		MainMenu.setOnAction(	new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				gameRoot.getChildren().remove(menu);
-				gameRoot.getChildren().remove(gameInBackground);
-			}
-		});
-
-	}*/
 }

@@ -103,17 +103,13 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.setBackground(new Background(backgroundGif));
         Scene scene = new Scene(root, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
-        //Board game =null;
-        //roba di game
+
         MainMenu  menuM = new MainMenu (root, mediaPlayer);
         PauseMenu menuP = new PauseMenu(root, mediaPlayer);
-        //ConfigMenu menuC =new ConfigMenu(root);
-
 
         menuM.useNewGame    ( menuP, backgroundGif, scene);
         menuM.useLoad       (menuP, backgroundGif,scene);
-        //menuP.useResume     (game.getPauseButton());
-        //menuP.useSave(game);
+
 
         root.getChildren().add(menuM.getMenu());
         //root.getChildren().add(menuP.getMenu());

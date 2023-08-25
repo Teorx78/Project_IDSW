@@ -1,26 +1,15 @@
 package menuPackage;
 
-
-import game.Board;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-//Pane
 import javafx.scene.layout.StackPane;
-
-//pulsanti
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.text.Font;
-//risorse
-import java.io.FileReader;
-import java.io.IOException;
-//altro
 import support.Settings;
-
-//volume
 import javafx.scene.control.Slider;
 import javafx.geometry.Orientation;
 import javafx.beans.property.DoubleProperty;
@@ -29,16 +18,17 @@ import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 
-
-
 public class Menu extends StackPane {
     protected  Button   quit_Game   = new Button(null),
                         volume      = new Button(null);
-    static Slider slider;			//Slider
+    protected static Slider slider;
     protected final BorderPane menu = new BorderPane();
     protected final  StackPane root;
-    public BorderPane getMenu() { return menu; }
-    protected static void create_button(Button button, int x, int y)
+    public Menu (StackPane root)                                            //salva il root essenziale per passare da una scheda all'altra
+    { this.root = root; }
+    public BorderPane getMenu()                                             //restituisce il menu
+    { return menu; }
+    protected static void create_button(Button button, int x, int y)        //permette di impostare tutti i pulsanti seguendo uno standard
     {
         button.setMinSize(x, y);
         button.setMaxSize(x, y);
@@ -46,10 +36,8 @@ public class Menu extends StackPane {
         button.setFont(font);
         button.setStyle("-fx-background-color: #0062ff; -fx-text-fill: #ffffff;");
     }
-
-
-    public Menu (StackPane root) { this.root = root; }
-    public Button getQuit_Game(){
+    public Button getQuit_Game()                                            //restituisce il pulsante per uscire dal gioco funzionante
+    {
         quit_Game.setText("Quit Game");
         create_button(quit_Game, 180, 75);
         EventHandler<ActionEvent> event = e -> {
@@ -58,8 +46,9 @@ public class Menu extends StackPane {
         };
         quit_Game.setOnAction(event);
         return quit_Game;
-    };
-    public Button getVolume(StackPane gameRoot, MediaPlayer mediaPlayer){
+    }
+    public Button getVolume(StackPane gameRoot, MediaPlayer mediaPlayer)    //restituisce il pulsante volume funzionante che permette di alzare o abbassare il volume
+    {
         volume.setId("volume");
 
         Image volumeIcon = new Image(Settings.SOUND_IMAGE_PATH, 55, 55, true, true);
