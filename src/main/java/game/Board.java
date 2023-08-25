@@ -51,6 +51,7 @@ public class Board extends Game{
         if(blocks != null) blocks = new ArrayList<>();
         JsonSave.getSave(saveNumber);
         Map<Integer, Pair<Vector2, BlockType>> save = JsonSave.getSave(saveNumber);
+        System.out.println(save);
         config = JsonSave.getConfig(saveNumber);
         int k = 0;
         for (var entry : save.entrySet()) {
@@ -86,6 +87,12 @@ public class Board extends Game{
             resume.setCancelButton(true);
             root.getChildren().add(menuP);
             System.out.println("PAUSE");
+            if(Settings.activeBlock != null) {
+                if (Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
+                Settings.activeBlock.refresh();
+                Settings.activeBlock = null;
+                Settings.activeID = -1;
+            }
         };
         pauseButton.setOnAction(event);
     }
