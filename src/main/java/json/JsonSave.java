@@ -18,7 +18,7 @@ import java.util.*;
 
 public class JsonSave {
     private static Map<String, Object> savesMap = new HashMap<>();
-    private static int lastSave;
+    private static int lastSave=-1;
     private static String config;
     private static void readAllSaves() {
         try {

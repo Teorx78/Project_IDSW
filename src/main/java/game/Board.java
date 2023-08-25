@@ -3,13 +3,14 @@ package game;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import json.JsonConfigurationReader;
 import json.JsonSave;
 import json.JsonSolutionReader;
+import menuPackage.WinMenu;
 import piece.BlockGFX;
 import piece.BlockPrototype;
 import piece.BlockType;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Board extends Game{
+    private Pane group =null;
 //    private final int width, height;
     public Board(String configuration){
         super(configuration);
@@ -66,22 +68,32 @@ public class Board extends Game{
         new JsonConfigurationReader(JsonSave.getConfig(saveNumber)).readJson();
         loadFromSave = true;
     }
-    public Pane createBoard(){
+
+    public Pane createBoard(StackPane root,BackgroundImage backgroundGif) {
         //Group group = new Group();
-        Pane group = new Pane();
-
+        if(group!=null)
+            resetBoard(group);
+        group = new Pane();
+        group.setBackground(new Background(backgroundGif));
         group.getChildren().addAll(getUndoButton(),
-                            getNBMButton(),
-                            getResetButton(),
-                            getPauseButton(),
-                            getCounterLabel(),
-                            getBackground());
-
-
+                getNBMButton(root),
+                getResetButton(),
+                getPauseButton(),
+                getCounterLabel(),
+                getBackground());
         for (BlockGFX block : blocks) {
             group.getChildren().add(block.getRectangle());
         }
         return group;
+    }
+    public void usePauseButton(StackPane root, BorderPane menuP, Button resume){
+        EventHandler<ActionEvent> event = e -> {
+            pauseButton.setCancelButton(false);
+            resume.setCancelButton(true);
+            root.getChildren().add(menuP);
+            System.out.println("PAUSE");
+        };
+        pauseButton.setOnAction(event);
     }
     public Label getCounterLabel(){
         movesLabel.setText("MOSSE: " + moves);
@@ -101,7 +113,13 @@ public class Board extends Game{
         undoButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
-            //System.out.println("BOTTONE SELEZIONATO");
+            //reset delle varie grafiche
+            if(Settings.activeBlock != null) {
+                if (Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
+                Settings.activeBlock.refresh();
+                Settings.activeBlock = null;
+                Settings.activeID = -1;
+            }
             chronology = new Undo().undoMove(chronology);
             resetButton.setDisable(chronology.size() <= 0);
             undoButton.setDisable(chronology.size() <= 0);
@@ -113,7 +131,7 @@ public class Board extends Game{
 
         return undoButton;
     }
-    public Button getNBMButton() {
+    public Button getNBMButton(StackPane root) {
 //        nbmButton = new Button(null);
         //STILE
         nbmButton.setId("nbmButton");
@@ -124,9 +142,21 @@ public class Board extends Game{
         nbmButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
+            //reset delle varie grafiche
+            if(Settings.activeBlock != null) {
+                if (Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
+                Settings.activeBlock.refresh();
+                Settings.activeBlock = null;
+                Settings.activeID = -1;
+            }
             if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
-                    && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600)))
+                    && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))) {
                 nbmButton.setDisable(true);
+                System.out.println("********* VITTORIA! *********");
+                WinMenu menuW = new WinMenu  (root);
+                root.getChildren().add(menuW.getMenu());
+            }
+
             else{
                 JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
                 jsr.readJson();
@@ -145,6 +175,7 @@ public class Board extends Game{
                 }
                 else{
                     nbmButton.setDisable(true);
+
                 }
             }
         };
@@ -182,11 +213,8 @@ public class Board extends Game{
         //posizionamento del bottone
         pauseButton.setTranslateX((double) (Settings.WINDOW_WIDTH * 13) / 100);
         pauseButton.setTranslateY(Settings.HIGHER_HEIGHT_LINE);
+        pauseButton.setCancelButton(true);
         //EVENTO
-        EventHandler<ActionEvent> event = e -> {
-            System.out.println("PAUSE");
-        };
-        pauseButton.setOnAction(event);
         return pauseButton;
     }
     public Rectangle getBackground(){
@@ -197,5 +225,12 @@ public class Board extends Game{
         bg.setFill(Paint.valueOf("black"));
         bg.opacityProperty().set(0.3);
         return bg;
+    }
+    public void resetBoard(Pane group){
+        //for(BlockGFX block: blocks)
+        //{
+            group.getChildren().removeAll();
+        //}
+
     }
 }

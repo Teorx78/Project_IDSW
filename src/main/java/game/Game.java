@@ -3,9 +3,11 @@ package game;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import json.JsonSave;
+import menuPackage.WinMenu;
 import piece.BlockGFX;
 import piece.BlockType;
 import support.DuplicateMap;
@@ -34,7 +36,7 @@ public class Game {
     }
     public void setScene(Scene scene) { Game.scene = scene; }
     public String getConfiguration(){ return config; }
-    public void startGame(){
+    public void startGame(StackPane root){
         scene.setOnKeyPressed(event -> {
             if(getSelectedBlock() > -1) {
                 boolean _switch = false;
@@ -99,13 +101,19 @@ public class Game {
                 }
 
                 //check vittoria
-                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600)) && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))){
-                    //TODO: inserire un menu di vittoria
+                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
+                        && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))) {
                     System.out.println("********* VITTORIA! *********");
+                    WinMenu menuW = new WinMenu  (root);
+                    root.getChildren().add(menuW.getMenu());
                     nbmButton.setDisable(true);
+                    win = true;
                 }
             } else System.out.println("> Seleziona un pezzo!");
         });
+    }
+    public  ArrayList<BlockGFX> getBlocks(){
+        return blocks;
     }
     private int getSelectedBlock(){
         for(int i = 0; i < blocks.size(); i++){
