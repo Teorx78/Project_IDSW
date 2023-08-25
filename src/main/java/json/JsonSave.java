@@ -1,6 +1,5 @@
 package json;
 
-import javafx.beans.binding.ObjectExpression;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -73,33 +72,10 @@ public class JsonSave {
         }
         return finalMap;
     }
-
     public static int getNumberSave() {
         readAllSaves();
         return savesMap.size();
     }
-
-//    public static Map<Vector2, BlockType> getSave(int saveNumber){
-//        readAllSaves();
-//        String save = "save" + saveNumber;
-//        Map<String, String> map = (Map<String, String>) savesMap.get(save);
-//        if(map != null){
-//            Map<Vector2, BlockType> finalMap = new HashMap<>();
-//            //ricavo la configurazione
-//            config = map.get("configuration");
-//            map.remove("configuration");
-//            System.out.println(">conf: " + config);
-//            System.out.println(">saves: " + map);
-//            for (var entry : map.entrySet()) {
-//                String[] split = entry.getKey().split(",", 2);
-//                finalMap.put(new Vector2(Integer.parseInt(split[0]), Integer.parseInt(split[1])),
-//                        BlockType.valueOf(entry.getValue())
-//                );
-//            }
-//        return finalMap;
-//        }
-//        return null;
-//    }
     public static String getConfig(int saveNumber){
         getSave(saveNumber);
         return config;

@@ -7,7 +7,7 @@ public class BlockPrototype {
     public int height;
     public BlockType blockType;
     public String texture;
-    public BlockPrototype(BlockType blockType){
+    public BlockPrototype(BlockType blockType){     //costruttore della classe BlockPrototype. Crea le dimensioni e setta la texture dei blocchi in base al suo tipo
            this.blockType = blockType;
            switch (blockType){
                case BLOCK_1X1 -> {
@@ -33,7 +33,6 @@ public class BlockPrototype {
 
            }
     }
-
     @Override
     public String toString() {
         return "BlockPrototype: [" +

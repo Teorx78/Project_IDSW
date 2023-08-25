@@ -19,19 +19,14 @@ import support.MovementDirections;
 import support.Settings;
 import javafx.scene.control.Button;
 import support.Vector2;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
 public class Board extends Game{
     private Pane group =null;
-//    private final int width, height;
     public Board(String configuration){
         super(configuration);
-        //setup del campo
-//        this.width = Settings.WINDOW_WIDTH - (Settings.MIN_HORIZONTAL_BOUNDS * 2);
-//        this.height = Settings.WINDOW_HEIGHT - (Settings.MIN_VERTICAL_BOUNDS * 2);
         //lettura json
         JsonConfigurationReader jsonReader = new JsonConfigurationReader(configuration);
         jsonReader.readJson();
@@ -45,12 +40,10 @@ public class Board extends Game{
                 int x = integerIntegerPair.getKey() * Settings.MIN_BOUNDS;
                 int y = integerIntegerPair.getValue() * Settings.MIN_BOUNDS;
                 blocks.add(new BlockGFX(blockPrototype, x, y, k));
-                //System.out.println(blocks.get(k).toString());
                 k++;
             }
         }
         new JsonSolutionReader(configuration).readJson();
-//        NextBestMove nbm = new NextBestMove(blocks);
     }
     public Board(int saveNumber){
         super(JsonSave.getConfig(saveNumber));
@@ -70,7 +63,6 @@ public class Board extends Game{
     }
 
     public Pane createBoard(StackPane root,BackgroundImage backgroundGif) {
-        //Group group = new Group();
         if(group!=null)
             resetBoard(group);
         group = new Pane();
@@ -103,7 +95,6 @@ public class Board extends Game{
         return movesLabel;
     }
     public Button getUndoButton() {
-//        undoButton = new Button(null);
         //STILE
         undoButton.setId("undoButton");
         undoButton.getStyleClass().add("gameButton");
@@ -132,7 +123,6 @@ public class Board extends Game{
         return undoButton;
     }
     public Button getNBMButton(StackPane root) {
-//        nbmButton = new Button(null);
         //STILE
         nbmButton.setId("nbmButton");
         nbmButton.getStyleClass().add("gameButton");
@@ -162,7 +152,7 @@ public class Board extends Game{
                 jsr.readJson();
                 NextBestMove nbm = new NextBestMove(jsr, blocks);
                 Pair<Integer, MovementDirections> nextMove = nbm.getNextMove(MOVES_COUNTER);
-                if(nextMove.getValue() != null) {
+                if(nextMove != null && nextMove.getValue() != null) {
                         blocks.get(nextMove.getKey()).move(nextMove.getValue());
 
                         moves++;
@@ -175,7 +165,6 @@ public class Board extends Game{
                 }
                 else{
                     nbmButton.setDisable(true);
-
                 }
             }
         };
@@ -183,7 +172,6 @@ public class Board extends Game{
         return nbmButton;
     }
     public Button getResetButton() {
-//        resetButton = new Button(null);
         //STILE
         resetButton.setId("resetButton");
         resetButton.getStyleClass().add("gameButton");
@@ -193,7 +181,6 @@ public class Board extends Game{
         resetButton.setTranslateY(Settings.LOWER_HEIGHT_LINE);
         //EVENTO
         EventHandler<ActionEvent> event = e -> {
-//            System.out.println("RESET SELEZIONATO");
             Reset.resetBoard(blocks, config);
             chronology = new DuplicateMap();
             resetButton.setDisable(true);
@@ -226,11 +213,5 @@ public class Board extends Game{
         bg.opacityProperty().set(0.3);
         return bg;
     }
-    public void resetBoard(Pane group){
-        //for(BlockGFX block: blocks)
-        //{
-            group.getChildren().removeAll();
-        //}
-
-    }
+    public void resetBoard(Pane group){ group.getChildren().removeAll(); }
 }

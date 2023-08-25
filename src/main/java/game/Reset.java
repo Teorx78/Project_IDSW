@@ -6,12 +6,10 @@ import piece.BlockGFX;
 import piece.BlockType;
 import support.Settings;
 import support.Vector2;
-
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Reset {
-    public static void resetBoard(ArrayList<BlockGFX> blocks, String configuration){
+    public static void resetBoard(ArrayList<BlockGFX> blocks, String configuration){        //metodo che resetta l'ArrayList blocks leggendo la configurazione di partenza dal json
         BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2,
                 BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
 
@@ -37,21 +35,6 @@ public class Reset {
                 }
             }
         }
-
     }
-
-//    private static boolean checkCollections(ArrayList<BlockGFX> blocks){
-//        BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2,
-//                                BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
-//
-//        int cont = 0;
-//        for (BlockType type : blockType) {
-//            ArrayList tempArr = (ArrayList) config.get(type);
-//            cont += tempArr.size();
-//        }
-//        System.out.println("> Confronto: " + blocks.size()  + " | " + cont);
-//        if(blocks.size() == cont) return true;
-//        return false;
-//    }
 
 }

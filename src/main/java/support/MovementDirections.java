@@ -1,6 +1,6 @@
 package support;
 
-public enum MovementDirections {
+public enum MovementDirections {        //enumerativo per le direzioni
     UP, DOWN, LEFT, RIGHT
 }
 

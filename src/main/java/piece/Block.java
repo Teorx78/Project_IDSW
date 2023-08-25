@@ -13,37 +13,34 @@ public class Block {
     protected int yTopLeft;
     protected int id;
 
-    Block(BlockPrototype blockPrototype, int xTopLeft, int yTopLeft, int id){
+    Block(BlockPrototype blockPrototype, int xTopLeft, int yTopLeft, int id){       //costruttore della classe Block: setta il blocco da zero
         this.prototype = blockPrototype;
         this.xTopLeft = xTopLeft;
         this.yTopLeft = yTopLeft;
         this.id = id;
     }
-    Block(Block block, int deltaX, int deltaY){
+    Block(Block block, int deltaX, int deltaY){         ////costruttore della classe Block: setta il blocco partendo da un blocco e da degli offest
         this.prototype = block.prototype;
         this.xTopLeft = block.xTopLeft + deltaX;
         this.yTopLeft = block.yTopLeft + deltaY;
     }
     /* SETTERS */
-    public void setTopLeft(Vector2 coords){
+    public void setTopLeft(Vector2 coords){     //setta l'angolo in alto a sinistra
         this.xTopLeft = coords.getX();
         this.yTopLeft = coords.getY();
     }
     /* GETTERS */
-    public Vector2 getTopLeft(){ return new Vector2(xTopLeft, yTopLeft); }
-    public Vector2 getTopRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft); }
-    public Vector2 getBottomLeft(){ return new Vector2(xTopLeft, yTopLeft + prototype.height); }
-    public Vector2 getBottomRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft + prototype.height); }
-    public Boolean getSelected(){ return isSelected; }
-    public int getId(){ return id; }
-    public BlockPrototype getPrototype() { return prototype; }
-
+    public Vector2 getTopLeft(){ return new Vector2(xTopLeft, yTopLeft); }      //return dell'angolo in alto a sinistra
+    public Vector2 getTopRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft); }       //return dell'angolo in alto a destra
+    public Vector2 getBottomLeft(){ return new Vector2(xTopLeft, yTopLeft + prototype.height); }        //return dell'angolo in basso a sinistra
+    public Vector2 getBottomRight(){ return new Vector2(xTopLeft + prototype.width, yTopLeft + prototype.height); }     //return dell'angolo in basso a destra
+    public Boolean getSelected(){ return isSelected; }      //ritorn della variabile isSelected
+    public int getId(){ return id; }        //return dell'id del blocco
+    public BlockPrototype getPrototype() { return prototype; }  //return del prototipo del blocco
     /* METODI */
-    public void changeSelected(){ isSelected = !isSelected; }
-    public String getSaveString(){
-        return (xTopLeft / Settings.MIN_BOUNDS + "," + yTopLeft / Settings.MIN_BOUNDS);
-    }
-    public boolean checkMovement(MovementDirections movementDirection, ArrayList<BlockGFX> blocks){
+    public void changeSelected(){ isSelected = !isSelected; }       //cambio di isSelected
+    public String getSaveString(){  return (xTopLeft / Settings.MIN_BOUNDS + "," + yTopLeft / Settings.MIN_BOUNDS); }       //ritorn della stringa che contiene le coodinate per la scrittura nel json
+    public boolean checkMovement(MovementDirections movementDirection, ArrayList<BlockGFX> blocks){     //funzione per il controllo del movimento
         int prototypeWidth = this.prototype.blockType.equals(BlockType.BLOCK_1X1)
                 || this.prototype.blockType.equals(BlockType.BLOCK_1X2)
                 ? this.prototype.width
@@ -82,31 +79,27 @@ public class Block {
         }
         return false;
     }
-    private boolean checkOverlap(ArrayList<BlockGFX> blocks, Block deltaBlock){
+    private boolean checkOverlap(ArrayList<BlockGFX> blocks, Block deltaBlock){     //funzione di controllo di sovrapposizione dei blocchi post movimento
         for (BlockGFX block : blocks) {
             if (block.getId() != this.id) {
-                //System.out.println("{ id: " + block.getId() + ", check: " + block.isOverlapping(deltaBlock) + " }");
                 if (block.isOverlapping(deltaBlock)) return false;
             }
         }
         return true;
     }
-    public boolean isOverlapping(Block deltaBlock){
+    public boolean isOverlapping(Block deltaBlock){             //funzione di supporto per il controllo della sovrapposizione dei blocchi
         if(deltaBlock.getTopLeft().isEqual(this.getTopLeft())) return true;
         if(deltaBlock.getTopRight().isEqual(this.getTopRight())) return true;
         if(deltaBlock.getBottomLeft().isEqual(this.getBottomLeft())) return true;
         return deltaBlock.getBottomRight().isEqual(this.getBottomRight());
     }
-    private boolean checkBounds(Block deltaBlock){
-        //TODO: sistemare questo metodo, il problema sta nel considerare l'angolo giusto. Quando va in alto deve fare il check in alto, quando in basso in basso etc.
-        // quindi per alto e sinistra uso l'angolo in alto a sinista mentre per basso e destra usare l'angolo in basso a sinitra
-//        System.out.println("delta block: " + deltaBlock.toString());
+    private boolean checkBounds(Block deltaBlock){      //funzione di controllo dei bordi del campo
         if(deltaBlock.getTopLeft().getX() < Settings.MIN_BOUNDS) return false;               //SINISTRA
         if(deltaBlock.getBottomRight().getX() > (Settings.WINDOW_WIDTH - Settings.MIN_BOUNDS)) return false;     //DESTRA
         if(deltaBlock.getTopLeft().getY() < Settings.MIN_BOUNDS) return false;                 //SOPRA
         return deltaBlock.getBottomRight().getY() < (Settings.WINDOW_HEIGHT - Settings.MIN_BOUNDS);        //SOTTO
     }
-    private boolean checkRanges(ArrayList<BlockGFX> blocks, Block deltaBlock){
+    private boolean checkRanges(ArrayList<BlockGFX> blocks, Block deltaBlock){      //funzione di controllo per evitare che gli intervalli post movimento si intersechino con gli altri blocchi
         Vector2 xDeltaRange = new Vector2(deltaBlock.xTopLeft, deltaBlock.getBottomRight().getX());
         Vector2 yDeltaRange = new Vector2(deltaBlock.yTopLeft, deltaBlock.getBottomRight().getY());
 
