@@ -11,18 +11,19 @@ public class Settings {
 
 	/* ************** FILE ************** */
 	public static final String CURSOR_IMAGE = "file:resources/img/cursor.png";
-	public static final String BACKGROUND_IMAGE_PATH = "file:resources/img/sfondo.gif";
+	public static final String BACKGROUND_IMAGE_PATH = "file:resources/img/background.gif";
 	public static final String CSS_BUTTON_FILE = "file:resources/style/button.css";
 	public static final String CSS_LABEL_FILE = "file:resources/style/label.css";
 	public static final String JSON_PATH = "resources/json/configuration.json";				//"file:" non è necessario
 	public static final String JSON_SOLUTION_PATH = "resources/json/solutions.json";		//"file:" non è necessario
 	public static final String JSON_SAVES_PATH = "resources/json/saves.json";				//"file:" non è necessario
-	public static final String TITLE_IMAGE_PATH = "file:resources/images/titolo.png";
-	public static final String TITLE_PAUSE_IMAGE_PATH = "file:resources/images/pauseTitle.png";
-	public static final String TITLE_WIN_IMAGE_PATH ="file:resources/images/victory.png";
+	public static final String TITLE_IMAGE_PATH = "file:resources/images/titleM.png";
+	public static final String TITLE_PAUSE_IMAGE_PATH = "file:resources/images/titleP.png";
+	public static final String TITLE_WIN_IMAGE_PATH ="file:resources/images/titleW.png";
 	public static final String SOUND_IMAGE_PATH = "file:resources/images/sound.png";
 	public static final String SOUNDTRACK_PATH = "resources/sounds/soundtrack.mp3";
-	public static final String LAST_GAME ="resources/lastGame.txt";
+	public static final String CONFIGURATIONS_PATH = "file:resources/images/Conf";
+	//public static final String LAST_GAME ="resources/lastGame.txt";
 
 	/* ************** IMPOSTAZIONI GENERALI ************** */
 	public static final int LABEL_SIZE = 22;

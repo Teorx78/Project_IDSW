@@ -23,7 +23,7 @@ public class SaveMenu extends Menu {
         }
         menu.getChildren().add(menuV);
         menu.setMaxSize(400, 500);
-        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.3);");
+        menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
 
     }
 

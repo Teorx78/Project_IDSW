@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import menuPackage.SaveMenu;
+import menuPackage.*;
 import support.Settings;
 
 
@@ -17,7 +17,6 @@ import javafx.scene.ImageCursor;
 
 import javafx.scene.layout.*;
 
-import menuPackage.WinMenu;
 import support.Settings;
 
 import java.io.File;
@@ -37,8 +36,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-import menuPackage.MainMenu;
-import menuPackage.PauseMenu;
 import java.util.Objects;
 
 
@@ -83,8 +80,10 @@ public class Main extends Application {
         Scene scene = new Scene(root, Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT);
         //Board game =null;
         //roba di game
-        MainMenu  menuM = new MainMenu (root, mediaPlayer,backgroundGif);
+        MainMenu  menuM = new MainMenu (root, mediaPlayer);
         PauseMenu menuP = new PauseMenu(root, mediaPlayer);
+        //ConfigMenu menuC =new ConfigMenu(root);
+
 
         menuM.useNewGame    ( menuP, backgroundGif, scene);
         menuM.useLoad       (menuP, backgroundGif,scene);
@@ -96,7 +95,7 @@ public class Main extends Application {
         //root.getChildren().add(menuW.getMenu());
         //SaveMenu menuS =new SaveMenu(root, backgroundGif);
         //root.getChildren().add(menuS.getMenu());
-
+        //root.getChildren().add(menuC.getMenu());
 
 
 
