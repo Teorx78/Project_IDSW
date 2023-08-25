@@ -27,6 +27,7 @@ public class Board extends Game{
     private Pane group =null;
     public Board(String configuration){
         super(configuration);
+        if(blocks != null) blocks = new ArrayList<>();
         //lettura json
         JsonConfigurationReader jsonReader = new JsonConfigurationReader(configuration);
         jsonReader.readJson();
@@ -47,6 +48,7 @@ public class Board extends Game{
     }
     public Board(int saveNumber){
         super(JsonSave.getConfig(saveNumber));
+        if(blocks != null) blocks = new ArrayList<>();
         JsonSave.getSave(saveNumber);
         Map<Integer, Pair<Vector2, BlockType>> save = JsonSave.getSave(saveNumber);
         config = JsonSave.getConfig(saveNumber);
