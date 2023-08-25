@@ -80,6 +80,7 @@ public class JsonSave {
         getSave(saveNumber);
         return config;
     }
+    public static void setConfig(String config){ JsonSave.config = config; }
 }
 
 

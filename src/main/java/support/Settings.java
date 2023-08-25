@@ -23,8 +23,6 @@ public class Settings {
 	public static final String SOUND_IMAGE_PATH = "file:resources/images/sound.png";
 	public static final String SOUNDTRACK_PATH = "resources/sounds/soundtrack.mp3";
 	public static final String CONFIGURATIONS_PATH = "file:resources/images/Conf";
-	//public static final String LAST_GAME ="resources/lastGame.txt";
-
 	/* ************** IMPOSTAZIONI GENERALI ************** */
 	public static final int LABEL_SIZE = 22;
 	public static final Color LABEL_COLOR = Color.BLACK;

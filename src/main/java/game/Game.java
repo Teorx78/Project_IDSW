@@ -18,8 +18,9 @@ import support.Vector2;
 import java.util.*;
 
 public class Game {
-    protected static String config;
     private static Scene scene;
+    private boolean win = false;
+    protected static String config;
     protected static Button undoButton = new Button(null),
             nbmButton = new Button(null),
             resetButton = new Button(null),
@@ -38,7 +39,7 @@ public class Game {
     public String getConfiguration(){ return config; }
     public void startGame(StackPane root){
         scene.setOnKeyPressed(event -> {
-            if(getSelectedBlock() > -1) {
+            if(getSelectedBlock() > -1 && !win) {
                 boolean _switch = false;
                 Pair<Vector2, Vector2> savedMove = null;
                 //System.out.println(event.getCode());
@@ -98,6 +99,7 @@ public class Game {
                     System.out.print("\"" + (moves -1) + "\": \"");
                     new NextBestMove(blocks);
                     System.out.println("\",");
+                    win = true;
                 }
 
                 //check vittoria
