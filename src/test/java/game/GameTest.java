@@ -2,16 +2,14 @@ package game;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import piece.BlockGFX;
-import piece.BlockPrototype;
-import piece.BlockType;
-
+import support.MovementDirections;
+import support.Settings;
+import support.Vector2;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -37,8 +35,16 @@ class GameTest {
 
     @Test
     void startGame() {
-        // Test di esempio per il metodo startGame. Nota che questo metodo è difficile da testare direttamente.
-        // Puoi considerare l'uso di librerie di testing specializzate per JavaFX.
+        ArrayList<BlockGFX> blocks = new Board("conf2").getBlocks();
+        Settings.activeBlock = blocks.get(5);
+        Settings.activeID = 5;
+        Vector2 beforeMove = Settings.activeBlock.getTopLeft();
+        Vector2 afterMove = beforeMove;
+        if(Settings.activeBlock.checkMovement(MovementDirections.UP, blocks)){
+            afterMove = Settings.activeBlock.move(MovementDirections.UP).getValue();
+            assertFalse(beforeMove.isEqual(afterMove));
+        }
+        else assertTrue(beforeMove.isEqual(afterMove));
     }
 
     @Test
@@ -48,8 +54,6 @@ class GameTest {
 
     @Test
     void get2x2block() {
-        //crea la lista di blocchi
-        ArrayList<BlockGFX> blocks = board.getBlocks();
         BlockGFX block2x2 = board.get2x2block();
         assertNotNull(block2x2);
     }

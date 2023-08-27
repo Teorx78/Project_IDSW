@@ -32,7 +32,7 @@ class BoardTest {
                     new Image(Settings.BACKGROUND_IMAGE_PATH),
                     BackgroundRepeat.NO_REPEAT,
                     BackgroundRepeat.NO_REPEAT,
-                    BackgroundPosition.DEFAULT,
+                    BackgroundPosition.CENTER,
                     BackgroundSize.DEFAULT
             );
 

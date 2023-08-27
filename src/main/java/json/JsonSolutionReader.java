@@ -15,9 +15,6 @@ public class JsonSolutionReader implements JsonInterface{
     public JsonSolutionReader(String configuration) {
         JsonSolutionReader.configuration = configuration;
     }
-    public String getElement(String index){
-        return (String) solution.get(index);
-    }
     @Override
     public void readJson() {
         try{

@@ -5,6 +5,7 @@ import support.Settings;
 import support.Vector2;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Block {
     protected BlockPrototype prototype;
@@ -123,5 +124,20 @@ public class Block {
                 ", xBottomRight = " + this.getBottomRight().getX() +
                 ", yBottomRight = " + this.getBottomRight().getY() +
                 " }";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Block block = (Block) o;
+        return isSelected == block.isSelected
+                && xTopLeft == block.xTopLeft
+                && yTopLeft == block.yTopLeft
+                && id == block.id
+                && Objects.equals(prototype, block.prototype);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(prototype, isSelected, xTopLeft, yTopLeft, id);
     }
 }

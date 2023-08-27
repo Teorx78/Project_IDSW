@@ -42,16 +42,13 @@ public class JsonSave {
         JSONObject jsonObject = new JSONObject(), allJsonObj = new JSONObject();
         if(savesMap != null) allJsonObj = new JSONObject(savesMap);
         jsonObject.put("configuration", new JsonConfigurationReader(config).getConfiguration());
-        //for (BlockGFX block : blocks) jsonObject.put(block.getId(), block.getSaveString());
         for (BlockGFX block : blocks) {
             JSONArray jsonArray = new JSONArray();
             jsonArray.add(block.getSaveString());
             jsonArray.add(block.getPrototype().blockType.toString());
             jsonObject.put(block.getId(), jsonArray);
         }
-//        System.out.println(">LS: " + lastSave);
         allJsonObj.put("save" + (lastSave + 1), jsonObject);
-
         Files.write(Paths.get(Settings.JSON_SAVES_PATH), allJsonObj.toJSONString().getBytes());
     }
     public static Map<Integer, Pair<Vector2, BlockType>> getSave(int saveNumber){       //metodo che ritorna un determinato salvataggio dato il suo numero

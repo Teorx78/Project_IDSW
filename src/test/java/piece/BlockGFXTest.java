@@ -24,7 +24,6 @@ class BlockGFXTest {
     void setUp() {
         // Crea un oggetto BlockPrototype per il test
         BlockPrototype blockPrototype = new BlockPrototype(BlockType.BLOCK_1X1);
-
         // Crea un oggetto BlockGFX per il test
         blockGFX = new BlockGFX(blockPrototype, 0, 0, 1);
     }
@@ -48,13 +47,14 @@ class BlockGFXTest {
     void move() {
         //crea una lista di blocchi
         ArrayList<BlockGFX> blocks = new Board("conf2").getBlocks();
+        /* TEST MOVIMENTO */
         //salva le coordinate pre movimento di un blocco
         Vector2 beforeMove = blocks.get(5).getTopLeft();
         Pair<Vector2, Vector2> moveResult = blocks.get(5).move(MovementDirections.UP);
         //controlla che le coordinate prima del movimento siano le stesse
         assertTrue(beforeMove.isEqual(moveResult.getKey()));
         //controlla che le coordinate prima e post movimento siano diverse
-        assertNotEquals(true, beforeMove.isEqual(moveResult.getValue()));
+        assertFalse(beforeMove.isEqual(moveResult.getValue()));
     }
 
     @Test

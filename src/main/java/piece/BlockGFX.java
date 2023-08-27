@@ -104,4 +104,9 @@ public class BlockGFX extends Block{
             rectangle.opacityProperty().set(1);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
