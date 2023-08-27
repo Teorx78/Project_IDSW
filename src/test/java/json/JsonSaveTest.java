@@ -2,9 +2,7 @@ package json;
 
 import game.Board;
 import javafx.embed.swing.JFXPanel;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 import piece.BlockGFX;
 import support.Settings;
 import java.nio.file.Files;

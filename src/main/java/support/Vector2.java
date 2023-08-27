@@ -27,7 +27,6 @@ public class Vector2 {
 		return y;
 	}
 	//Operazioni
-	//A
 	public void addX(int add) {		//somma add alla coordinata x
 		x += add;
 	}

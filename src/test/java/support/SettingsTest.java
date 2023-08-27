@@ -2,7 +2,6 @@ package support;
 
 import org.junit.jupiter.api.Test;
 import piece.BlockType;
-
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;

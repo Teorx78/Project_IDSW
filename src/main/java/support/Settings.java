@@ -33,10 +33,8 @@ public class Settings {
 	/* ************** IMPOSTAZIONI DEL GIOCO ************** */
 	//CAMPO -> dimensioni del campo sono 200x250 ci stanno 4 pedine 1x1 in orizzontale e 5 in verticale
 	public static final int WINDOW_WIDTH = 600, WINDOW_HEIGHT = 750;
-//	public static final int MIN_VERTICAL_BOUNDS = 100, MIN_HORIZONTAL_BOUNDS = 100;
 	public static final int MIN_BOUNDS = 100;
 	//PEZZI
-//	public static final int MIN_SIDE_DIMENSION = (WINDOW_WIDTH - MIN_HORIZONTAL_BOUNDS * 2) / 4;
 	public static final int MIN_SIDE_DIMENSION = (WINDOW_WIDTH - MIN_BOUNDS* 2) / 4;
 
 	/* METODI DELLE IMPSTAZIONI DEL GIOCO */

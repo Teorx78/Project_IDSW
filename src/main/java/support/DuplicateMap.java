@@ -15,7 +15,6 @@ public class DuplicateMap {
     public DuplicateMap(ArrayList<BlockGFX> keys, ArrayList<Pair<Vector2, Vector2>> values){
         this.keys = keys;
         this.values = values;
-        //todo: verificare che i due array abbiano la stessa grandezza in caso contrario settare a null i rimanenti
     }
     /*SETTERS*/
     public void setKey(BlockGFX newKey){
@@ -51,6 +50,10 @@ public class DuplicateMap {
     }
     public Pair<BlockGFX, Pair<Vector2,Vector2>> get(int index){
         return new Pair<>(keys.get(index), values.get(index));
+    }
+    public boolean containsKey(BlockGFX block){
+        for(BlockGFX blockGFX: keys) if(blockGFX.equals(block)) return true;
+        return false;
     }
     public int size(){ return size; }
     public MovementDirections getMovementDirection(int index){

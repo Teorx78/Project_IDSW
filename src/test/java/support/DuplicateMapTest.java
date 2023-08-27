@@ -1,18 +1,12 @@
 package support;
 
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import piece.BlockGFX;
 import piece.BlockPrototype;
 import piece.BlockType;
-
-import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 

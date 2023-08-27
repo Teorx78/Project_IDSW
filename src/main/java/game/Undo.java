@@ -1,14 +1,9 @@
 package game;
 
-import javafx.util.Pair;
-import piece.BlockGFX;
 import support.DuplicateMap;
 import support.MovementDirections;
 import support.Settings;
 import support.Vector2;
-
-import java.time.chrono.Chronology;
-import java.util.*;
 
 public class Undo{
     public DuplicateMap undoMove(DuplicateMap chronology){      //metodo che ritorna indietro di una mossa e toglie dalla cronologia quella determinata mossa

@@ -45,11 +45,9 @@ class BoardTest {
     void usePauseButton() {
         StackPane root = new StackPane();
         BorderPane menuPane = new BorderPane();
-        // Simula il click sul pulsante di pausa
         board.usePauseButton(root, menuPane, board.getPauseButton());
         EventHandler<ActionEvent> eventHandler = board.getPauseButton().getOnAction();
 
-        // Verifica che il gestore d'evento funzioni correttamente
         assertNotNull(eventHandler);
     }
 

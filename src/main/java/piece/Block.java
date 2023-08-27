@@ -3,7 +3,6 @@ package piece;
 import support.MovementDirections;
 import support.Settings;
 import support.Vector2;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
