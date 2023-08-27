@@ -17,7 +17,7 @@ import support.Settings;
 import static json.JsonSave.getNumberSave;
 
 public class SaveMenu extends Menu {
-    private static final Button[] saves = new Button[10];
+    private static final Button[] saves = new Button[100];
     private final Button back =new Button();
     public SaveMenu(StackPane root,PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)                 //crea l'elenco dei salvataggi possibili
     {

@@ -1,3 +1,4 @@
+import javafx.scene.ImageCursor;
 import javafx.scene.layout.*;
 import support.Settings;
 import java.io.File;
@@ -55,22 +56,15 @@ public class Main extends Application {
 
 
         root.getChildren().add(menuM.getMenu());
-        //root.getChildren().add(menuP.getMenu());
-        //root.getChildren().add(menuW.getMenu());
-        //SaveMenu menuS =new SaveMenu(root, backgroundGif);
-        //root.getChildren().add(menuS.getMenu());
-        //root.getChildren().add(menuC.getMenu());
 
         scene.getStylesheets().addAll(Settings.CSS_BUTTON_FILE, Settings.CSS_LABEL_FILE);   //roba di game
-        //game.setScene(scene);                                                           //roba di game
 
         //stage
         stage.setTitle("KLOTSKI");
         stage.setScene(scene);
 
-        //Image image = new Image(Settings.CURSOR_IMAGE);
-        //stage.getScene().setCursor(new ImageCursor(image, image.getWidth() / 2.7, image.getHeight() / 2.7));
-        //stage.getScene().setCursor(new ImageCursor(image, image.getWidth(), image.getHeight()));
+        Image image = new Image(Settings.CURSOR_IMAGE);
+        stage.getScene().setCursor(new ImageCursor(image, image.getWidth()/4, 0));
         stage.getScene();
         stage.setResizable(false);
         stage.show();
