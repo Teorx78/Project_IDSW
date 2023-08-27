@@ -81,6 +81,17 @@ public class Game {
                     default -> System.out.println("***** UTILIZZA UN TASTO CORRETTO! (WASD | FRECCIE DIREZIONALI) *****");
                 }
 
+                //check vittoria
+                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
+                        && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))) {
+                    System.out.println("********* VITTORIA! *********");
+                    WinMenu menuW = new WinMenu  (root);
+                    root.getChildren().add(menuW.getMenu());
+                    nbmButton.setDisable(true);
+                    win = true;
+                    _switch = false;
+                }
+
                 if(_switch){
                     //dopo movimento aggiornamento delle varie collezioni tra cui quella della cronologia delle mosse
                     //inserimento della mossa fatta nel caso in cui avesse successo
@@ -90,7 +101,7 @@ public class Game {
                     moves++;
                     movesLabel.setText("MOSSE: " + moves);
                     //next best move
-                    JsonSolutionReader jsr = new JsonSolutionReader(new JsonConfigurationReader(getConfiguration()).getConfiguration());
+                    JsonSolutionReader jsr = new JsonSolutionReader(config);
                     jsr.readJson();
                     NextBestMove nbm = new NextBestMove(jsr, blocks);
                     Pair<Integer, MovementDirections> nextMove = nbm.nextMove();
@@ -98,19 +109,11 @@ public class Game {
                     else nbmButton.setDisable(true);
                 }
 
-                //check vittoria
-                if(Objects.requireNonNull(get2x2block()).getBottomLeft().isEqual(new Vector2(200,600))
-                        && Objects.requireNonNull(get2x2block()).getBottomRight().isEqual(new Vector2(400,600))) {
-                    System.out.println("********* VITTORIA! *********");
-                    WinMenu menuW = new WinMenu  (root);
-                    root.getChildren().add(menuW.getMenu());
-                    nbmButton.setDisable(true);
-                    win = true;
-                }
+
             } else System.out.println("> Seleziona un pezzo!");
         });
     }
-    public  ArrayList<BlockGFX> getBlocks(){        //metodo per ricevere l'array dei blocchi
+    public ArrayList<BlockGFX> getBlocks(){        //metodo per ricevere l'array dei blocchi
         return blocks;
     }
     private int getSelectedBlock(){     //metodo che ricava quale blocco è selezionato attualmente
@@ -125,4 +128,5 @@ public class Game {
         }
         return null;
     }
+    public Scene getScene(){ return scene; }
 }

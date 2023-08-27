@@ -49,7 +49,7 @@ class Vector2Test {
     @Test
     void testIsBetween() {
         Vector2 vector1 = new Vector2(1, 5);
-        Vector2 vector2 = new Vector2(3, 6);
+        Vector2 vector2 = new Vector2(5, 9);
         Vector2 vector3 = new Vector2(2, 4);
 
         assertTrue(vector3.isBetween(vector1));

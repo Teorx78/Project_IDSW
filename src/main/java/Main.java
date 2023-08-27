@@ -1,68 +1,14 @@
-import game.Board;
-
-import javafx.geometry.Pos;
-import javafx.scene.ImageCursor;
-
-
 import javafx.scene.layout.*;
-
-import menuPackage.WinMenu;
 import support.Settings;
-
 import java.io.File;
-//import java.io.FileNotFoundException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
-
 import javafx.scene.image.Image;
-
-//import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.*;
-
-//import javafx.application.Platform;
-
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import menuPackage.*;
-import support.Settings;
-
-
-
-import javafx.geometry.Pos;
-import javafx.scene.ImageCursor;
-
-
-import javafx.scene.layout.*;
-
-import support.Settings;
-
 import menuPackage.MainMenu;
 import menuPackage.PauseMenu;
-import java.util.Objects;
-
-
-
-import java.io.File;
-//import java.io.FileNotFoundException;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-
-import javafx.scene.image.Image;
-
-//import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.*;
-
-//import javafx.application.Platform;
-
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
-
-import java.util.Objects;
-
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -77,21 +23,18 @@ public class Main extends Application {
         Media media = null;			//Suondtrack
         MediaPlayer mediaPlayer;//MediaPlayer
         try {
-
             media = new Media(file.toURI().toString());
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-        //if(media!=null) {
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.seek(mediaPlayer.getStartTime());   // reimposta la posizione del MediaPlayer sulla posizione iniziale
             mediaPlayer.play();                             // avvia la riproduzione
         });
-        //}
         // end soundtrack
 
         //sfondo
@@ -117,12 +60,6 @@ public class Main extends Application {
         //SaveMenu menuS =new SaveMenu(root, backgroundGif);
         //root.getChildren().add(menuS.getMenu());
         //root.getChildren().add(menuC.getMenu());
-
-
-
-
-
-
 
         scene.getStylesheets().addAll(Settings.CSS_BUTTON_FILE, Settings.CSS_LABEL_FILE);   //roba di game
         //game.setScene(scene);                                                           //roba di game
