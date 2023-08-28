@@ -11,11 +11,22 @@ import javafx.stage.Stage;
 import menuPackage.MainMenu;
 import menuPackage.PauseMenu;
 
+/**
+ * Questa è la classe principale dell'applicazione Klotski.
+ */
 public class Main extends Application {
+    /**
+     * Metodo principale per avviare l'applicazione Klotski.
+     * @param args Argomenti della riga di comando (non utilizzati).
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Metodo chiamato quando l'applicazione Klotski viene avviata.
+     * @param stage Lo stage principale dell'applicazione.
+     */
     @Override
     public void start(Stage stage) {
 

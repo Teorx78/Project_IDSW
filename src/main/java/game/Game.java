@@ -17,6 +17,10 @@ import support.Vector2;
 
 import java.util.*;
 
+/**
+ * La classe `Game` rappresenta il gioco generale. Gestisce la logica di base, il conteggio delle mosse e fornisce
+ * funzionalità comuni utilizzate dalla scacchiera di gioco.
+ */
 public class Game {
     private static Scene scene;
     private boolean win = false;
@@ -32,11 +36,31 @@ public class Game {
     protected static ArrayList<BlockGFX> blocks = new ArrayList<>();   //se cambia, cambia ovunque
     protected DuplicateMap chronology = new DuplicateMap();
 
+    /**
+     * Costruttore della classe `Game` che accetta una configurazione iniziale.
+     *
+     * @param configuration La configurazione iniziale del gioco.
+     */
     public Game(String configuration){
         config = configuration;
     }       //costruttore della classe
+    /**
+     * Imposta la scena principale del gioco.
+     *
+     * @param scene La scena principale del gioco.
+     */
     public void setScene(Scene scene) { Game.scene = scene; }       //set della scena
+    /**
+     * Restituisce la configurazione attuale del gioco.
+     *
+     * @return La configurazione attuale del gioco.
+     */
     public String getConfiguration(){ return config; }      //ritorna la configurazione scelta
+    /**
+     * Avvia il gioco e gestisce gli input da tastiera, le mosse e il controllo della vittoria.
+     *
+     * @param root Il pannello radice dell'interfaccia utente.
+     */
     public void startGame(StackPane root){      //metodo per iniziare il gioco, questo metodo gestisce gli eventuali input da tastiera, casi particolari post movimento e il caso in cui si vinca
         scene.setOnKeyPressed(event -> {
             if(getSelectedBlock() > -1 && !win) {
@@ -111,20 +135,42 @@ public class Game {
             } else System.out.println("> Seleziona un pezzo!");
         });
     }
+
+    /**
+     * Restituisce la lista dei blocchi presenti nel gioco.
+     *
+     * @return La lista dei blocchi presenti nel gioco.
+     */
     public ArrayList<BlockGFX> getBlocks(){        //metodo per ricevere l'array dei blocchi
         return blocks;
     }
+
+    /**
+     * Metodo privato per determinare quale blocco è attualmente selezionato.
+     *
+     * @return L'indice del blocco selezionato, o -1 se nessun blocco è selezionato.
+     */
     private int getSelectedBlock(){     //metodo che ricava quale blocco è selezionato attualmente
         for(int i = 0; i < blocks.size(); i++){
             if(blocks.get(i).getSelected()) return i;
         }
         return -1;
     }
+    /**
+     * Restituisce il blocco 2x2 presente nel gioco.
+     *
+     * @return Il blocco 2x2 presente nel gioco, o null se non è presente.
+     */
     protected BlockGFX get2x2block(){       //metodo per ricavare il blocco 2x2
         for (BlockGFX block : blocks) {
             if(block.getPrototype().blockType.equals(BlockType.BLOCK_2X2)) return block;
         }
         return null;
     }
+    /**
+     * Restituisce la scena principale del gioco.
+     *
+     * @return La scena principale del gioco.
+     */
     public Scene getScene(){ return scene; }
 }

@@ -23,8 +23,18 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * La classe `Board` rappresenta la scacchiera di gioco del puzzle. Gestisce la disposizione dei blocchi
+ * sulla scacchiera, il conteggio delle mosse e fornisce pulsanti e funzionalità per il controllo del gioco.
+ */
 public class Board extends Game{
-    private Pane group =null;
+    private Pane group = null;
+
+    /**
+     * Costruttore che crea una nuova istanza di `Board` a partire da una configurazione specificata.
+     *
+     * @param configuration La configurazione da cui creare la scacchiera.
+     */
     public Board(String configuration){         //Costruttore che prende in input la configurazione, serve per creare una board da zero
         super(configuration);
         if(blocks != null) blocks = new ArrayList<>();
@@ -46,6 +56,13 @@ public class Board extends Game{
         }
         new JsonSolutionReader(configuration).readJson();
     }
+
+
+    /**
+     * Costruttore che crea una nuova istanza di `Board` a partire da un numero di salvataggio specificato.
+     *
+     * @param saveNumber Il numero di salvataggio da cui creare la scacchiera.
+     */
     public Board(int saveNumber){           //Costruttore che prende in input il numero del salvataggio, serve per creare una board a partire da un salvataggio
         super(JsonSave.getConfig(saveNumber));
         if(blocks != null) blocks = new ArrayList<>();
@@ -65,6 +82,13 @@ public class Board extends Game{
         loadFromSave = true;
     }
 
+    /**
+     * Crea una nuova istanza di `Pane` contenente tutti i componenti della scacchiera.
+     *
+     * @param root           Il riquadro principale su cui posizionare il `Pane` della scacchiera.
+     * @param backgroundGif L'immagine di sfondo da utilizzare per la scacchiera.
+     * @return Il `Pane` contenente tutti i componenti della scacchiera.
+     */
     public Pane createBoard(StackPane root,BackgroundImage backgroundGif) {     //metodo per la restituzione di un Pane contenente tutti i componenti della Board
         if(group!=null)
             resetBoard(group);
@@ -81,6 +105,14 @@ public class Board extends Game{
         }
         return group;
     }
+
+    /**
+     * Imposta l'evento del pulsante di pausa e lo aggiunge all'interfaccia utente.
+     *
+     * @param root     Il riquadro principale dell'interfaccia utente.
+     * @param menuP    Il menu di pausa.
+     * @param resume   Il pulsante di ripresa.
+     */
     public void usePauseButton(StackPane root, BorderPane menuP, Button resume){        //metodo per settare l'event del bottone di pausa
         EventHandler<ActionEvent> event = e -> {
             pauseButton.setCancelButton(false);
@@ -96,6 +128,12 @@ public class Board extends Game{
         };
         pauseButton.setOnAction(event);
     }
+
+    /**
+     * Ottiene l'etichetta del contatore delle mosse.
+     *
+     * @return L'etichetta del contatore delle mosse.
+     */
     public Label getCounterLabel(){     //metodo per avere la label del contatore delle mosse
         movesLabel.setText("MOSSE: " + moves);
         movesLabel.setTranslateX((double) (Settings.WINDOW_WIDTH * 70) / 100);
@@ -103,6 +141,12 @@ public class Board extends Game{
         movesLabel.getStyleClass().add("label");
         return movesLabel;
     }
+
+    /**
+     * Ottiene il pulsante per annullare l'ultima mossa.
+     *
+     * @return Il pulsante per annullare l'ultima mossa.
+     */
     public Button getUndoButton() {     //metodo per avere il pulsante per tornare indietro nelle mosse
 
         undoButton.setId("undoButton");
@@ -131,6 +175,13 @@ public class Board extends Game{
 
         return undoButton;
     }
+
+    /**
+     * Ottiene il pulsante per la prossima migliore mossa (Next Best Move).
+     *
+     * @param root Il riquadro principale dell'interfaccia utente.
+     * @return Il pulsante per la prossima migliore mossa.
+     */
     public Button getNBMButton(StackPane root) {        //metodo per avere il pulsante per la next best move
         nbmButton.setId("nbmButton");
         nbmButton.getStyleClass().add("gameButton");
@@ -174,6 +225,12 @@ public class Board extends Game{
         nbmButton.setOnAction(event);
         return nbmButton;
     }
+
+    /**
+     * Ottiene il pulsante per il ripristino della scacchiera.
+     *
+     * @return Il pulsante per il ripristino della scacchiera.
+     */
     public Button getResetButton() {            //metodo per la restituzione del bottone di reset della board
         resetButton.setId("resetButton");
         resetButton.getStyleClass().add("gameButton");
@@ -195,6 +252,12 @@ public class Board extends Game{
         resetButton.setOnAction(event);
         return resetButton;
     }
+
+    /**
+     * Ottiene il pulsante per la pausa in gioco.
+     *
+     * @return Il pulsante per la pausa in gioco.
+     */
     public Button getPauseButton(){         //metodo per la restituzione del pulsante di pausa in-game
         pauseButton.setId("pauseButton");
         pauseButton.getStyleClass().add("gameButton");
@@ -205,6 +268,12 @@ public class Board extends Game{
         //EVENTO
         return pauseButton;
     }
+
+    /**
+     * Ottiene il rettangolo rappresentante lo sfondo della scacchiera.
+     *
+     * @return Il rettangolo dello sfondo della scacchiera.
+     */
     public Rectangle getBackground(){           //metodo per la restituzione dello sfondo della board
         Rectangle bg = new Rectangle(Settings.MIN_BOUNDS,
                 Settings.MIN_BOUNDS,
@@ -214,5 +283,11 @@ public class Board extends Game{
         bg.opacityProperty().set(0.3);
         return bg;
     }
+
+    /**
+     * Reimposta la scacchiera rimuovendo tutti i componenti dal `Pane`.
+     *
+     * @param group Il `Pane` contenente i componenti della scacchiera.
+     */
     public void resetBoard(Pane group){ group.getChildren().removeAll(); }      //metodo per il reset della board
 }

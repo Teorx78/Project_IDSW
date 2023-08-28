@@ -8,19 +8,30 @@ import support.Settings;
 import support.Vector2;
 import java.util.ArrayList;
 
+/**
+ * La classe `Reset` fornisce un metodo per reimpostare la configurazione dei blocchi
+ * all'interno del gioco, ripristinando le loro posizioni in base ai dati del file di configurazione JSON.
+ */
 public class Reset {
-    public static void resetBoard(ArrayList<BlockGFX> blocks, String configuration){        //metodo che resetta l'ArrayList blocks leggendo la configurazione di partenza dal json
-        BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2,
-                BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
+    /**
+     * Metodo per il reset della configurazione dei blocchi nel gioco.
+     *
+     * @param blocks        Un elenco degli oggetti `BlockGFX` che rappresentano i blocchi.
+     * @param configuration La stringa che rappresenta la configurazione di partenza letta da un file JSON.
+     */
+    public static void resetBoard(ArrayList<BlockGFX> blocks, String configuration) {
+        // Tipi di blocchi disponibili
+        BlockType[] blockType = {BlockType.BLOCK_1X1, BlockType.BLOCK_1X2, BlockType.BLOCK_2X1, BlockType.BLOCK_2X2};
 
-        //reset delle varie grafiche
-        if(Settings.activeBlock != null) {
+        // Reset delle varie grafiche
+        if (Settings.activeBlock != null) {
             if (Settings.activeBlock.getSelected()) Settings.activeBlock.changeSelected();
             Settings.activeBlock.refresh();
             Settings.activeBlock = null;
             Settings.activeID = -1;
         }
-        //reset delle posizioni dei blocchi
+
+        // Reset delle posizioni dei blocchi in base alla configurazione JSON
         for (BlockType type : blockType) {
             JsonConfigurationReader jcr = new JsonConfigurationReader(configuration);
             jcr.readJson();
@@ -36,5 +47,4 @@ public class Reset {
             }
         }
     }
-
 }

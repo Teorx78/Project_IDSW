@@ -11,11 +11,23 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * La classe `NextBestMove` calcola la prossima mossa migliore da eseguire nel gioco,
+ * analizzando le posizioni attuali dei blocchi e cercando la mossa che li avvicinerà
+ * alla soluzione.
+ */
 public class NextBestMove {
     private char[][] currentMatrix, nextMatrix;
     private String alphabet = "ABCDEFGHILMNOPQRSTUVZ";
     private final JsonSolutionReader jsr;
     private Pair<Vector2, Vector2> from_to = null;      //before, after
+
+    /**
+     * Costruttore della classe `NextBestMove` che traduce la lista dei blocchi in una matrice di caratteri.
+     *
+     * @param jsr    Il lettore JSON della soluzione corrente.
+     * @param blocks La lista dei blocchi attuali.
+     */
     NextBestMove(JsonSolutionReader jsr, ArrayList<BlockGFX> blocks){   //costruttore della classe che traduce direttamente la lista di blocchi in matrice di char
         currentMatrix = new char[5][4];
         nextMatrix = new char[5][4];
@@ -47,9 +59,28 @@ public class NextBestMove {
         }
     }
     /* METODI DI SUPPORTO  */
+    /**
+     * Traduce una lettera in un ID numerico.
+     *
+     * @param c La lettera da tradurre.
+     * @return L'ID numerico corrispondente alla lettera.
+     */
     private int getIdFromLetter(char c){ return alphabet.indexOf(c); } //traduce da lettera ad int
+
+    /**
+     * Restituisce la coppia di coordinate prima e dopo la mossa.
+     *
+     * @return La coppia di coordinate prima e dopo la mossa.
+     */
     public Pair<Vector2, Vector2> getSavedMove(){ return from_to; }     //ritorna un Pair delle coordinate pre e post movimento
     /* METODI PER LA MOSSA SEGUENTE */
+    /**
+     * Trova lo spazio vuoto che è cambiato tra due insiemi di spazi vuoti.
+     *
+     * @param currentEmpty Gli spazi vuoti correnti.
+     * @param nextEmpty    Gli spazi vuoti successivi.
+     * @return La coordinata dello spazio vuoto che è cambiato.
+     */
     private Vector2 getChangedEmpty(ArrayList<Vector2> currentEmpty, ArrayList<Vector2> nextEmpty){     //metodo per trovare quale spazio vuoto è cambiato
         boolean isDifferent = true;
         for (Vector2 current: currentEmpty) {
@@ -62,6 +93,13 @@ public class NextBestMove {
         }
         return null;
     }
+
+    /**
+     * Traduce una stringa di matrice in una matrice di caratteri.
+     *
+     * @param matrixString La stringa della matrice da tradurre.
+     * @return La matrice di caratteri corrispondente alla stringa.
+     */
     private char[][] translateMatrix(String matrixString) {     //metodo che traduce la stringa letta nel json in matrice
         char[][] newMatrix = new char[5][4];
         try {
@@ -81,6 +119,12 @@ public class NextBestMove {
         }
         return newMatrix;
     }
+    /**
+     * Trova gli spazi vuoti in una matrice.
+     *
+     * @param matrix La matrice in cui cercare gli spazi vuoti.
+     * @return Una lista di coordinate degli spazi vuoti.
+     */
     private ArrayList<Vector2> findEmptySpaces(char[][]matrix){         //metodo che trova lo spazio vuoto che è cambiato
         ArrayList<Vector2> emptyCells = new ArrayList<>();
         int x, y = 0;
@@ -94,6 +138,13 @@ public class NextBestMove {
         }
         return emptyCells;
     }
+    /**
+     * Calcola le coordinate prima del movimento in base alla direzione.
+     *
+     * @param movementDirection La direzione del movimento.
+     * @param after             Le coordinate dopo il movimento.
+     * @return Le coordinate prima del movimento.
+     */
     private Vector2 getBeforeCoords(MovementDirections movementDirection, Vector2 after){       //trova le coordiate prima del movimento
         switch (movementDirection){
             case UP -> {
@@ -112,6 +163,9 @@ public class NextBestMove {
         return null;
     }
     /* METODI PER LA RICERCA DELLA GRIGLIA CORRISPONDENTE  */
+    /**
+     * Trova la matrice corrispondente alla posizione dei blocchi attuali e imposta anche la matrice successiva.
+     */
     private void findMatrix(){          //trova la matrice corrispondende alla posizione dei blocchi attuali e setta anche la matrice seguente
         Map<Object, Object> objSolutions = jsr.getConfigurationMap();
         boolean step = false;
@@ -145,6 +199,11 @@ public class NextBestMove {
         }
     }
     /* METODO PER LA RESTITUZIONE DELLA PROSSIMA MOSSA */
+    /**
+     * Calcola la prossima mossa migliore da eseguire.
+     *
+     * @return Una coppia contenente l'ID del blocco da muovere e la direzione del movimento.
+     */
     public Pair<Integer, MovementDirections> nextMove(){        //metodo che restituisce l'id e la direzione del movimento migliore
         findMatrix();       //trova la matrice attuale e la seguente
         Vector2 changedEmpty = getChangedEmpty(findEmptySpaces(currentMatrix), findEmptySpaces(nextMatrix));
