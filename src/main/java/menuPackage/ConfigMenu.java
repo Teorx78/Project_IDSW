@@ -10,10 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import support.Settings;
+/**
+ * La classe ConfigMenu rappresenta un menu per selezionare configurazioni di gioco.
+ * Fornisce pulsanti con immagini per scegliere la configurazione desiderata.
+ */
 public class ConfigMenu extends Menu {
     private static final Button[] C = new Button[6];
     private static String configuration = "";
-    public ConfigMenu(StackPane root)                                                                   //crea l'elenco di configurazioni possibili
+    /**
+     * Costruisce un menu per selezionare la  configurazione del gioco desiderata.
+     *
+     * @param root Il pannello radice dell'interfaccia di gioco.
+     */
+    public ConfigMenu(StackPane root)
     {
         super(root);
 
@@ -34,7 +43,12 @@ public class ConfigMenu extends Menu {
         menu.setMaxSize(400, 500);
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
     }
-    private void createConfigButton(int n)                                                              //crea un pulsante con l'immagine della configurazione corrispondente
+    /**
+     * Crea un pulsante con l'immagine della configurazione corrispondente.
+     *
+     * @param n L'indice del pulsante.
+     */
+    private void createConfigButton(int n)
     {
         int confNumber = n + 1;
         String ConfPath = Settings.CONFIGURATIONS_PATH + confNumber + ".png";
@@ -43,7 +57,15 @@ public class ConfigMenu extends Menu {
         C[n].setGraphic(confImageView);
         C[n].setStyle("-fx-background-color: transparent;");
     }
-    public void useConfigButton(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene, int n)     //fa partire una partita in base alla configurazione relativa al pulsante
+    /**
+     * Imposta la funzionalità di avvio di una partita con la configurazione selezionata.
+     *
+     * @param menuP Il menu di pausa.
+     * @param backgroundGif L'immagine di sfondo animata.
+     * @param scene La scena corrente.
+     * @param n L'indice del pulsante di configurazione.
+     */
+    public void useConfigButton(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene, int n)
     {
         int confNumbers = n+1;
         EventHandler<ActionEvent> event = e -> {

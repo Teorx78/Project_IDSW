@@ -20,11 +20,21 @@ import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
 import support.Settings;
 
+/**
+ * La classe MainMenu rappresenta il menu principale dell'applicazione.
+ * Fornisce opzioni per iniziare una nuova partita, caricare partite salvate e visualizzare i crediti.
+ */
 public class MainMenu extends Menu {
     private static final Button newGame = new Button(null),
                                 credits = new Button(null),
                                 load    = new Button(null);
-    public MainMenu(StackPane root, MediaPlayer song)                                       //costruisce il menu da visualizzare quando viene avviata l'applicazione
+    /**
+     * Costruisce il menu principale da visualizzare all'avvio dell'applicazione.
+     *
+     * @param root Il pannello radice dell'interfaccia di gioco.
+     * @param song Il MediaPlayer per la musica di sottofondo.
+     */
+    public MainMenu(StackPane root, MediaPlayer song)
     {
         super(root);
         Image newImage = new Image(Settings.TITLE_IMAGE_PATH, 360, 150, true, true);
@@ -42,7 +52,14 @@ public class MainMenu extends Menu {
         menu.setBottom(menuH);
         //menu.setMaxSize(550,700);
     }
-    public void useNewGame(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)     //aggiunge l'elenco delle configurazioni al root
+    /**
+     * Imposta la funzionalità per avviare la selezione della configurazione di gioco.
+     *
+     * @param menuP Il menu di pausa.
+     * @param backgroundGif L'immagine di sfondo animata.
+     * @param scene La scena corrente.
+     */
+    public void useNewGame(PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)
     {
         ConfigMenu menuC =new ConfigMenu(root);
         EventHandler<ActionEvent> event = e -> {
@@ -54,7 +71,14 @@ public class MainMenu extends Menu {
         };
         newGame.setOnAction(event);
     }
-    public void useLoad(PauseMenu menuP,BackgroundImage backgroundGif,Scene scene)          //aggiunge l'elenco dei salvataggi al root
+    /**
+     * Imposta la funzionalità per aprire il menu di caricamento delle partite salvate.
+     *
+     * @param menuP Il menu di pausa.
+     * @param backgroundGif L'immagine di sfondo animata.
+     * @param scene La scena corrente.
+     */
+    public void useLoad(PauseMenu menuP,BackgroundImage backgroundGif,Scene scene)
     {
         EventHandler<ActionEvent> event = e -> {
             SaveMenu menuS =new SaveMenu(root, menuP, backgroundGif,scene);
@@ -62,13 +86,23 @@ public class MainMenu extends Menu {
         };
         load.setOnAction(event);
     }
-    private Button getNewGame()                                                             //retutuisce il pulsante per aprire l'elenco delle configurazioni
+    /**
+     * Restituisce il pulsante per aprire la selezione delle configurazioni di gioco.
+     *
+     * @return Il pulsante per iniziare una nuova partita.
+     */
+    private Button getNewGame()
     {
         newGame.setText("New Game");
         create_button(newGame, 180, 75);
         return newGame;
     }
-    private Button getCredits()                                                             //restituisce il pulsante funzionante che manda l'utente alla schermata dei crediti su GitHub
+    /**
+     * Restituisce il pulsante per visualizzare i crediti dell'applicazione su GitHub.
+     *
+     * @return Il pulsante per i crediti.
+     */
+    private Button getCredits()
     {
         credits.setText("Credits");
         create_button(credits, 100, 55);
@@ -82,7 +116,12 @@ public class MainMenu extends Menu {
         credits.setOnAction(event);
         return credits;
     }
-    private Button getLoad()                                                                //restituisce il pulsante per aprire l'elenco dei salvataggi
+    /**
+     * Restituisce il pulsante per aprire il menu di caricamento delle partite salvate.
+     *
+     * @return Il pulsante per il caricamento delle partite.
+     */
+    private Button getLoad()
     {
         load.setText("Load");
         create_button(load, 180, 75);

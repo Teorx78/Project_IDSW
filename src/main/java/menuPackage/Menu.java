@@ -17,18 +17,38 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-
+/**
+ * La classe Menu rappresenta un'interfaccia grafica di menu per il controllo delle impostazioni di gioco.
+ * Fornisce opzioni per uscire dal gioco e regolare il livello del volume.
+ */
 public class Menu extends StackPane {
     protected  Button   quit_Game   = new Button(null),
                         volume      = new Button(null);
     protected static Slider slider;
     protected final BorderPane menu = new BorderPane();
     protected final  StackPane root;
-    public Menu (StackPane root)                                            //salva il root essenziale per passare da una scheda all'altra
+    /**
+     * Costruisce un oggetto Menu con il pannello radice specificato.
+     *
+     * @param root Lo StackPane radice utilizzato per la navigazione tra schermate diverse.
+     */
+    public Menu (StackPane root)
     { this.root = root; }
-    public BorderPane getMenu()                                             //restituisce il menu
+    /**
+     * Recupera l'interfaccia grafica del menu.
+     *
+     * @return Il BorderPane che rappresenta il menu grafico.
+     */
+    public BorderPane getMenu()
     { return menu; }
-    protected static void create_button(Button button, int x, int y)        //permette di impostare tutti i pulsanti seguendo uno standard
+    /**
+     * Configura un pulsante con una dimensione e un aspetto specifici.
+     *
+     * @param button Il pulsante da configurare.
+     * @param x      La larghezza del pulsante.
+     * @param y      L'altezza del pulsante.
+     */
+    protected static void create_button(Button button, int x, int y)
     {
         button.setMinSize(x, y);
         button.setMaxSize(x, y);
@@ -36,7 +56,12 @@ public class Menu extends StackPane {
         button.setFont(font);
         button.setStyle("-fx-background-color: #0062ff; -fx-text-fill: #ffffff;");
     }
-    public Button getQuit_Game()                                            //restituisce il pulsante per uscire dal gioco funzionante
+    /**
+     * Crea e configura un pulsante "Esci dal gioco" con la funzionalità di uscire dall'applicazione.
+     *
+     * @return Il pulsante "Esci dal gioco" configurato.
+     */
+    public Button getQuit_Game()
     {
         quit_Game.setText("Quit Game");
         create_button(quit_Game, 180, 75);
@@ -47,7 +72,14 @@ public class Menu extends StackPane {
         quit_Game.setOnAction(event);
         return quit_Game;
     }
-    public Button getVolume(StackPane gameRoot, MediaPlayer mediaPlayer)    //restituisce il pulsante volume funzionante che permette di alzare o abbassare il volume
+    /**
+     * Crea e configura un pulsante di controllo del volume con uno slider per regolare il livello del volume.
+     *
+     * @param gameRoot Il pannello radice del gioco.
+     * @param mediaPlayer Il MediaPlayer utilizzato per la riproduzione audio.
+     * @return Il pulsante di controllo del volume configurato.
+     */
+    public Button getVolume(StackPane gameRoot, MediaPlayer mediaPlayer)
     {
         volume.setId("volume");
 

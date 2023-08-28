@@ -15,14 +15,24 @@ import javafx.geometry.Insets;
 import javafx.scene.media.MediaPlayer;
 import json.JsonSave;
 import support.Settings;
-
+/**
+ * La classe PauseMenu rappresenta un menu di pausa nell'interfaccia di gioco.
+ * Fornisce opzioni per riprendere il gioco, salvare lo stato e tornare al menu principale.
+ */
 public class PauseMenu extends Menu
 {
 	private static final Button resume   = new Button(null),
 								save     = new Button(null),
 								mainMenu = new Button(null);
 
-	public PauseMenu(StackPane root, MediaPlayer song)	//costruisce il menu da visualizzare quando viene messo il gioco in pausa
+	/**
+	 * Costruisce un menu di pausa da visualizzare quando il gioco viene messo in pausa.
+	 *
+	 * @param root Il pannello radice dell'interfaccia di gioco.
+	 * @param song Il MediaPlayer per la musica di sottofondo.
+	 */
+
+	public PauseMenu(StackPane root, MediaPlayer song)
 	{
 		super(root);
 		Image newImage =new Image(Settings.TITLE_PAUSE_IMAGE_PATH, 360, 150, true, true);
@@ -40,7 +50,12 @@ public class PauseMenu extends Menu
 		menu.setBottom(menuH);
 		//menu.setMaxSize(550, 700);
 	}
-	public void useSave (Board game)					//salva su un file json la configurazione iniziale e la posizione corrente dei blocchi
+	/**
+	 * Imposta la funzionalità di salvataggio dello stato di gioco.
+	 *
+	 * @param game La configurazione del gioco.
+	 */
+	public void useSave (Board game)
 	{
 		EventHandler<ActionEvent> event = e  -> {
 			try {
@@ -54,7 +69,12 @@ public class PauseMenu extends Menu
 		};
 		save.setOnAction(event);
 	}
-	public void useResume (Button pauseButton)			//chiude il menu di pausa  e disabilita ESC come pulsante rapido per Resume e lo imposta per PauseButton
+	/**
+	 * Imposta la funzionalità di ripresa del gioco.
+	 *
+	 * @param pauseButton Il pulsante di pausa del gioco.
+	 */
+	public void useResume (Button pauseButton)
 	{
 		EventHandler<ActionEvent> event = e -> {
 			int n =root.getChildren().size();
@@ -73,7 +93,12 @@ public class PauseMenu extends Menu
 		};
 		resume.setOnAction(event);
 	}
-	public Button getResume ()							//restituisce il pulsante per tornare al gioco
+	/**
+	 * Restituisce il pulsante per riprendere il gioco.
+	 *
+	 * @return Il pulsante per la ripresa del gioco.
+	 */
+	public Button getResume ()
 	{
 		resume.setId("Resume");
 		resume.setText("Resume");
@@ -81,13 +106,23 @@ public class PauseMenu extends Menu
 		//
 		return resume;
 	}
-	private Button getSave ()							//restituisce il pulsante per eseguire il salvataggio
+	/**
+	 * Restituisce il pulsante per eseguire il salvataggio dello stato di gioco.
+	 *
+	 * @return Il pulsante per il salvataggio.
+	 */
+	private Button getSave ()
 	{
 		save.setId("Save");
 		save.setText("Save");
 		create_button(save, 180, 75);
 		return save;
 	}
+	/**
+	 * Restituisce il pulsante per tornare al menu principale.
+	 *
+	 * @return Il pulsante per il menu principale.
+	 */
 	private Button getMainMenu ()						//restituisce il pulsante per tornare al menu principale funzionante
 	{
 		mainMenu.setId("Main Menu");

@@ -13,9 +13,17 @@ import support.Settings;
 //timer
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
-
+/**
+ * La classe WinMenu rappresenta una schermata di vittoria che viene visualizzata per un certo periodo di tempo.
+ * Dopo il periodo di tempo, riporta l'utente al menu principale.
+ */
 public class WinMenu extends Menu {
-    public WinMenu(StackPane root)      //crea una schermata di vittoria che rimane a schermo per 5 secondi prima ri riportare l'utente al menu principale
+    /**
+     * Costruisce una schermata di vittoria che rimane a schermo per un certo periodo prima di riportare all'utente al menu principale.
+     *
+     * @param root Il pannello radice dell'interfaccia di gioco.
+     */
+    public WinMenu(StackPane root)
     {
         super(root);
         Image newImage = new Image(Settings.TITLE_WIN_IMAGE_PATH, 550, 250, true, true);

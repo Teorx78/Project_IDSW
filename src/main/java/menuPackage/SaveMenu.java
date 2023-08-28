@@ -15,11 +15,21 @@ import javafx.scene.layout.VBox;
 import support.Settings;
 
 import static json.JsonSave.getNumberSave;
-
+/**
+ * La classe SaveMenu rappresenta il menu per la visualizzazione e il caricamento dei salvataggi di gioco.
+ */
 public class SaveMenu extends Menu {
     private static final Button[] saves = new Button[100];
     private final Button back =new Button();
-    public SaveMenu(StackPane root,PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)                 //crea l'elenco dei salvataggi possibili
+    /**
+     * Costruisce il menu per la gestione dei salvataggi di gioco.
+     *
+     * @param root Il pannello radice dell'interfaccia di gioco.
+     * @param menuP Il menu di pausa.
+     * @param backgroundGif L'immagine di sfondo animata.
+     * @param scene La scena corrente.
+     */
+    public SaveMenu(StackPane root,PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)
     {
         super(root);
         VBox menuV = new VBox(10);
@@ -34,7 +44,12 @@ public class SaveMenu extends Menu {
         menu.setMaxSize(400, 500);
         menu.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
     }
-    private Button getBack()                                                                                    //crea il pulsante per chiudere l'elenco dei salvataggi
+    /**
+     * Crea il pulsante per chiudere il menu dei salvataggi.
+     *
+     * @return Il pulsante per chiudere il menu dei salvataggi.
+     */
+    private Button getBack()
     {
         Image backIcon = new Image(Settings.X_PATH, 55, 55, true, true);
         ImageView backImageView = new ImageView(backIcon);
@@ -46,7 +61,16 @@ public class SaveMenu extends Menu {
         back.setOnAction(event);
         return back;
     }
-    private Button getSaveButton(int saveNumber, PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)   //da un nome per differenziare i vari salvataggi e fa riprendere la partita partendo dal salvataggio
+    /**
+     * Crea il pulsante per selezionare e caricare un salvataggio di gioco.
+     *
+     * @param saveNumber Il numero del salvataggio.
+     * @param menuP Il menu di pausa.
+     * @param backgroundGif L'immagine di sfondo animata.
+     * @param scene La scena corrente.
+     * @return Il pulsante per caricare il salvataggio.
+     */
+    private Button getSaveButton(int saveNumber, PauseMenu menuP, BackgroundImage backgroundGif, Scene scene)
     {
         int n = saveNumber+1;
         String buttonName = "Save" + n;
