@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
  * La classe Menu rappresenta un'interfaccia grafica di menu per il controllo delle impostazioni di gioco.
  * Fornisce opzioni per uscire dal gioco e regolare il livello del volume.
  */
-public class Menu extends StackPane {
+public class Menu {
     protected  Button   quit_Game   = new Button(null),
                         volume      = new Button(null);
     protected static Slider slider;
