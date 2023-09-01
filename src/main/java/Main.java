@@ -46,6 +46,7 @@ public class Main extends Application {
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.seek(mediaPlayer.getStartTime());   // reimposta la posizione del MediaPlayer sulla posizione iniziale
             mediaPlayer.play();                             // avvia la riproduzione
+            mediaPlayer.setVolume(0.5);
         });
         // end soundtrack
 

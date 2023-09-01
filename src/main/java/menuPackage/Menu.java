@@ -89,7 +89,7 @@ public class Menu {
         volume.setStyle("-fx-background-color: transparent;");
 
 
-        slider = new Slider(0, 1, 1);
+        slider = new Slider(0, 1, 0.5);
         EventHandler<ActionEvent> event = e -> {
             slider.setShowTickMarks(true);
             slider.setShowTickLabels(true);
