@@ -1,14 +1,14 @@
 # Klotski Game
 Progetto finale del corso:  ELEMENTI DI INGEGNERIA DEL SOFTWARE
 
-## Authors:
+## Autori:
 - Marcato Matteo    matteo.marcato.5@studenti.unipd.it
 - Piras Matteo      matteo.piras.3@studenti.unipd.it
 - Quartucci Davide  davide.quartucci@studenti.unipd.it
 - Romio Simone      simone.romio@studenti.unipd.it
 
 ## Documentazione e istruzioni per l'utilizzo
-Tutta la documentazione è consultabile tramite la documentazione.
+Tutta la documentazione è consultabile [qui](Documentazione.pdf).
 Le istruzioni su come installare l'applicazione e giocare sono contenute nel manuale.
 
 ## Diritti
